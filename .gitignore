@@ -1,0 +1,18 @@
+# Logs
+logs
+*.log
+
+#varant files
+.vagrant
+
+# Optional IDE
+.idea
+
+#medial filed from django
+media
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyc
+*.rdb
