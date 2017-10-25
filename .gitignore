@@ -16,3 +16,12 @@ __pycache__/
 *.py[cod]
 *.pyc
 *.rdb
+
+.DS_Store
+*.stackdump
+npm-debug.log
+
+client/index.html
+bower_components/
+node_modules/
+dist/

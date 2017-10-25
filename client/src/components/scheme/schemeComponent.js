@@ -1,15 +1,15 @@
 angular
   .module('app')
-  .component('appComponent', {
-    templateUrl: '/src/components/app/appView.html',
+  .component('schemeComponent', {
+    templateUrl: '/src/components/scheme/schemeView.html',
     bindings: {
         schemelist: '<'
     },
-    controller: appComponentController
+    controller: schemeComponentController
   })
 ;
 
-function appComponentController() {
+function schemeComponentController() {
 
   var vm = this;
   vm.$onInit = onInit;

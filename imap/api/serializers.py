@@ -31,6 +31,7 @@ class MapSerializer(serializers.ModelSerializer):
     class Meta:
         model = Map
         fields = ('name', 'start_coordinate', 'image', 'path_to_graph')
+        read_only_fields = ('path_to_graph',)
 
 
 class BuildingSerializer(serializers.ModelSerializer):

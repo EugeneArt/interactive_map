@@ -1,12 +1,12 @@
 angular
   .module('app')
-  .factory('albumsEntity', albumsEntity);
+  .factory('schemeEntity', schemeEntity);
 
-function albumsEntity($cacheFactory, $q, $injector, ActiveRecord, API_ENDPOINT) {
+function schemeEntity($cacheFactory, $q, $injector, ActiveRecord, API_ENDPOINT) {
 
   var prototype = {
-    $urlRoot: API_ENDPOINT + 'albums',
-    $cache: $cacheFactory('albums'),
+    $urlRoot: API_ENDPOINT + 'schemelist',
+    $cache: $cacheFactory('schemelist'),
     $constructor: function categoryEntity(properties) {
       this.$initialize.apply(this, arguments)
     }

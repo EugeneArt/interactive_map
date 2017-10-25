@@ -13,6 +13,5 @@ function appComponentController() {
   vm.$onInit = onInit;
 
   function onInit() {
-
   }
 }

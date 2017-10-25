@@ -1,7 +1,7 @@
 angular
   .module('app')
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("app/albums");
+    $urlRouterProvider.otherwise("app/schemelist");
     $stateProvider
         .state('app', {
             url: '/app',
@@ -10,34 +10,21 @@ angular
             module: false,
             template: '<app-component></app-component>',
             resolve: {
-                albums: ['albumsEntity', function (albumsEntity) {
-                    return albumsEntity.fetchAll();
+                schemelist: ['schemeEntity', function (schemeEntity) {
+                    return schemeEntity.fetchAll();
                 }]
             }
         })
-        .state('app.albumList', {
-            url: '/albums',
-            permissions: false,
-            module: false,
-            views: {
-                'content@app': {
-                    template: '<album-list-component ' +
-                                'albums="$resolve.albums">' +
-                              '</album-list-component>'
-                }
-            }
-        })
-        .state('app.albumListAdmin', {
-            url: '/albums/admin',
-            permissions: false,
-            module: false,
-            views: {
-                'content@app': {
-                    template: '<album-list-component ' +
-                                'albums="$resolve.albums"' +
-                                'admin="true">' +
-                              '</album-list-component>'
-                }
-            }
+        .state('app.shemeList', {
+                    url: '/schemelist',
+                    permissions: false,
+                    module: false,
+                    views: {
+                        'content@app': {
+                            template: '<scheme-component ' +
+                                        'schemelist="$resolve.schemelist">' +
+                                      '</scheme-component>'
+                        }
+                    }
         })
   });
