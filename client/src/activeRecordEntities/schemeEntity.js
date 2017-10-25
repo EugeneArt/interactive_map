@@ -5,7 +5,7 @@ angular
 function schemeEntity($cacheFactory, $q, $injector, ActiveRecord, API_ENDPOINT) {
 
   var prototype = {
-    $urlRoot: API_ENDPOINT + 'schemelist',
+    $urlRoot: API_ENDPOINT + 'schemelist/',
     $cache: $cacheFactory('schemelist'),
     $constructor: function categoryEntity(properties) {
       this.$initialize.apply(this, arguments)

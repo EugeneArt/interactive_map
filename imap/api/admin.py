@@ -19,7 +19,7 @@ class CoordinateAdmin(admin.ModelAdmin):
 
 @admin.register(MapImage)
 class MapImageAdmin(admin.ModelAdmin):
-    list_display = ['image']
+    list_display = ['id','image']
 
 @admin.register(Map)
 class MapAdmin(admin.ModelAdmin):

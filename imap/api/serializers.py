@@ -44,7 +44,7 @@ class SchemeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Scheme
-        fields = ('name', 'map')
+        fields = ('__all__')
 
     def create(self, validated_data):
 

@@ -9,12 +9,29 @@ angular
   })
 ;
 
-function schemeComponentController() {
+function schemeComponentController(schemeEntity) {
 
   var vm = this;
   vm.$onInit = onInit;
 
   function onInit() {
-      console.log('dsds');
+      vm.sheme = new schemeEntity();
+      vm.sheme.name = "test2";
+      vm.sheme.graph = [[0, 0, 0, 0, 0], [0, 1, 1, 1, 0], [0, 0, 0, 0, 0]];
+      vm.sheme.map = {
+            name: "test2",
+            start_coordinate: {
+                latitude: 122,
+                longitude: 10
+            },
+           image: 63
+      };
+
+
+      vm.sheme.$save();
+
   }
+
+
+
 }
