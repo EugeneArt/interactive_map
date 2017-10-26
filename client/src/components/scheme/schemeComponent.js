@@ -24,7 +24,7 @@ function schemeComponentController(schemeEntity) {
                 latitude: 122,
                 longitude: 10
             },
-           image: 72
+           image: 73
       };
 
 

@@ -4,7 +4,6 @@ from PIL import Image
 import pickle
 import os
 from imap.settings import MEDIA_ROOT
-from rest_framework.fields import ListField
 
 class CoordinateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,11 +41,16 @@ class BuildingSerializer(serializers.ModelSerializer):
 
 class SchemeSerializer(serializers.ModelSerializer):
     map = MapSerializer()
-    graph = ListField(serializers.IntegerField())
+    graph = serializers.SerializerMethodField()
 
     class Meta:
         model = Scheme
         fields = ('__all__')
+
+    def get_graph(self, obj):
+        # read pickle from file
+        with open(obj.map.path_to_graph, 'rb') as f:
+            return pickle.load(f)
 
     def create(self, validated_data):
         # data for map entity
@@ -68,16 +72,13 @@ class SchemeSerializer(serializers.ModelSerializer):
         with open(filename, 'wb+') as f:
             pickle.dump(data, f)
 
-        # read pickle from file
-        with open(filename, 'rb') as f:
-            print(pickle.load(f))
-
         # create map entity
         mapObj = Map.objects.create(name=map.get('name'), start_coordinate=coordinateObj, image=imageObj, path_to_graph=filename)
 
         # create scheme entity
         name = validated_data.get('name')
         scheme = Scheme.objects.create(name=name, map=mapObj)
+        scheme.graph = graph
 
         return scheme
 
