@@ -41,13 +41,18 @@ class BuildingSerializer(serializers.ModelSerializer):
 
 class SchemeSerializer(serializers.ModelSerializer):
     map = MapSerializer()
+    graph = serializers.SerializerMethodField()
 
     class Meta:
         model = Scheme
         fields = ('__all__')
 
-    def create(self, validated_data):
+    def get_graph(self, obj):
+        # read pickle from file
+        with open(obj.map.path_to_graph, 'rb') as f:
+            return pickle.load(f)
 
+    def create(self, validated_data):
         # data for map entity
         map = validated_data.get('map')
         start_coordinate = map.get('start_coordinate')
@@ -57,8 +62,8 @@ class SchemeSerializer(serializers.ModelSerializer):
         # write graph to file
         image_id = validated_data.get('map')['image'].id
 
-        # need to do 2d from request
-        data = [[0, 0, 0, 0, 0], [0, 1, 1, 1, 0], [0, 0, 0, 0, 0]]
+        #add graph frome request to file
+        data = self.context['request'].data.get('graph')
 
         filename = MEDIA_ROOT + '/graphs/' + str(image_id) + '.txt'
 
@@ -67,16 +72,13 @@ class SchemeSerializer(serializers.ModelSerializer):
         with open(filename, 'wb+') as f:
             pickle.dump(data, f)
 
-        # read pickle from file
-        with open(filename, 'rb') as f:
-            pickle.load(f)
-
         # create map entity
         mapObj = Map.objects.create(name=map.get('name'), start_coordinate=coordinateObj, image=imageObj, path_to_graph=filename)
 
         # create scheme entity
         name = validated_data.get('name')
         scheme = Scheme.objects.create(name=name, map=mapObj)
+        scheme.graph = graph
 
         return scheme
 
