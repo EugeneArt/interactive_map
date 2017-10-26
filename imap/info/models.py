@@ -1,17 +1,21 @@
 from django.db import models
 
-# Create your models here.
-
 
 # services
 class Service(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
 
+    def __str__(self):
+        return "{}".format(self.id)
+
 
 class ImageService(models.Model):
-    image = models.ImageField(upload_to='upload/services/')
+    image = models.ImageField(upload_to='services/')
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{}".format(self.id)
 
 
 # room
@@ -20,19 +24,31 @@ class Room(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return "{}".format(self.id)
+
 
 class ImageRoom(models.Model):
-    image = models.ImageField(upload_to='upload/room/')
+    image = models.ImageField(upload_to='room/')
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{}".format(self.id)
 
 
 # therapy
 class Therapy(models.Model):
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return "{}".format(self.id)
+
 
 class SubTherapy(models.Model):
+    therapy = models.ForeignKey(Therapy, related_name='sub_therapy', on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='upload/Package/Therapy/')
-    therapy = models.ForeignKey(Therapy, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='Therapy/')
+
+    def __str__(self):
+        return "{}".format(self.id)
