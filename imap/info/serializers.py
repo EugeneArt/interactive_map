@@ -10,7 +10,7 @@ class ServiceImageSerializer(ModelSerializer):
 
 
 class ServiceSerializer(ModelSerializer):
-    images = ServiceImageSerializer(many=True, read_only=True)
+    images = ServiceImageSerializer(many=True)
 
     class Meta:
         model = Service
@@ -19,15 +19,13 @@ class ServiceSerializer(ModelSerializer):
 
 # room
 class RoomImageSerializer(ModelSerializer):
-    image = ImageField()
-
     class Meta:
         model = ImageRoom
         fields = '__all__'
 
 
 class RoomSerializer(ModelSerializer):
-    images = RoomImageSerializer(many=True, read_only=True)
+    images = RoomImageSerializer(many=True)
 
     class Meta:
         model = Room
@@ -42,8 +40,10 @@ class SubTherapySerializer(ModelSerializer):
 
 
 class TherapySerializer(ModelSerializer):
-    therapy = SubTherapySerializer(many=True, read_only=True)
+    therapy = SubTherapySerializer(many=True)
 
     class Meta:
         model = Therapy
-        fields = ('id', 'name', 'therapy')
+        fields = '__all__'
+
+
