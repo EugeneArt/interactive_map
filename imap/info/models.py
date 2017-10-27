@@ -12,7 +12,7 @@ class Service(models.Model):
 
 class ImageService(models.Model):
     image = models.ImageField(upload_to='services/')
-    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, related_name='images', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "{}".format(self.id)
@@ -30,7 +30,7 @@ class Room(models.Model):
 
 class ImageRoom(models.Model):
     image = models.ImageField(upload_to='room/')
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, related_name='images', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "{}".format(self.id)
@@ -45,7 +45,7 @@ class Therapy(models.Model):
 
 
 class SubTherapy(models.Model):
-    therapy = models.ForeignKey(Therapy, related_name='sub_therapy', on_delete=models.CASCADE)
+    subTherapy = models.ForeignKey(Therapy, related_name='therapy', blank=True, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     description = models.TextField()
     image = models.ImageField(upload_to='Therapy/')
