@@ -12,6 +12,7 @@
     "@uirouter/angularjs": "^1.0.10",
     "angular": "^1.6.6",
     "angular-activerecord": "^0.3.0",
+    "angular-file-upload": "^2.5.0",
     "bootstrap": "^3.3.7",
     "browser-sync": "^2.18.13",
     "connect-modrewrite": "^0.9.0",
