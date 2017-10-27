@@ -22,3 +22,10 @@
     <tbody id="scheme-area">
     </tbody>
 </table>
+
+<div class="buildings">
+    <building-form-component ng-repeat="building in $ctrl.model.buildings" building="building"></building-form-component>
+    <button ng-click="$ctrl.addBuilding()">Добавить здание</button>
+</div>
+
+

@@ -16,6 +16,20 @@
   padding: 4px;
 }
 
-.initial {
+.scheme-terminal{
+  position: relative;
+  .scheme-terminal__dialog {
+    background-color: green;
+    position: absolute;
+    display: none;
+  }
+}
+.scheme-terminal:hover {
+  .scheme-terminal__dialog {
+    display: block;
+  }
+}
+
+.scheme-terminal__color {
   background-color: green;
 }

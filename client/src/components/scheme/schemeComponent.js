@@ -14,18 +14,21 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
   var vm = this;
   vm.$onInit = onInit;
   vm.createGraph = createGraph;
-  vm.getCoordinate = getCoordinate;
+  vm.setCoordinateWall = setCoordinateWall;
   vm.getInitialCoordinate = getInitialCoordinate;
   vm.saveScheme = saveScheme;
+  vm.addBuilding = addBuilding;
 
   vm.model = new schemeEntity();
   vm.model.map = {};
   vm.model.map.start_coordinate = {};
+  vm.model.buildings = [];
   vm.scheme = angular.element(document.querySelector("#scheme"));
-  vm.scheme.bind('click', getCoordinate);
+  vm.scheme.bind('click', setCoordinateWall);
   vm.schemeArea = angular.element(document.querySelector("#scheme-area"));
   vm.showForm = false;
   vm.showBtnSetInitialCoordinate = false;
+  vm.isSetBuildingCoordinate = false;
   vm.isSetInitialCoordinate = false;
   vm.model.graph = [];
   vm.uploader = new FileUploader({
@@ -73,8 +76,8 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
        vm.showBtnSetInitialCoordinate = true;
   }
 
-  function getCoordinate(event) {
-    if( event.target.localName === 'td' && !vm.isSetInitialCoordinate) {
+  function setCoordinateWall(event) {
+    if( event.target.localName === 'td' && !vm.isSetInitialCoordinate && !vm.isSetBuildingCoordinate) {
             var cellIndex = event.target.cellIndex;
             var parentTr = event.target.parentElement;
             var rowIndex = parentTr.rowIndex;
@@ -86,29 +89,40 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
   function getInitialCoordinate() {
       vm.isSetInitialCoordinate = true;
       vm.scheme.bind('click', function (event) {
-          if( event.target.localName === 'td' && vm.isSetInitialCoordinate) {
+          if( event.target.localName === 'td' && vm.isSetInitialCoordinate && !vm.isSetBuildingCoordinate) {
             var cellIndex = event.target.cellIndex;
             var parentTr = event.target.parentElement;
             var rowIndex = parentTr.rowIndex;
 
             if(Object.keys(vm.model.map.start_coordinate).length) {
                 vm.model.map.start_coordinate = {};
-                var oldInitial = angular.element(document.querySelector(".initial"));
-                oldInitial[0].remove('initial');
+                var oldInitial = angular.element(document.querySelector(".scheme-terminal__color"));
+                oldInitial[0].remove('scheme-terminal__color');
             }
 
             vm.model.map.start_coordinate.latitude = cellIndex;
             vm.model.map.start_coordinate.longitude = rowIndex;
 
             event.target.classList.add("initial");
+            event.target.classList.add("scheme-terminal","scheme-terminal__color");
+            event.target.innerHTML = '<span class="scheme-terminal__dialog">Ваш терминал</span>';
             vm.isSetInitialCoordinate = false;
           }
       });
   }
 
+  function addBuilding() {
+      vm.buildings = {};
+      vm.model.buildings.push(vm.buildings);
+
+  }
+
   function saveScheme() {
       vm.model.$save();
+      console.log(vm.model.buildings);
   }
+  
+
 
 
 
