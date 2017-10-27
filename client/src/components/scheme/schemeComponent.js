@@ -16,22 +16,27 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
   vm.createGraph = createGraph;
   vm.getCoordinate = getCoordinate;
   vm.getInitialCoordinate = getInitialCoordinate;
+  vm.saveScheme = saveScheme;
 
   vm.model = new schemeEntity();
-  vm.model.start_coordinate = {};
+  vm.model.map = {};
+  vm.model.map.start_coordinate = {};
   vm.scheme = angular.element(document.querySelector("#scheme"));
   vm.scheme.bind('click', getCoordinate);
   vm.schemeArea = angular.element(document.querySelector("#scheme-area"));
+  vm.showForm = false;
   vm.showBtnSetInitialCoordinate = false;
   vm.isSetInitialCoordinate = false;
-  vm.graph = [];
+  vm.model.graph = [];
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'imagelist/',
     alias: 'image',
     autoUpload: true,
     headers: {},
     onSuccessItem: function (file, response) {
+        vm.model.map.image = response.id;
         vm.createGraph(response.image, response.widthOfImage, response.heightOfImage);
+        vm.showForm = true;
     }
   });
 
@@ -48,9 +53,9 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
         fill graph
        */
       for (var i = 0; i < heigth; i++ ) {
-        vm.graph[i] = [];
+        vm.model.graph[i] = [];
         for(var j = 0; j < width; j++) {
-            vm.graph[i][j] = 1;
+            vm.model.graph[i][j] = 1;
         }
       }
 
@@ -74,7 +79,7 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
             var parentTr = event.target.parentElement;
             var rowIndex = parentTr.rowIndex;
             event.target.style.backgroundColor = event.target.style.backgroundColor === ""? "red": "";
-            vm.graph[rowIndex][cellIndex] = vm.graph[rowIndex][cellIndex] === 1? 0: 1;
+            vm.model.graph[rowIndex][cellIndex] = vm.model.graph[rowIndex][cellIndex] === 1? 0: 1;
     }
   }
   
@@ -86,19 +91,23 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
             var parentTr = event.target.parentElement;
             var rowIndex = parentTr.rowIndex;
 
-            if(Object.keys(vm.model.start_coordinate).length) {
-                vm.model.start_coordinate = {};
+            if(Object.keys(vm.model.map.start_coordinate).length) {
+                vm.model.map.start_coordinate = {};
                 var oldInitial = angular.element(document.querySelector(".initial"));
                 oldInitial[0].remove('initial');
             }
 
-            vm.model.start_coordinate.latitude = cellIndex;
-            vm.model.start_coordinate.longitude = rowIndex;
+            vm.model.map.start_coordinate.latitude = cellIndex;
+            vm.model.map.start_coordinate.longitude = rowIndex;
 
             event.target.classList.add("initial");
             vm.isSetInitialCoordinate = false;
           }
       });
+  }
+
+  function saveScheme() {
+      vm.model.$save();
   }
 
 
