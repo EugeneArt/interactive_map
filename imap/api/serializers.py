@@ -35,12 +35,14 @@ class MapSerializer(serializers.ModelSerializer):
 
 
 class BuildingSerializer(serializers.ModelSerializer):
+    coordinate = CoordinateSerializer()
     class Meta:
         model = Building
         fields = ('name', 'coordinate')
 
 class SchemeSerializer(serializers.ModelSerializer):
     map = MapSerializer()
+    buildings = BuildingSerializer(many=True)
     graph = serializers.SerializerMethodField()
 
     class Meta:
@@ -78,7 +80,6 @@ class SchemeSerializer(serializers.ModelSerializer):
         # create scheme entity
         name = validated_data.get('name')
         scheme = Scheme.objects.create(name=name, map=mapObj)
-        scheme.graph = graph
 
         return scheme
 

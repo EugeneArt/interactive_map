@@ -36,7 +36,7 @@ class Scheme(models.Model):
 
 class Building(models.Model):
     name = models.CharField(max_length=255)
-    scheme = models.ForeignKey(Scheme, on_delete=models.CASCADE)
+    scheme = models.ForeignKey(Scheme, related_name='buildings', blank=True, null=True, on_delete=models.CASCADE)
     coordinate = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
 
     def __str__(self):
