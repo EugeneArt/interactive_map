@@ -1,0 +1,19 @@
+.scheme-terminal, .scheme-building{
+  position: relative;
+  .scheme-terminal__dialog, .scheme-building__dialog {
+    position: absolute;
+    display: none;
+  }
+}
+.scheme-terminal:hover, .scheme-building:hover {
+  .scheme-terminal__dialog, .scheme-building__dialog{
+    display: block;
+  }
+}
+
+.scheme-terminal__color {
+  background-color: green;
+}
+.scheme-building__color {
+  background-color: blue;
+}

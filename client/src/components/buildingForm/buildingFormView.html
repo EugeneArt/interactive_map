@@ -3,6 +3,10 @@
         <div class="category__item_label">Название здания</div>
         <input name="name" ng-model="$ctrl.building.name">
      </div>
-    <button ng-click="$ctrl.getCoordinate()"></button>
+    Укажите координаты здания
+    <select-coordinate-component
+        start-coordinate="$ctrl.building.coordinate"
+        object="building">
+    </select-coordinate-component>
 </form>
 

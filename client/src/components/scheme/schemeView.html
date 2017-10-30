@@ -23,6 +23,18 @@
     </tbody>
 </table>
 
+Указать координаты стен
+<select-coordinate-component
+        graph="$ctrl.model.graph"
+        start-coordinate="$ctrl.model.map.start_coordinate">
+</select-coordinate-component>
+
+Указать координаты терминала
+<select-coordinate-component
+        start-coordinate="$ctrl.model.map.start_coordinate"
+        object="terminal">
+</select-coordinate-component>
+
 <div class="buildings">
     <building-form-component ng-repeat="building in $ctrl.model.buildings" building="building"></building-form-component>
     <button ng-click="$ctrl.addBuilding()">Добавить здание</button>
