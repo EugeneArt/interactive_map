@@ -78,7 +78,7 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
   }
 
   function saveScheme() {
-    // vm.model.$save();
+    vm.model.$save();
   }
   
 

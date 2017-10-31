@@ -5,13 +5,14 @@ angular
     bindings: {
       graph: '<',
       startCoordinate: '<',
+      name: '<',
       object: '@'
     },
     controller: selectCoordinateComponentController
   })
 ;
 
-function selectCoordinateComponentController($scope) {
+function selectCoordinateComponentController() {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -67,14 +68,15 @@ function selectCoordinateComponentController($scope) {
           break;
         case 'building':
           if(Object.keys(vm.startCoordinate).length) {
-            vm.startCoordinate = {};
-            var oldInitialBuilding = angular.element(document.querySelector(".scheme-building__color"));
+            var oldInitialBuilding = angular.element(document.getElementById(vm.startCoordinate.longitude + "_" + vm.startCoordinate.latitude ));
             oldInitialBuilding[0].remove('scheme-building__color');
+            vm.startCoordinate = {};
           }
           vm.startCoordinate.latitude = cellIndex;
           vm.startCoordinate.longitude = rowIndex;
+          event.target.setAttribute("id", rowIndex + "_"+ cellIndex);
           event.target.classList.add("scheme-building","scheme-building__color");
-          event.target.innerHTML = '<span class="scheme-building__dialog">Вход в здание</span>';
+          event.target.innerHTML = '<span class="scheme-building__dialog">Вход в здание: ' + vm.name + '</span>';
           break;
       }
     }
