@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Scheme, Building, Map, Coordinate, MapImage
+from .models import Scheme, Building, Map, Coordinate, MapImage, Room, Floor
 from PIL import Image
 import pickle
 import os
@@ -55,11 +55,16 @@ class SchemeSerializer(serializers.ModelSerializer):
             return pickle.load(f)
 
     def create(self, validated_data):
+        # get buildings
+        buildings = validated_data.pop('buildings')
+        print(buildings)
+
         # data for map entity
         map = validated_data.get('map')
         start_coordinate = map.get('start_coordinate')
         coordinateObj = Coordinate.objects.create(**start_coordinate)
         imageObj = map.get('image')
+
 
         # write graph to file
         image_id = validated_data.get('map')['image'].id
@@ -81,6 +86,23 @@ class SchemeSerializer(serializers.ModelSerializer):
         name = validated_data.get('name')
         scheme = Scheme.objects.create(name=name, map=mapObj)
 
+        # create buildings
+        for building in buildings:
+            data_coordinate = building.pop('coordinate')
+            building_coordinate = Coordinate.objects.create(**data_coordinate)
+            Building.objects.create(scheme=scheme, coordinate=building_coordinate, **building)
+
         return scheme
 
+class RoomSerializer(serializers.ModelSerializer):
+    coordinate = CoordinateSerializer()
+    class Meta:
+        model = Room
+        fields = ('__all__')
 
+class FloorSerializer(serializers.ModelSerializer):
+    rooms = BuildingSerializer(many=True)
+    map = MapSerializer()
+    class Meta:
+        model = Floor
+        fields = ('number', 'map', 'rooms')
