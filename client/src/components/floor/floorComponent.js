@@ -75,7 +75,7 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT) {
 
   function saveScheme() {
     console.log(vm.model);
-    // vm.model.$save();
+    vm.model.$save();
   }
 
 }
