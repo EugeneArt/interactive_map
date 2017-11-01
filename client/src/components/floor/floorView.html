@@ -1,0 +1,40 @@
+<h1>Создание схемы этажа</h1>
+<div class="uploadedform">
+    <div class="category__item_label">Загрузите изображение карты этажа</div>
+    <input type="file" nv-file-select="" uploader="$ctrl.uploader" />
+</div>
+<form name="floorForm" ng-if="$ctrl.showForm">
+     <div class="floorform__item">
+        <div class="floor__item_label">Этаж</div>
+        <input name="number" ng-model="$ctrl.model.number">
+    </div>
+    <div class="floorform__item">
+        <div class="floor__item_label">Название используемой карты</div>
+        <input name="name" ng-model="$ctrl.model.map.name">
+    </div>
+    <button ng-click="$ctrl.saveFloor()">Сохранить карту</button>
+</form>
+
+<table id="scheme">
+    <tbody id="scheme-area">
+    </tbody>
+</table>
+
+Указать координаты стен
+<select-coordinate-component
+        graph="$ctrl.model.graph"
+        start-coordinate="$ctrl.model.map.start_coordinate">
+</select-coordinate-component>
+
+Указать координаты терминала
+<select-coordinate-component
+        start-coordinate="$ctrl.model.map.start_coordinate"
+        object="terminal">
+</select-coordinate-component>
+
+<div class="floors">
+    <room-form-component ng-repeat="room in $ctrl.model.rooms" room="room"></room-form-component>
+    <button ng-click="$ctrl.addRoom()">Добавить комнату</button>
+</div>
+
+

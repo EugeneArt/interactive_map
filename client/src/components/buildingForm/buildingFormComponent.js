@@ -5,9 +5,6 @@ angular
     bindings: {
         building: '<'
     },
-    require: {
-        schemeComponent: '^schemeComponent'
-    },
     controller: buildingFormComponentController
   });
 

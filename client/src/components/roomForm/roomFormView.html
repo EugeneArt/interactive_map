@@ -1,0 +1,21 @@
+<form name="roomForm">
+     <div class="roomform__item">
+        <div class="category__item_label">Номер комнаты</div>
+        <input name="number" ng-model="$ctrl.room.number">
+     </div>
+     <div class="roomform__item">
+        <div class="category__item_label">Название комнаты</div>
+        <input name="name" ng-model="$ctrl.room.name">
+     </div>
+     <div class="roomform__item">
+         <div class="category__item_label">Описание</div>
+         <textarea name="name" ng-model="$ctrl.room.description"></textarea>
+     </div>
+    Укажите координаты комнаты
+    <select-coordinate-component
+        start-coordinate="$ctrl.room.coordinate"
+        name="$ctrl.room.number"
+        object="room">
+    </select-coordinate-component>
+</form>
+
