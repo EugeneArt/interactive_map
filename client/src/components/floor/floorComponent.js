@@ -3,7 +3,7 @@ angular
   .component('floorComponent', {
     templateUrl: '/src/components/floor/floorView.html',
     bindings: {
-
+      buildings: '<'
     },
     controller: floorComponentController
   })

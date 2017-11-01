@@ -4,7 +4,13 @@
     <input type="file" nv-file-select="" uploader="$ctrl.uploader" />
 </div>
 <form name="floorForm" ng-if="$ctrl.showForm">
-     <div class="floorform__item">
+    <div class="floorform__item">
+        <div class="floor__item_label">Выберите в каком здании находится этаж</div>
+        <select name="building" id="buildingId" ng-model="$ctrl.model.building">
+          <option ng-repeat="option in $ctrl.buildings" value="{{option.id}}">{{option.name}}</option>
+        </select>
+    </div>
+    <div class="floorform__item">
         <div class="floor__item_label">Этаж</div>
         <input name="number" ng-model="$ctrl.model.number">
     </div>

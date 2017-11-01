@@ -34,13 +34,13 @@ angular
           views: {
               'content@app': {
                   template: '<floor-component ' +
-                              'buildings="$resolve.buildinglist"' +
+                              'buildings="$resolve.buildings"' +
                             '</floor-component>'
               }
           },
           resolve: {
-              schemelist: ['buldingEntity', function (buldingEntity) {
-                  return buldingEntity.fetchAll();
+              buildings: ['buildingEntity', function (buildingEntity) {
+                  return buildingEntity.fetchAll();
               }]
           }
       })
