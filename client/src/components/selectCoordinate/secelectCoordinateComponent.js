@@ -59,7 +59,6 @@ function selectCoordinateComponentController() {
             vm.startCoordinate = {};
             var oldInitialTerminal = angular.element(document.querySelector(".scheme-terminal__color"));
             oldInitialTerminal[0].remove('scheme-terminal__color');
-
           }
           vm.startCoordinate.latitude = cellIndex;
           vm.startCoordinate.longitude = rowIndex;
@@ -77,6 +76,18 @@ function selectCoordinateComponentController() {
           event.target.setAttribute("id", rowIndex + "_"+ cellIndex);
           event.target.classList.add("scheme-building","scheme-building__color");
           event.target.innerHTML = '<span class="scheme-building__dialog">Вход в здание: ' + vm.name + '</span>';
+          break;
+        case 'room':
+          if(Object.keys(vm.startCoordinate).length) {
+            var oldInitialBuilding = angular.element(document.getElementById(vm.startCoordinate.longitude + "_" + vm.startCoordinate.latitude ));
+            oldInitialBuilding[0].remove('scheme-room__color');
+            vm.startCoordinate = {};
+          }
+          vm.startCoordinate.latitude = cellIndex;
+          vm.startCoordinate.longitude = rowIndex;
+          event.target.setAttribute("id", rowIndex + "_"+ cellIndex);
+          event.target.classList.add("scheme-room","scheme-room__color");
+          event.target.innerHTML = '<span class="scheme-room__dialog">Комната №: ' + vm.name + '</span>';
           break;
       }
     }

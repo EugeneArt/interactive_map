@@ -1,12 +1,12 @@
-.scheme-terminal, .scheme-building{
+.scheme-terminal, .scheme-building, .scheme-room{
   position: relative;
-  .scheme-terminal__dialog, .scheme-building__dialog {
+  .scheme-terminal__dialog, .scheme-building__dialog, .scheme-room__dialog  {
     position: absolute;
     display: none;
   }
 }
-.scheme-terminal:hover, .scheme-building:hover {
-  .scheme-terminal__dialog, .scheme-building__dialog{
+.scheme-terminal:hover, .scheme-building:hover, .scheme-room:hover {
+  .scheme-terminal__dialog, .scheme-building__dialog, .scheme-room__dialog{
     display: block;
   }
 }
@@ -14,6 +14,11 @@
 .scheme-terminal__color {
   background-color: green;
 }
+
 .scheme-building__color {
   background-color: blue;
+}
+
+.scheme-room__color {
+  background-color: skyblue;
 }
