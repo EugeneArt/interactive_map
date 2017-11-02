@@ -45,6 +45,7 @@ class Building(models.Model):
 class Floor(models.Model):
     number = models.IntegerField()
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
+    entrance = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
     map = models.OneToOneField(Map, on_delete=models.CASCADE)
 
     def __str__(self):

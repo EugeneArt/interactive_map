@@ -117,8 +117,13 @@ class FloorSerializer(serializers.ModelSerializer):
 
         # data for map entity
         map = validated_data.get('map')
+
         start_coordinate = map.get('start_coordinate')
-        coordinateObj = Coordinate.objects.create(**start_coordinate)
+        start_coordinate_obj = Coordinate.objects.create(**start_coordinate)
+
+        entrance_coordinate = map.get('entrance')
+        entrance_coordinate_obj = Coordinate.objects.create(**entrance_coordinate)
+
         imageObj = map.get('image')
 
         # write graph to file
@@ -135,7 +140,7 @@ class FloorSerializer(serializers.ModelSerializer):
             pickle.dump(data, f)
 
         # create map entity
-        mapObj = Map.objects.create(name=map.get('name'), start_coordinate=coordinateObj, image=imageObj, path_to_graph=filename)
+        mapObj = Map.objects.create(name=map.get('name'), start_coordinate=start_coordinate_obj, entrance=entrance_coordinate_obj, image=imageObj, path_to_graph=filename)
 
         # create floor entity
         number = validated_data.get('number')
