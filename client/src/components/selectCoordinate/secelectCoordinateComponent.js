@@ -89,6 +89,18 @@ function selectCoordinateComponentController() {
           event.target.classList.add("scheme-room","scheme-room__color");
           event.target.innerHTML = '<span class="scheme-room__dialog">Комната №: ' + vm.name + '</span>';
           break;
+        case 'entrance':
+          if(Object.keys(vm.startCoordinate).length) {
+            var oldInitialBuilding = angular.element(document.getElementById(vm.startCoordinate.longitude + "_" + vm.startCoordinate.latitude ));
+            oldInitialBuilding[0].remove('scheme-entrance__color');
+            vm.startCoordinate = {};
+          }
+          vm.startCoordinate.latitude = cellIndex;
+          vm.startCoordinate.longitude = rowIndex;
+          event.target.setAttribute("id", rowIndex + "_"+ cellIndex);
+          event.target.classList.add("scheme-entrance","scheme-entrance__color");
+          event.target.innerHTML = '<span class="scheme-entrance__dialog">Вход/Выход</span>';
+          break;
       }
     }
   }

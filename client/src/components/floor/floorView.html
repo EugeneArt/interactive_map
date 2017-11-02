@@ -38,6 +38,12 @@
         object="terminal">
 </select-coordinate-component>
 
+Указать вход/выход
+<select-coordinate-component
+        start-coordinate="$ctrl.model.entrance"
+        object="entrance">
+</select-coordinate-component>
+
 <div class="floors">
     <room-form-component ng-repeat="room in $ctrl.model.rooms" room="room"></room-form-component>
     <button ng-click="$ctrl.addRoom()">Добавить комнату</button>

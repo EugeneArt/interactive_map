@@ -33,6 +33,7 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT) {
     vm.model = new floorEntity();
     vm.model.map = {};
     vm.model.map.start_coordinate = {};
+    vm.model.entrance = {};
     vm.model.rooms = [];
     vm.scheme = angular.element(document.querySelector("#scheme"));
     vm.schemeArea = angular.element(document.querySelector("#scheme-area"));
