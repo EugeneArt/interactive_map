@@ -100,8 +100,10 @@ class RoomSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class FloorSerializer(serializers.ModelSerializer):
-    rooms = BuildingSerializer(many=True)
+    rooms = RoomSerializer(many=True)
     map = MapSerializer()
+    graph = serializers.SerializerMethodField()
+
     class Meta:
         model = Floor
         fields = ('__all__')
@@ -112,8 +114,6 @@ class FloorSerializer(serializers.ModelSerializer):
             return pickle.load(f)
 
     def create(self, validated_data):
-        # get rooms
-        rooms = validated_data.pop('rooms')
 
         # data for map entity
         map = validated_data.get('map')
@@ -142,10 +142,13 @@ class FloorSerializer(serializers.ModelSerializer):
         building = validated_data.get('building')
         floor = Floor.objects.create(number=number, building=building, map=mapObj)
 
+        # get rooms
+        rooms = validated_data.pop('rooms')
+
         # create rooms
         for room in rooms:
             data_coordinate = room.pop('coordinate')
-            room_coordinate = Room.objects.create(**data_coordinate)
+            room_coordinate = Coordinate.objects.create(**data_coordinate)
             Room.objects.create(floor=floor, coordinate=room_coordinate, **room)
 
         return floor

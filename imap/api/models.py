@@ -54,7 +54,7 @@ class Room(models.Model):
     number = models.IntegerField()
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True, default=None)
-    floor = models.ForeignKey(Floor,related_name='rooms', on_delete=models.CASCADE)
+    floor = models.ForeignKey(Floor,related_name='rooms', blank=True, null=True, on_delete=models.CASCADE)
     coordinate = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
 
     def __str__(self):

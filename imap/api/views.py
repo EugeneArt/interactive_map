@@ -1,6 +1,6 @@
 from rest_framework import generics
-from .serializers import SchemeSerializer, MapImageSerializer, BuildingSerializer, FloorSerializer
-from .models import Scheme, MapImage, Building, Floor
+from .serializers import SchemeSerializer, MapImageSerializer, BuildingSerializer, FloorSerializer, RoomSerializer
+from .models import Scheme, MapImage, Building, Floor, Room
 
 class CreateSchemeView(generics.ListCreateAPIView):
     queryset = Scheme.objects.all()
@@ -23,6 +23,7 @@ class CreateBuildingView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+
 class CreateFloorView(generics.ListCreateAPIView):
     queryset = Floor.objects.all()
     serializer_class = FloorSerializer
@@ -30,6 +31,11 @@ class CreateFloorView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+class CreateRoomView(generics.ListCreateAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
 
+    def perform_create(self, serializer):
+        serializer.save()
 
 
