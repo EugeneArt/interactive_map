@@ -3,11 +3,11 @@ angular
   .component('headerComponent', {
     templateUrl: '/src/components/header/headerView.html',
     bindings: {},
-    controller: headerComponentsController
+    controller: headerComponentController
   })
 ;
 
-function headerComponentsController() {
+function headerComponentController() {
 
   var vm = this;
   vm.$onInit = onInit;
