@@ -3,6 +3,7 @@ angular
   .component('sidebarComponent', {
     templateUrl: '/src/components/sidebar/sidebarView.html',
     bindings: {
+        name: '@',
         list: '<'
     },
     controller: sidebarComponentController
@@ -15,7 +16,7 @@ function sidebarComponentController() {
   vm.$onInit = onInit;
 
   function onInit() {
-
+    console.log(vm.list);
   }
 
 }

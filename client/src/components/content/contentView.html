@@ -1,2 +1,5 @@
-<h1>Content</h1>
-<h2>{{$ctrl.item}}</h2>
+<h1>{{$ctrl.item.name}}</h1>
+<h2>{{$ctrl.item.description}}</h2>
+<ul>
+    <li ng-repeat="image in $ctrl.item.images"><img src="{{image.image}}" alt="" width="200"></li>
+</ul>

@@ -1,7 +1,7 @@
 angular
   .module('app')
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("app/main/content");
+    $urlRouterProvider.otherwise("app/main/services");
     $stateProvider
       .state('app', {
           url: '/app',
@@ -28,12 +28,13 @@ angular
           }
       })
       .state('app.main.services', {
-          url: '/content',
+          url: '/services',
           permissions: false,
           module: false,
           views: {
               'sidebar@app.main': {
                   template: '<sidebar-component ' +
+                            'name="services"' +
                             'list="$resolve.list">' +
                             '</sidebar-component>'
               }
