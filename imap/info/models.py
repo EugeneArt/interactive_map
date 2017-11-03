@@ -7,7 +7,7 @@ class Service(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return "{}".format(self.id)
+        return "{}".format(self.name)
 
 
 class ImageService(models.Model):
@@ -25,7 +25,7 @@ class Room(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return "{}".format(self.id)
+        return "{}".format(self.name)
 
 
 class ImageRoom(models.Model):
@@ -41,7 +41,7 @@ class Therapy(models.Model):
     name = models.CharField(max_length=200)
 
     def __str__(self):
-        return "{}".format(self.id)
+        return "{}".format(self.name)
 
 
 class SubTherapy(models.Model):

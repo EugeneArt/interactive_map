@@ -14,6 +14,7 @@ class AdminImageServices(admin.TabularInline):
 @admin.register(Service)
 class AdminServices(admin.ModelAdmin):
     inlines = [AdminImageServices]
+    ordering = ['name']
 
 
 # room
@@ -25,14 +26,17 @@ class AdminImageRoom(admin.TabularInline):
 @admin.register(Room)
 class AdminRoom(admin.ModelAdmin):
     inlines = [AdminImageRoom]
+    ordering = ['name']
 
 
 # therapy
 class AdminTherapy(admin.TabularInline):
     model = SubTherapy
     extra = 0
+    ordering = ['name']
 
 
 @admin.register(Therapy)
 class AdminPackage(admin.ModelAdmin):
     inlines = [AdminTherapy]
+    ordering = ['name']
