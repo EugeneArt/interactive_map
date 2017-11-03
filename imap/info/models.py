@@ -2,6 +2,9 @@ from django.db import models
 
 
 # services
+from django.utils.safestring import mark_safe
+
+
 class Service(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
@@ -16,6 +19,11 @@ class ImageService(models.Model):
 
     def __str__(self):
         return "{}".format(self.id)
+
+    def image_tag(self):
+        return mark_safe('<img src="/media/%s" height="150" />' % self.image)
+    image_tag.short_description = 'image'
+    image_tag.allow_tags = True
 
 
 # room
@@ -35,6 +43,11 @@ class ImageRoom(models.Model):
     def __str__(self):
         return "{}".format(self.id)
 
+    def image_tag(self):
+        return mark_safe('<img src="/media/%s" height="150" />' % self.image)
+    image_tag.short_description = 'image'
+    image_tag.allow_tags = True
+
 
 # therapy
 class Therapy(models.Model):
@@ -52,3 +65,8 @@ class SubTherapy(models.Model):
 
     def __str__(self):
         return "{}".format(self.id)
+
+    def image_tag(self):
+        return mark_safe('<img src="/media/%s" height="150" />' % self.image)
+    image_tag.short_description = 'image'
+    image_tag.allow_tags = True

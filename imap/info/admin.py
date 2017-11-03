@@ -9,6 +9,7 @@ from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy
 class AdminImageServices(admin.TabularInline):
     model = ImageService
     extra = 0
+    readonly_fields = ('image_tag',)
 
 
 @admin.register(Service)
@@ -21,6 +22,7 @@ class AdminServices(admin.ModelAdmin):
 class AdminImageRoom(admin.TabularInline):
     model = ImageRoom
     extra = 0
+    readonly_fields = ('image_tag',)
 
 
 @admin.register(Room)
@@ -34,6 +36,7 @@ class AdminTherapy(admin.TabularInline):
     model = SubTherapy
     extra = 0
     ordering = ['name']
+    readonly_fields = ('image_tag',)
 
 
 @admin.register(Therapy)
