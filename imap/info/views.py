@@ -19,6 +19,10 @@ class ServiceView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+class ServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+
 
 class RoomView(generics.ListCreateAPIView):
     queryset = Room.objects.all()
