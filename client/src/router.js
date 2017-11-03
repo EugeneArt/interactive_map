@@ -1,7 +1,7 @@
 angular
   .module('app')
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("app/navigation");
+    $urlRouterProvider.otherwise("app/floorList");
     $stateProvider
       .state('app', {
           url: '/app',

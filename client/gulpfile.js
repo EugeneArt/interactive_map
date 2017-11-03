@@ -201,7 +201,7 @@ gulp.task('serve', ['index:all-src-with-css'], function () {
 
   browserSync.init({
     startPath: '/index.html',
-    host: 'catalog.dev',
+    host: 'imap.dev',
     open: 'external',
     server: {
       baseDir: "./",
