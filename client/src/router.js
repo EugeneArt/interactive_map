@@ -1,7 +1,7 @@
 angular
   .module('app')
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("app/main/services");
+    $urlRouterProvider.otherwise("app/main/content");
     $stateProvider
       .state('app', {
           url: '/app',
@@ -28,20 +28,43 @@ angular
           }
       })
       .state('app.main.services', {
-          url: '/services',
+          url: '/content',
           permissions: false,
           module: false,
           views: {
               'sidebar@app.main': {
                   template: '<sidebar-component ' +
+                            'list="$resolve.list">' +
                             '</sidebar-component>'
-              },
-              'content@app.main': {
-                  template: '<services-component ' +
-                            '</services-component>'
               }
+          },
+          resolve: {
+              list: ['serviceEntity', function (serviceEntity) {
+                  return serviceEntity.fetchAll();
+              }]
           }
       })
+      .state('app.main.services.service', {
+          url: '/:id',
+          permissions: false,
+          module: false,
+          views: {
+              'content@app.main': {
+                  template: '<content-component ' +
+                            'item="$resolve.item">' +
+                            '</content-component>'
+              }
+          },
+          resolve: {
+              item: ['$stateParams', 'serviceEntity', function ($stateParams, serviceEntity) {
+                  return serviceEntity.fetchOne($stateParams.id);
+              }]
+          }
+      })
+
+
+
+
       // .state('app.main.treatment', {
       //     url: '/treatment',
       //     permissions: false,
@@ -52,8 +75,8 @@ angular
       //                       '</sidebar-component>'
       //         },
       //         'content@app.main': {
-      //             template: '<services-component ' +
-      //                       '</services-component>'
+      //             template: '<content-component ' +
+      //                       '</content-component>'
       //         }
       //     }
       // })

@@ -1,14 +1,15 @@
 angular
   .module('app')
-  .component('servicesComponent', {
-    templateUrl: '/src/components/services/servicesView.html',
+  .component('contentComponent', {
+    templateUrl: '/src/components/content/contentView.html',
     bindings: {
+        item: '<'
     },
-    controller: servicesComponentController
+    controller: contentComponentController
   })
 ;
 
-function servicesComponentController() {
+function contentComponentController() {
 
   var vm = this;
   vm.$onInit = onInit;

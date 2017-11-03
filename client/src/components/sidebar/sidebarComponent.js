@@ -3,6 +3,7 @@ angular
   .component('sidebarComponent', {
     templateUrl: '/src/components/sidebar/sidebarView.html',
     bindings: {
+        list: '<'
     },
     controller: sidebarComponentController
   })
