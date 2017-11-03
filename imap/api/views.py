@@ -45,6 +45,7 @@ class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class FindPathView(APIView):
     def get(self, request, format=None):
+
         # parse query
         from_floor_id = request.query_params.get('floor')
         to_room_id = request.query_params.get('room')
@@ -60,12 +61,15 @@ class FindPathView(APIView):
         floor_number = room.floor.number
 
         if current_floor_number - floor_number == 0:
-            return Response({'floor': floor_serializer.data, 'coordinate': coordinate_room_serializer.data})
+            return Response([{
+                'current_floor': floor_serializer.data,
+                'coordinate': coordinate_room_serializer.data
+            }])
         else:
-            return Response({
+            return Response([{
                 'current_floor': current_floor.data,
                 'floor': floor_serializer.data,
                 'coordinate': coordinate_room_serializer.data
-            })
+            }])
 
 

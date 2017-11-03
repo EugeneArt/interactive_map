@@ -13,7 +13,6 @@ function findPathEntity($cacheFactory, $q, $injector, ActiveRecord, API_ENDPOINT
   };
 
   var methods = {
-
   };
 
   return ActiveRecord.extend(prototype, methods);

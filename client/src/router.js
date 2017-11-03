@@ -60,7 +60,7 @@ angular
                 rooms: ['roomEntity', function (roomEntity) {
                     return roomEntity.fetchAll();
                 }],
-                path: ['$stateParams','findPathEntity', function ($stateParams, findPathEntity) {
+                paths: ['$stateParams','findPathEntity', function ($stateParams, findPathEntity) {
                    return findPathEntity.fetchAll({params: $stateParams});
                 }]
             }
