@@ -43,6 +43,12 @@ class RoomSerializer(ModelSerializer):
         model = Room
         fields = '__all__'
 
+class RoomNameSerializer(ModelSerializer):
+
+    class Meta:
+        model = Room
+        fields = ('id', 'name')
+
 
 # therapy
 class SubTherapySerializer(ModelSerializer):

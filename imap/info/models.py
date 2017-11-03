@@ -23,9 +23,6 @@ class ImageService(models.Model):
     def __str__(self):
         return "{}".format(self.id)
 
-
-
-
 # room
 class Room(models.Model):
     name = models.CharField(max_length=200)
