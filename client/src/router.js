@@ -24,7 +24,6 @@ angular
                   template: '<main-component ' +
                             '</main-component>'
               }
-
           }
       })
       .state('app.main.services', {
@@ -62,26 +61,41 @@ angular
               }]
           }
       })
-
-
-
-
-      // .state('app.main.treatment', {
-      //     url: '/treatment',
-      //     permissions: false,
-      //     module: false,
-      //     views: {
-      //         'sidebar@app.main': {
-      //             template: '<sidebar-component ' +
-      //                       '</sidebar-component>'
-      //         },
-      //         'content@app.main': {
-      //             template: '<content-component ' +
-      //                       '</content-component>'
-      //         }
-      //     }
-      // })
-
+      .state('app.main.rooms', {
+          url: '/rooms',
+          permissions: false,
+          module: false,
+          views: {
+              'sidebar@app.main': {
+                  template: '<sidebar-component ' +
+                            'name="rooms"' +
+                            'list="$resolve.list">' +
+                            '</sidebar-component>'
+              }
+          },
+          resolve: {
+              list: ['roomEntity', function (roomEntity) {
+                  return roomEntity.fetchAll();
+              }]
+          }
+      })
+      .state('app.main.rooms.room', {
+          url: '/:id',
+          permissions: false,
+          module: false,
+          views: {
+             'content@app.main': {
+                  template: '<content-component ' +
+                            'item="$resolve.item">' +
+                            '</content-component>'
+              }
+          },
+          resolve: {
+              item: ['$stateParams', 'roomEntity', function ($stateParams,roomEntity) {
+                  return roomEntity.fetchOne($stateParams.id);
+              }]
+          }
+      })
       .state('app.shemeList', {
           url: '/schemelist',
           permissions: false,

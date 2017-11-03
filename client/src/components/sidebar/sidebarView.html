@@ -5,3 +5,9 @@
     </ul>
 </div>
 
+<div ng-if="$ctrl.name == 'rooms'">
+    <h1>Номера</h1>
+    <ul>
+        <li ng-repeat="item in $ctrl.list" ui-sref-active="active"><a href ui-sref="app.main.rooms.room({id: item.id})">{{item.name}}</a></li>
+    </ul>
+</div>

@@ -26,14 +26,14 @@ class ServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class RoomView(generics.ListCreateAPIView):
     queryset = Room.objects.all()
-    serializer_class = RoomSerializer
+    serializer_class = RoomNameSerializer
 
     def perform_create(self, serializer):
         serializer.save()
 
 class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Room.objects.all()
-    serializer_class = RoomNameSerializer
+    serializer_class = RoomSerializer
 
 
 class TherapyView(generics.ListCreateAPIView):
