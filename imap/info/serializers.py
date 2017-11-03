@@ -16,6 +16,11 @@ class ServiceSerializer(ModelSerializer):
         model = Service
         fields = '__all__'
 
+class ServiceNameSerializer(ModelSerializer):
+    class Meta:
+        model = Service
+        fields = ('id', 'name')
+
 
 # room
 class RoomImageSerializer(ModelSerializer):
