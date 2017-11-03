@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy
+from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy, PriceRoom
 
 
 # Register your models here.
@@ -25,9 +25,14 @@ class AdminImageRoom(admin.TabularInline):
     readonly_fields = ('image_tag',)
 
 
+class AdminPriceRoom(admin.TabularInline):
+    model = PriceRoom
+    extra = 0
+
+
 @admin.register(Room)
 class AdminRoom(admin.ModelAdmin):
-    inlines = [AdminImageRoom]
+    inlines = [AdminImageRoom, AdminPriceRoom]
     ordering = ['name']
 
 
