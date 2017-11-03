@@ -25,3 +25,5 @@ client/index.html
 bower_components/
 node_modules/
 dist/
+interactive_map.iml
+imap/info/migrations/*
