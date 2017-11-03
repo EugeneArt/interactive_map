@@ -1,7 +1,7 @@
 from django.db import models
 
 
-# services
+# content
 class Service(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
@@ -11,7 +11,7 @@ class Service(models.Model):
 
 
 class ImageService(models.Model):
-    image = models.ImageField(upload_to='services/')
+    image = models.ImageField(upload_to='content/')
     service = models.ForeignKey(Service, related_name='images', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
             name='ImageService',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to='upload/services/')),
+                ('image', models.ImageField(upload_to='upload/content/')),
             ],
         ),
         migrations.CreateModel(

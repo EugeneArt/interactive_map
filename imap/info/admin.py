@@ -5,7 +5,7 @@ from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy
 # Register your models here.
 
 
-# services
+# content
 class AdminImageServices(admin.TabularInline):
     model = ImageService
     extra = 0
