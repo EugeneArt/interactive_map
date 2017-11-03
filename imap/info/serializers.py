@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy
+from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy, PriceRoom
 
 
 # service
@@ -29,8 +29,15 @@ class RoomImageSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class RoomPriceSerializer(ModelSerializer):
+    class Meta:
+        model = PriceRoom
+        fields = '__all__'
+
+
 class RoomSerializer(ModelSerializer):
     images = RoomImageSerializer(many=True)
+    price = RoomPriceSerializer(many=True)
 
     class Meta:
         model = Room
