@@ -96,6 +96,41 @@ angular
               }]
           }
       })
+      .state('app.main.therapy', {
+          url: '/therapy',
+          permissions: false,
+          module: false,
+          views: {
+              'sidebar@app.main': {
+                  template: '<sidebar-component ' +
+                            'name="therapy"' +
+                            'list="$resolve.list">' +
+                            '</sidebar-component>'
+              }
+          },
+          resolve: {
+              list: ['therapyEntity', function (therapyEntity) {
+                  return therapyEntity.fetchAll();
+              }]
+          }
+      })
+      .state('app.main.therapy.treat', {
+          url: '/:id',
+          permissions: false,
+          module: false,
+          views: {
+             'content@app.main': {
+                  template: '<content-component ' +
+                            'item="$resolve.item">' +
+                            '</content-component>'
+              }
+          },
+          resolve: {
+              item: ['$stateParams', 'therapyEntity', function ($stateParams,therapyEntity) {
+                  return therapyEntity.fetchOne($stateParams.id);
+              }]
+          }
+      })
       .state('app.shemeList', {
           url: '/schemelist',
           permissions: false,

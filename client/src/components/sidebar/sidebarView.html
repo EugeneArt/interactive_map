@@ -11,3 +11,15 @@
         <li ng-repeat="item in $ctrl.list" ui-sref-active="active"><a href ui-sref="app.main.rooms.room({id: item.id})">{{item.name}}</a></li>
     </ul>
 </div>
+
+<div ng-if="$ctrl.name == 'therapy'">
+    <h1>Лечение</h1>
+    <ul>
+        <li ng-repeat="item in $ctrl.list" ui-sref-active="active">
+            <a href ui-sref="app.main.therapy.treat({id: item.id})">{{item.name}}</a>
+            <ul>
+                <li ng-repeat="therapy in item.therapy" ><a href ui-sref="app.main.therapy.treat({id: item.id})">{{therapy.name}}</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
