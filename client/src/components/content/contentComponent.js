@@ -3,6 +3,7 @@ angular
   .component('contentComponent', {
     templateUrl: '/src/components/content/contentView.html',
     bindings: {
+        name: '@',
         item: '<'
     },
     controller: contentComponentController

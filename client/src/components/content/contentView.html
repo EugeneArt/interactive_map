@@ -1,5 +1,17 @@
-<h1>{{$ctrl.item.name}}</h1>
-<h2>{{$ctrl.item.description}}</h2>
-<ul>
-    <li ng-repeat="image in $ctrl.item.images"><img src="{{image.image}}" alt="" width="200"></li>
-</ul>
+<div ng-if="!$ctrl.name">
+    <h1>{{$ctrl.item.name}}</h1>
+    <h2>{{$ctrl.item.description}}</h2>
+    <ul>
+        <li ng-repeat="image in $ctrl.item.images"><img src="{{image.image}}" alt="" width="200"></li>
+    </ul>
+</div>
+
+<div ng-if="$ctrl.name">
+    <h1>{{$ctrl.item.name}}</h1>
+    <ul>
+        <li ng-repeat="subtherapy in $ctrl.item.therapy">
+            <a href>{{subtherapy.name}}</a>
+            <img src="{{subtherapy.image}}" alt="" width="200">
+        </li>
+    </ul>
+</div>

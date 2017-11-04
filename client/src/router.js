@@ -121,6 +121,7 @@ angular
           views: {
              'content@app.main': {
                   template: '<content-component ' +
+                            'name="subtherapy" ' +
                             'item="$resolve.item">' +
                             '</content-component>'
               }
