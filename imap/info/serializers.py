@@ -56,6 +56,10 @@ class SubTherapySerializer(ModelSerializer):
         model = SubTherapy
         fields = '__all__'
 
+class SubTherapyNameSerializer(ModelSerializer):
+    class Meta:
+        model = SubTherapy
+        fields = ('id', 'name')
 
 class TherapySerializer(ModelSerializer):
     therapy = SubTherapySerializer(many=True)
@@ -63,5 +67,13 @@ class TherapySerializer(ModelSerializer):
     class Meta:
         model = Therapy
         fields = '__all__'
+
+class TherapyNameSerializer(ModelSerializer):
+    therapy = SubTherapyNameSerializer(many=True)
+
+    class Meta:
+        model = Therapy
+        fields = '__all__'
+
 
 
