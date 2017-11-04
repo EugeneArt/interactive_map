@@ -132,6 +132,24 @@ angular
               }]
           }
       })
+      .state('app.main.therapy.treat.subtherapy', {
+          url: '/:id',
+          permissions: false,
+          module: false,
+          views: {
+             'content@app.main': {
+                  template: '<content-component ' +
+                            'name="subtherapy" ' +
+                            'item="$resolve.item">' +
+                            '</content-component>'
+              }
+          },
+          resolve: {
+              item: ['$stateParams', 'subTherapyEntity', function ($stateParams, subTherapyEntity) {
+                  return subTherapyEntity.fetchOne($stateParams.id);
+              }]
+          }
+      })
       .state('app.shemeList', {
           url: '/schemelist',
           permissions: false,

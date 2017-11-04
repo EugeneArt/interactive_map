@@ -10,7 +10,7 @@
     <h1>{{$ctrl.item.name}}</h1>
     <ul>
         <li ng-repeat="subtherapy in $ctrl.item.therapy">
-            <a href>{{subtherapy.name}}</a>
+            <a href href ui-sref="app.main.therapy.treat.subtherapy({id: subtherapy.id})">{{subtherapy.name}}</a>
             <img src="{{subtherapy.image}}" alt="" width="200">
         </li>
     </ul>

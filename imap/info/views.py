@@ -57,3 +57,10 @@ class SubTherapyView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save()
+
+class SubTherapyDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SubTherapy.objects.all()
+    serializer_class = SubTherapySerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
