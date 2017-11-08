@@ -15,10 +15,10 @@
 <div ng-if="$ctrl.name == 'therapy'">
     <h1>Лечение</h1>
     <ul>
-        <li ng-repeat="item in $ctrl.list" ui-sref-active="active">
-            <a href ui-sref="app.main.therapy.treat({id: item.id})">{{item.name}}</a>
+        <li ng-repeat="item in $ctrl.list" ui-sref-active="active" >
+            <a href ui-sref="app.main.therapy.treat({therapyId: item.id})" ng-click="item.checked = true">{{item.name}}</a>
             <ul>
-                <li ng-repeat="subtherapy in item.therapy" ><a href ui-sref="app.main.therapy.treat.subtherapy({id: subtherapy.id})">{{subtherapy.name}}</a></li>
+                <li ng-repeat="subtherapy in item.therapy" ng-if="item.checked" ui-sref-active="active"><a href ui-sref="app.main.therapy.treat.subtherapy({subTherapyId: subtherapy.id})">{{subtherapy.name}}</a></li>
             </ul>
         </li>
     </ul>

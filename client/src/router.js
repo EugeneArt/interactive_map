@@ -115,7 +115,7 @@ angular
           }
       })
       .state('app.main.therapy.treat', {
-          url: '/:id',
+          url: '/:therapyId',
           permissions: false,
           module: false,
           views: {
@@ -128,12 +128,12 @@ angular
           },
           resolve: {
               item: ['$stateParams', 'therapyEntity', function ($stateParams,therapyEntity) {
-                  return therapyEntity.fetchOne($stateParams.id);
+                  return therapyEntity.fetchOne($stateParams.therapyId);
               }]
           }
       })
       .state('app.main.therapy.treat.subtherapy', {
-          url: '/:id',
+          url: '/:subTherapyId',
           permissions: false,
           module: false,
           views: {
@@ -146,7 +146,7 @@ angular
           },
           resolve: {
               item: ['$stateParams', 'subTherapyEntity', function ($stateParams, subTherapyEntity) {
-                  return subTherapyEntity.fetchOne($stateParams.id);
+                  return subTherapyEntity.fetchOne($stateParams.subTherapyId);
               }]
           }
       })
