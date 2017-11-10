@@ -1,7 +1,6 @@
 <div ng-if="$ctrl.name == 'services'">
-    <h1>Услуги</h1>
-    <ul>
-        <li ng-repeat="item in $ctrl.list" ui-sref-active="active"><a href ui-sref="app.main.services.service({id: item.id})">{{item.name}}</a></li>
+    <ul class="sidebar__list">
+        <li ng-repeat="item in $ctrl.list" ui-sref-active="active" class="sidebar__list__item"><a href ui-sref="app.main.services.service({id: item.id})">{{item.name}}</a></li>
     </ul>
 </div>
 

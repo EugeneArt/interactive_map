@@ -1,3 +1,23 @@
-.active {
-  color: red;
+.sidebar__list {
+  margin: 0;
+  padding: 5px 10px;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: bold;
+
+  .sidebar__list__item {
+    a {
+      display: inline-block;
+      width: 100%;
+      padding: 0 5px;
+      text-decoration: none;
+      color: #008000;
+    }
+  }
+  .sidebar__list__item.active{
+    background-color: #008000;
+    a {
+      color: #fff;
+    }
+  }
 }
