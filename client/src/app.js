@@ -3,5 +3,6 @@ window.app = angular.module('app', [
   'ActiveRecord',
   'ngDialog',
   'angularFileUpload',
-  'angular-flexslider'
+  'angular-flexslider',
+  'ui.bootstrap'
 ]);

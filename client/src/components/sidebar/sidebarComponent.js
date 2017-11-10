@@ -16,7 +16,6 @@ function sidebarComponentController() {
   vm.$onInit = onInit;
 
   function onInit() {
-    console.log(vm.list);
   }
 
 }

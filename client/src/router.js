@@ -50,13 +50,13 @@ angular
           module: false,
           views: {
               'content@app.main': {
-                  template: '<content-component ' +
-                            'item="$resolve.item">' +
-                            '</content-component>'
+                  template: '<service-content-component ' +
+                            'content="$resolve.content">' +
+                            '</service-content-component>'
               }
           },
           resolve: {
-              item: ['$stateParams', 'serviceEntity', function ($stateParams, serviceEntity) {
+              content: ['$stateParams', 'serviceEntity', function ($stateParams, serviceEntity) {
                   return serviceEntity.fetchOne($stateParams.id);
               }]
           }
@@ -85,13 +85,13 @@ angular
           module: false,
           views: {
              'content@app.main': {
-                  template: '<content-component ' +
-                            'item="$resolve.item">' +
-                            '</content-component>'
+                  template: '<room-content-component ' +
+                            'content="$resolve.content">' +
+                            '</room-content-component>'
               }
           },
           resolve: {
-              item: ['$stateParams', 'roomEntity', function ($stateParams,roomEntity) {
+              content: ['$stateParams', 'roomEntity', function ($stateParams,roomEntity) {
                   return roomEntity.fetchOne($stateParams.id);
               }]
           }
