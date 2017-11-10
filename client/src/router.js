@@ -138,7 +138,8 @@ angular
           views: {
              'content@app.main': {
                   template: '<therapy-content-component ' +
-                            'item="$resolve.item">' +
+                            'subtherapy="true" ' +
+                            'item="$resolve.item"> ' +
                             '</therapy-content-component>'
               }
           },

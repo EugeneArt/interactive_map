@@ -3,6 +3,7 @@ angular
   .component('therapyContentComponent', {
     templateUrl: '/src/components/therapyContent/therapyContentView.html',
     bindings: {
+        subtherapy: '<',
         item: '<'
     },
     controller: therapyContentComponentController
