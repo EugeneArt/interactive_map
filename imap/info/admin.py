@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy, PriceRoom
+from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy, Voucher, Currency, PriceRoom
 
 
 # Register your models here.
@@ -10,7 +10,6 @@ class AdminImageServices(admin.TabularInline):
     model = ImageService
     extra = 0
     readonly_fields = ('image_tag',)
-
 
 @admin.register(Service)
 class AdminServices(admin.ModelAdmin):
@@ -24,15 +23,21 @@ class AdminImageRoom(admin.TabularInline):
     extra = 0
     readonly_fields = ('image_tag',)
 
+@admin.register(Voucher)
+class AdminVoucher(admin.ModelAdmin):
+    pass
 
-class AdminPriceRoom(admin.TabularInline):
-    model = PriceRoom
-    extra = 0
+@admin.register(Currency)
+class AdminCurrency(admin.ModelAdmin):
+    pass
 
+@admin.register(PriceRoom)
+class AdminPriceRoom(admin.ModelAdmin):
+    pass
 
 @admin.register(Room)
 class AdminRoom(admin.ModelAdmin):
-    inlines = [AdminImageRoom, AdminPriceRoom]
+    inlines = [AdminImageRoom]
     ordering = ['name']
 
 
@@ -42,7 +47,6 @@ class AdminTherapy(admin.TabularInline):
     extra = 0
     ordering = ['name']
     readonly_fields = ('image_tag',)
-
 
 @admin.register(Therapy)
 class AdminPackage(admin.ModelAdmin):
