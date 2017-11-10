@@ -120,10 +120,9 @@ angular
           module: false,
           views: {
              'content@app.main': {
-                  template: '<content-component ' +
-                            'name="subtherapy" ' +
+                  template: '<therapy-content-component ' +
                             'item="$resolve.item">' +
-                            '</content-component>'
+                            '</therapy-content-component>'
               }
           },
           resolve: {
@@ -138,10 +137,9 @@ angular
           module: false,
           views: {
              'content@app.main': {
-                  template: '<content-component ' +
-                            'name="subtherapy" ' +
+                  template: '<therapy-content-component ' +
                             'item="$resolve.item">' +
-                            '</content-component>'
+                            '</therapy-content-component>'
               }
           },
           resolve: {
