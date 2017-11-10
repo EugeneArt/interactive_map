@@ -1,5 +1,8 @@
-<h1>{{::$ctrl.content.name}}</h1>
-<h2>{{::$ctrl.content.description}}</h2>
-<ul>
-    <li ng-repeat="image in ::$ctrl.content.images"><img src="{{image.image}}" alt="" width="200"></li>
-</ul>
+<h1 class="content__title">{{::$ctrl.content.name}}</h1>
+<p class="content__description">{{::$ctrl.content.description}}</p>
+
+<flex-slider slide="image in $ctrl.content.images track by image.id" animation="slide" touch="true">
+	<li>
+		<img ng-src="{{image.image}}">
+	</li>
+</flex-slider>
