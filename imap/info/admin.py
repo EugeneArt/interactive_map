@@ -2,9 +2,6 @@ from django.contrib import admin
 from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy, Voucher, Currency, PriceRoom
 
 
-# Register your models here.
-
-
 # content
 class AdminImageServices(admin.TabularInline):
     model = ImageService
@@ -27,13 +24,15 @@ class AdminImageRoom(admin.TabularInline):
 class AdminVoucher(admin.ModelAdmin):
     pass
 
+class AdminPriceRoom(admin.TabularInline):
+    model = PriceRoom
+    extra = 0
+
 @admin.register(Currency)
 class AdminCurrency(admin.ModelAdmin):
-    pass
+    inlines = [AdminPriceRoom]
+    ordering = ['name']
 
-@admin.register(PriceRoom)
-class AdminPriceRoom(admin.ModelAdmin):
-    pass
 
 @admin.register(Room)
 class AdminRoom(admin.ModelAdmin):

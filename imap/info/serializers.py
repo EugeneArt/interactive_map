@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy, PriceRoom
+from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy, PriceRoom, Currency, Voucher
 
 
 # service
@@ -7,7 +7,6 @@ class ServiceImageSerializer(ModelSerializer):
     class Meta:
         model = ImageService
         fields = '__all__'
-
 
 class ServiceSerializer(ModelSerializer):
     images = ServiceImageSerializer(many=True)
@@ -28,23 +27,32 @@ class RoomImageSerializer(ModelSerializer):
         model = ImageRoom
         fields = '__all__'
 
-
-class RoomPriceSerializer(ModelSerializer):
+class PriceRoomSerializer(ModelSerializer):
     class Meta:
         model = PriceRoom
         fields = '__all__'
 
+class CurrencySerializer(ModelSerializer):
+    price_type = PriceRoomSerializer(many=True)
+    class Meta:
+        model = Currency
+        fields = '__all__'
+
+class VoucherSerializer(ModelSerializer):
+    currency = CurrencySerializer(many=True)
+    class Meta:
+        model = Voucher
+        fields = '__all__'
 
 class RoomSerializer(ModelSerializer):
     images = RoomImageSerializer(many=True)
-    price = RoomPriceSerializer(many=True)
+    voucher = VoucherSerializer(many=True)
 
     class Meta:
         model = Room
         fields = '__all__'
 
 class RoomNameSerializer(ModelSerializer):
-
     class Meta:
         model = Room
         fields = ('id', 'name')
