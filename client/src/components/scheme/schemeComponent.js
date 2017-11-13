@@ -24,6 +24,7 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
     headers: {},
     onSuccessItem: function (file, response) {
         vm.model.map.image = response.id;
+        console.log(response);
         vm.createGraph(response.image, response.widthOfImage, response.heightOfImage);
         vm.showForm = true;
     }
