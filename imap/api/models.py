@@ -1,9 +1,5 @@
 from django.db import models
-from PIL import Image
-from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
-import sys
-import os
+from django_resized import ResizedImageField
 
 class Coordinate(models.Model):
     latitude = models.IntegerField()
@@ -13,7 +9,7 @@ class Coordinate(models.Model):
         return "{}".format(self.id)
 
 class MapImage(models.Model):
-    image = models.ImageField(upload_to='maps/')
+    image = ResizedImageField(size=[1080, 608], quality=75, upload_to='maps')
 
     def __str__(self):
         return "{}".format(self.id)
