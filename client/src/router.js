@@ -149,7 +149,21 @@ angular
               }]
           }
       })
-      .state('app.shemeList', {
+ //admin panel
+      .state('app.admin', {
+          url: '/admin',
+          abstract: true,
+          permissions: false,
+          module: false,
+          views: {
+              'navigation@app': {
+                  template: '<navigation-admin-component ' +
+                            '</navigation-admin-component>'
+              },
+              'content@app': {}
+          }
+      })
+      .state('app.admin.shemeList', {
           url: '/schemelist',
           permissions: false,
           module: false,
@@ -166,7 +180,7 @@ angular
               }]
           }
       })
-      .state('app.floorList', {
+      .state('app.admin.floorList', {
           url: '/floorlist',
           permissions: false,
           module: false,
@@ -183,7 +197,7 @@ angular
               }]
           }
       })
-      .state('app.search', {
+      .state('app.admin.search', {
             url: '/search?floor&room',
             permissions: false,
             module: false,
