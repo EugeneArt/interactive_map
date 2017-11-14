@@ -136,12 +136,13 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
+
 # resize image
 # DJANGORESIZED_DEFAULT_SIZE = [1080, 608]
 # DJANGORESIZED_DEFAULT_QUALITY = 100
 # DJANGORESIZED_DEFAULT_KEEP_META = True
 # DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'PNG'
 
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
-}

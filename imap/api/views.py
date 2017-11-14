@@ -1,6 +1,8 @@
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import SchemeSerializer, MapImageSerializer, BuildingSerializer, FloorSerializer, RoomSerializer, CoordinateSerializer
 from .models import Scheme, MapImage, Building, Floor, Room
 
@@ -42,6 +44,12 @@ class CreateRoomView(generics.ListCreateAPIView):
 class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+
+class RoomListView(generics.ListAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('number', 'name')
 
 class FindPathView(APIView):
     def get(self, request, format=None):
