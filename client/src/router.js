@@ -10,6 +10,21 @@ angular
           module: false,
           template: '<app-component></app-component>'
       })
+      .state('app.route', {
+          url: '/route',
+          permissions: false,
+          module: false,
+          views: {
+              'navigation@app': {
+                  template: '<navigation-component ' +
+                            '</navigation-component>'
+              },
+              'content@app': {
+                  template: '<route-component ' +
+                            '</route-component>'
+              }
+          }
+      })
       .state('app.main', {
           url: '/main',
           abstract: true,

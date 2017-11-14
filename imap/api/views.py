@@ -37,6 +37,8 @@ class CreateFloorView(generics.ListCreateAPIView):
 class CreateRoomView(generics.ListCreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('number', 'name')
 
     def perform_create(self, serializer):
         serializer.save()
@@ -44,12 +46,6 @@ class CreateRoomView(generics.ListCreateAPIView):
 class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-
-class RoomListView(generics.ListAPIView):
-    queryset = Room.objects.all()
-    serializer_class = RoomSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('number', 'name')
 
 class FindPathView(APIView):
     def get(self, request, format=None):
