@@ -1,6 +1,15 @@
-<div class="wrapper__content">
-    <h2>Навигация</h2>
+
+<div class="search">
+    <div class="search__input">
+        <angucomplete-alt id="search"
+                    placeholder="Поиск комнаты"
+                    pause="100"
+                    selectedobject="$ctrl.selectedRoom"
+                    remote-url="http://0.0.0.0:8000/roomlist/?search="
+                    title-field="name"
+                    image-field="profilePic"
+                    minlength="1"
+                    input-class="form-control form-control-small"/>
+    </div>
 </div>
-
-
 

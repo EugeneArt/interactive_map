@@ -4,5 +4,6 @@ window.app = angular.module('app', [
   'ngDialog',
   'angularFileUpload',
   'angular-flexslider',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'angucomplete-alt'
 ]);

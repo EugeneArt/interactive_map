@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@uirouter/angularjs": "^1.0.10",
+    "angucomplete-alt": "^3.0.0",
     "angular": "^1.6.6",
     "angular-activerecord": "^0.3.0",
     "angular-file-upload": "^2.5.0",

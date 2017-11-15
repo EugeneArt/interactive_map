@@ -13,5 +13,8 @@ function routeComponentController() {
   vm.$onInit = onInit;
 
   function onInit() {
+    vm.selectedRoom = {};
+
   }
+
 }
