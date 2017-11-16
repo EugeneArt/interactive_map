@@ -12,7 +12,7 @@
                     minlength="1"
                     input-class="form-control form-control-small"/>
     </div>
-    <div class="search__btn"><a href ng-if="$ctrl.selectedRoom" >Построить маршрут</a></div>
+    <div class="search__btn" ng-click="$ctrl.getPath()"><a href ng-if="$ctrl.selectedRoom" >Построить маршрут</a></div>
 </div>
 
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Scheme, Building, Map, Coordinate, MapImage, Room, Floor
+from .models import Scheme, Building, Map, Coordinate, MapImage, Room, Floor, Terminal
 from PIL import Image
 import pickle
 import os
@@ -27,11 +27,16 @@ class MapImageSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class MapSerializer(serializers.ModelSerializer):
-    start_coordinate = CoordinateSerializer()
     class Meta:
         model = Map
-        fields = ('name', 'start_coordinate', 'image', 'path_to_graph')
+        fields = ('name', 'image', 'path_to_graph')
         read_only_fields = ('path_to_graph',)
+
+class TerminalSerializer(serializers.ModelSerializer):
+    coordinate = CoordinateSerializer()
+    class Meta:
+        model = Terminal
+        fields = ('__all__')
 
 
 class BuildingSerializer(serializers.ModelSerializer):
@@ -60,8 +65,6 @@ class SchemeSerializer(serializers.ModelSerializer):
 
         # data for map entity
         map = validated_data.get('map')
-        start_coordinate = map.get('start_coordinate')
-        coordinateObj = Coordinate.objects.create(**start_coordinate)
         imageObj = map.get('image')
 
 
@@ -79,7 +82,7 @@ class SchemeSerializer(serializers.ModelSerializer):
             pickle.dump(data, f)
 
         # create map entity
-        mapObj = Map.objects.create(name=map.get('name'), start_coordinate=coordinateObj, image=imageObj, path_to_graph=filename)
+        mapObj = Map.objects.create(name=map.get('name'), image=imageObj, path_to_graph=filename)
 
         # create scheme entity
         name = validated_data.get('name')
@@ -104,6 +107,7 @@ class FloorSerializer(serializers.ModelSerializer):
     rooms = RoomSerializer(many=True)
     map = MapSerializer()
     graph = serializers.SerializerMethodField()
+    terminal = TerminalSerializer()
 
     class Meta:
         model = Floor
@@ -121,10 +125,6 @@ class FloorSerializer(serializers.ModelSerializer):
 
         # data for map entity
         map = validated_data.get('map')
-
-        start_coordinate = map.get('start_coordinate')
-        start_coordinate_obj = Coordinate.objects.create(**start_coordinate)
-
         imageObj = map.get('image')
 
         # write graph to file
@@ -141,7 +141,7 @@ class FloorSerializer(serializers.ModelSerializer):
             pickle.dump(data, f)
 
         # create map entity
-        mapObj = Map.objects.create(name=map.get('name'), start_coordinate=start_coordinate_obj, image=imageObj, path_to_graph=filename)
+        mapObj = Map.objects.create(name=map.get('name'), image=imageObj, path_to_graph=filename)
 
         # create floor entity
         number = validated_data.get('number')

@@ -53,9 +53,7 @@ function selectCoordinateComponentController() {
 
       switch(vm.object) {
         case 'terminal':
-          console.log(vm.startCoordinate);
           if(Object.keys(vm.startCoordinate).length) {
-            console.log('terminal delete');
             vm.startCoordinate = {};
             var oldInitialTerminal = angular.element(document.querySelector(".scheme-terminal__color"));
             oldInitialTerminal[0].remove('scheme-terminal__color');

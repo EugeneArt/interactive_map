@@ -23,7 +23,7 @@ class MapImageAdmin(admin.ModelAdmin):
 
 @admin.register(Map)
 class MapAdmin(admin.ModelAdmin):
-    list_display = ['name', 'start_coordinate']
+    list_display = ['name']
 
 @admin.register(Scheme)
 class SchemeAdmin(admin.ModelAdmin):
