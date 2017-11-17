@@ -40,6 +40,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "javascript-astar": "^0.4.1",
     "jquery": "^3.2.1",
     "ng-dialog": "^1.4.0"
   }
