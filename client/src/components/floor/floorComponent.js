@@ -57,7 +57,7 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT) {
       }
 
       /*
-        create graph' table
+        create graph table
        */
       for (var h = 0; h < heigth; h++ ) {
         var tr = angular.element('<tr></tr>');
