@@ -33,14 +33,10 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
   function onInit() {
     vm.model = new schemeEntity();
     vm.model.map = {};
-    vm.model.map.start_coordinate = {};
     vm.model.buildings = [];
     vm.scheme = angular.element(document.querySelector("#scheme"));
     vm.schemeArea = angular.element(document.querySelector("#scheme-area"));
     vm.showForm = false;
-    vm.showBtnSetInitialCoordinate = false;
-    vm.isSetBuildingCoordinate = false;
-    vm.isSetInitialCoordinate = false;
     vm.model.graph = [];
   }
   

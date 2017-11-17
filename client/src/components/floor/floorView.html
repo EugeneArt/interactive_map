@@ -1,9 +1,10 @@
 <h1>Создание схемы этажа</h1>
-<div class="uploadedform">
+<div class="uploadedform" ng-if="!$ctrl.showForm">
     <div class="category__item_label">Загрузите изображение карты этажа</div>
     <input type="file" nv-file-select="" uploader="$ctrl.uploader" />
 </div>
-<form name="floorForm" ng-if="$ctrl.showForm">
+
+<form name="floorForm">
     <div class="floorform__item">
         <div class="floor__item_label">Выберите в каком здании находится этаж</div>
         <select name="building" id="buildingId" ng-model="$ctrl.model.building">
@@ -34,7 +35,7 @@
 
 Указать координаты терминала
 <select-coordinate-component
-        start-coordinate="$ctrl.model.map.start_coordinate"
+        start-coordinate="$ctrl.model.terminal.coordinate"
         object="terminal">
 </select-coordinate-component>
 
@@ -48,5 +49,3 @@
     <room-form-component ng-repeat="room in $ctrl.model.rooms" room="room"></room-form-component>
     <button ng-click="$ctrl.addRoom()">Добавить комнату</button>
 </div>
-
-

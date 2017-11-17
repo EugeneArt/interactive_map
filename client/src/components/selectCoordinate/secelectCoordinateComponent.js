@@ -56,6 +56,7 @@ function selectCoordinateComponentController() {
           if(Object.keys(vm.startCoordinate).length) {
             vm.startCoordinate = {};
             var oldInitialTerminal = angular.element(document.querySelector(".scheme-terminal__color"));
+            var oldInitialTerminal = angular.element(document.querySelector(".scheme-terminal__color"));
             oldInitialTerminal[0].remove('scheme-terminal__color');
           }
           vm.startCoordinate.latitude = cellIndex;
