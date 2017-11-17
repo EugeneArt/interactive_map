@@ -27,10 +27,15 @@ class MapImageSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class MapSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField('get_image')
+
+    def get_image(self, instance):
+        return instance.image.image.url
+
     class Meta:
         model = Map
-        fields = ('name', 'image', 'path_to_graph')
-        read_only_fields = ('path_to_graph',)
+        fields = ('__all__')
+        read_only_fields = ('path_to_graph', 'get_image')
 
 class TerminalSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
