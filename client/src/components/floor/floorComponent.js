@@ -16,6 +16,7 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT) {
   vm.createGraph = createGraph;
   vm.saveScheme = saveScheme;
   vm.addRoom = addRoom;
+  vm.addTerminal = addTerminal;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'imagelist/',
@@ -32,8 +33,6 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT) {
   function onInit() {
     vm.model = new floorEntity();
     vm.model.map = {};
-    vm.model.terminal = {};
-    vm.model.terminal.coordinate = {};
     vm.model.entrance = {};
     vm.model.rooms = [];
     vm.scheme = angular.element(document.querySelector("#scheme"));
@@ -75,7 +74,15 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT) {
     vm.model.rooms.push(vm.room);
   }
 
+  function addTerminal() {
+    vm.model.terminal = {};
+    vm.model.terminal.coordinate = {};
+  }
+
   function saveScheme() {
+    if(!Object.keys(vm.model.terminal.coordinate).length) {
+      delete vm.model.terminal;
+    }
     console.log(vm.model);
     vm.model.$save();
   }

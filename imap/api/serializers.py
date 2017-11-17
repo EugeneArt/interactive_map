@@ -107,7 +107,7 @@ class FloorSerializer(serializers.ModelSerializer):
     rooms = RoomSerializer(many=True)
     map = MapSerializer()
     graph = serializers.SerializerMethodField()
-    terminal = TerminalSerializer()
+    terminal = TerminalSerializer(required=False)
 
     class Meta:
         model = Floor
@@ -122,6 +122,16 @@ class FloorSerializer(serializers.ModelSerializer):
         #create entrance coordinate
         entrance_coordinate = validated_data.get('entrance')
         entrance_coordinate_obj = Coordinate.objects.create(**entrance_coordinate)
+
+        # create entrance coordinate
+        terminal = validated_data.get('terminal')
+
+        if terminal:
+            terminal_coordinate = terminal.get('coordinate')
+            terminal_coordinate_obj = Coordinate.objects.create(**terminal_coordinate)
+            terminal_obj = Terminal.objects.create(coordinate=terminal_coordinate_obj)
+        else:
+            terminal_obj = None
 
         # data for map entity
         map = validated_data.get('map')
@@ -146,7 +156,7 @@ class FloorSerializer(serializers.ModelSerializer):
         # create floor entity
         number = validated_data.get('number')
         building = validated_data.get('building')
-        floor = Floor.objects.create(number=number, building=building, map=mapObj, entrance=entrance_coordinate_obj)
+        floor = Floor.objects.create(number=number, building=building, map=mapObj, entrance=entrance_coordinate_obj, terminal=terminal_obj)
 
         # get rooms
         rooms = validated_data.pop('rooms')

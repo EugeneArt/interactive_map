@@ -33,11 +33,19 @@
         start-coordinate="$ctrl.model.map.start_coordinate">
 </select-coordinate-component>
 
-Указать координаты терминала
-<select-coordinate-component
-        start-coordinate="$ctrl.model.terminal.coordinate"
-        object="terminal">
-</select-coordinate-component>
+<div class="terminal">
+    <div class="terminal__btn_add" ng-click="$ctrl.addTerminal()" >
+        <button>Добавить терминал</button>
+    </div>
+    <div class="terminal___coordinates" ng-if="$ctrl.model.terminal">
+        Указать координаты терминала
+        <select-coordinate-component
+                start-coordinate="$ctrl.model.terminal.coordinate"
+                object="terminal">
+        </select-coordinate-component>
+    </div>
+</div>
+
 
 Указать вход/выход
 <select-coordinate-component
