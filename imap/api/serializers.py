@@ -27,15 +27,10 @@ class MapImageSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class MapSerializer(serializers.ModelSerializer):
-    image_url = serializers.SerializerMethodField('get_image')
-
-    def get_image(self, instance):
-        return instance.image.image.url
-
     class Meta:
         model = Map
         fields = ('__all__')
-        read_only_fields = ('path_to_graph', 'get_image')
+        read_only_fields = ('path_to_graph',)
 
 class TerminalSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
@@ -70,16 +65,12 @@ class SchemeSerializer(serializers.ModelSerializer):
 
         # data for map entity
         map = validated_data.get('map')
-        imageObj = map.get('image')
-
-
-        # write graph to file
-        image_id = validated_data.get('map')['image'].id
+        image_obj = map.get('image')
 
         #add graph frome request to file
         data = self.context['request'].data.get('graph')
 
-        filename = MEDIA_ROOT + '/graphs/' + str(image_id) + '.txt'
+        filename = MEDIA_ROOT + '/graphs/' + str(image_obj.id) + '.txt'
 
         # write pickle to file
         os.makedirs(os.path.dirname(filename), exist_ok=True)
@@ -87,7 +78,7 @@ class SchemeSerializer(serializers.ModelSerializer):
             pickle.dump(data, f)
 
         # create map entity
-        mapObj = Map.objects.create(name=map.get('name'), image=imageObj, path_to_graph=filename)
+        mapObj = Map.objects.create(name=map.get('name'), image=image_obj, path_to_graph=filename)
 
         # create scheme entity
         name = validated_data.get('name')

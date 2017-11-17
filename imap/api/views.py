@@ -63,10 +63,12 @@ class FindPathView(APIView):
         coordinate_room_serializer = CoordinateSerializer(room.coordinate)
         floor_serializer = FloorSerializer(room.floor)
         floor_number = room.floor.number
+        floor_image = MapImageSerializer(room.floor.map.image)
 
         if current_floor_number - floor_number == 0:
             return Response([{
                 'current_floor': floor_serializer.data,
+                'image': floor_image.data,
                 'coordinate': coordinate_room_serializer.data
             }])
         else:
