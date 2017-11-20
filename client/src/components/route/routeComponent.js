@@ -7,7 +7,7 @@ angular
   })
 ;
 
-function routeComponentController(findPathEntity, FLOOR_ID) {
+function routeComponentController(findPathEntity, imageEntity,  FLOOR_ID) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -32,9 +32,13 @@ function routeComponentController(findPathEntity, FLOOR_ID) {
 
     function success(result) {
       var path = result[0];
-      var image = path.image;
       var terminal = result[0].current_floor.terminal.coordinate;
       var endpoint = path.coordinate;
+      var img_id = result[0].current_floor.map.image;
+
+      imageEntity.fetchOne(img_id).then(function (result) {
+        vm.createGraph(result.image, result.widthOfImage, result.heightOfImage);
+      });
 
 
       var graph = new Graph(path.current_floor.graph);
@@ -44,8 +48,6 @@ function routeComponentController(findPathEntity, FLOOR_ID) {
 
 	  var route = astar.search(graph, start, end);
 	  console.log(route);
-
-      vm.createGraph(image.image, image.widthOfImage, image.heightOfImage);
 
     }
 
