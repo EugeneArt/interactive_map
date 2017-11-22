@@ -18,9 +18,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
   vm.drawPath = drawPath;
 
   function onInit() {
-    vm.scheme = angular.element(document.querySelector("#currentFloor"));
-    vm.canvas = document.createElement("canvas");
-    vm.canvas.id = "container";
+
   }
 
   function getPath() {
@@ -36,12 +34,27 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
 
     function success(result) {
       var data = result[0];
-      var currentFloor = data.currentFloor;
       var roomCoordinate = data.roomCoordinate;
+      vm.currentFloor = data.currentFloor;
+      vm.otherFloor = data.otherFloor;
 
-      mapEntity.fetchOne(currentFloor.map).then(function (response) {
-        createMap(response.image, currentFloor.terminal.coordinate, roomCoordinate);
-      });
+      if (vm.otherFloor) {
+        mapEntity.fetchOne(vm.currentFloor.map).then(function (response) {
+          var currentFloorContainer = angular.element(document.querySelector("#currentFloor"));
+          createMap(currentFloorContainer, response.image, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
+        });
+
+        mapEntity.fetchOne(vm.otherFloor.map).then(function (response) {
+          var otherFloorContainer = angular.element(document.querySelector("#otherFloor"));
+          createMap(otherFloorContainer, response.image, vm.otherFloor.entrance, roomCoordinate);
+        });
+
+      } else {
+        mapEntity.fetchOne(vm.currentFloor.map).then(function (response) {
+          var currentFloorContainer = angular.element(document.querySelector("#currentFloor"));
+          createMap(currentFloorContainer, response.image, vm.currentFloor.terminal.coordinate, roomCoordinate);
+        });
+      }
     }
 
     function fail(error) {
@@ -49,18 +62,18 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     }
   }
 
-  function createMap(url, start, end) {
+  function createMap(container, url, start, end) {
+    var canvas = document.createElement("canvas");
     getImage(url).then(function (img) {
       var width = img.width;
       var height = img.height;
-      vm.canvas.width = width % 2 === 0 ? width - 1 : width;
-      vm.canvas.height = height;
-      vm.scheme.append(vm.canvas);
-      var ctx = vm.canvas.getContext("2d");
+      canvas.width = width % 2 === 0 ? width - 1 : width;
+      canvas.height = height;
+      container.append(canvas);
+      var ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
-
-      var arr = createBinaryArray();
-      drawPath(arr, start, end);
+      var arr = createBinaryArray(canvas);
+      drawPath(canvas, arr, start, end);
     }).catch(function (img) {
       console.log(img);
     });
@@ -80,9 +93,9 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     })
   }
 
-  function createBinaryArray() {
-    var ctx = vm.canvas.getContext("2d");
-    var map = ctx.getImageData(0, 0, vm.canvas.width, vm.canvas.height);
+  function createBinaryArray(canvas) {
+    var ctx = canvas.getContext("2d");
+    var map = ctx.getImageData(0, 0, canvas.width, canvas.height);
     var imdata = map.data;
     var r, g, b;
     var currentInnerArray;
@@ -92,7 +105,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
       g = imdata[p + 1];
       b = imdata[p + 2];
 
-      if (p % vm.canvas.width * 4 === 0) {
+      if (p % canvas.width * 4 === 0) {
         currentInnerArray = [];
         zeroesAndOnes.push(currentInnerArray);
       }
@@ -106,18 +119,18 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     return zeroesAndOnes;
   }
 
-  function drawPath(arr, start, end) {
+  function drawPath(canvas, arr, start, end) {
     var graph = new Graph(arr, {diagonal: true});
-    var startCoordinate = graph.grid[start.longitude][start.latitude];
-    var endCoordinate = graph.grid[end.longitude][end.latitude];
+    var startCoordinate = graph.grid[start.y][start.x];
+    var endCoordinate = graph.grid[end.y][end.x];
 
     var path = astar.search(graph, startCoordinate, endCoordinate);
     console.log(graph, path);
 
-    var ctx = vm.canvas.getContext("2d");
+    var ctx = canvas.getContext("2d");
     ctx.fillStyle = "#00ff00";
-    ctx.fillRect(start.latitude, start.longitude, 8, 8);
-    ctx.fillRect(end.latitude, end.longitude, 8, 8);
+    ctx.fillRect(start.x, start.y, 8, 8);
+    ctx.fillRect(end.x, end.y, 8, 8);
 
     for (var i = 0; i < path.length; i += 9) {
       ctx.fillRect(path[i].y, path[i].x, 4, 4);

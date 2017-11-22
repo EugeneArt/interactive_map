@@ -43,46 +43,46 @@ function selectCoordinateComponentController() {
     // vm.ctx.clearRect(0, 0, vm.canvas.width, vm.canvas.height);
     // vm.ctx.putImageData(vm.tmpImgData, 0, 0);
 
-    vm.coordinate.longitude = Math.round(x);
-    vm.coordinate.latitude = Math.round(y);
+    vm.coordinate.x = Math.round(x);
+    vm.coordinate.y = Math.round(y);
 
     switch (vm.name) {
       case 'terminal':
         if (Object.keys(vm.terminal).length) {
-          vm.ctx.clearRect(vm.terminal.longitude, vm.terminal.latitude, vm.rectWidht, vm.rectHeight);
+          vm.ctx.clearRect(vm.terminal.x, vm.terminal.y, vm.rectWidht, vm.rectHeight);
         }
-        vm.terminal.longitude = vm.coordinate.longitude;
-        vm.terminal.latitude = vm.coordinate.latitude;
+        vm.terminal.x = vm.coordinate.x;
+        vm.terminal.y = vm.coordinate.y;
 
         vm.ctx.fillStyle = "#336600";
         vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
         break;
       case 'building':
         if (Object.keys(vm.building).length) {
-          vm.ctx.clearRect(vm.building.longitude, vm.building.latitude, vm.rectWidht, vm.rectHeight);
+          vm.ctx.clearRect(vm.building.x, vm.building.y, vm.rectWidht, vm.rectHeight);
         }
-        vm.building.longitude = vm.coordinate.longitude;
-        vm.building.latitude = vm.coordinate.latitude;
+        vm.building.x = vm.coordinate.x;
+        vm.building.y = vm.coordinate.y;
 
         vm.ctx.fillStyle = "#00FFFF";
         vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
         break;
       case 'room':
         if (Object.keys(vm.room).length) {
-          vm.ctx.clearRect(vm.room.longitude, vm.room.latitude, vm.rectWidht, vm.rectHeight);
+          vm.ctx.clearRect(vm.room.x, vm.room.y, vm.rectWidht, vm.rectHeight);
         }
-        vm.room.longitude = vm.coordinate.longitude;
-        vm.room.latitude = vm.coordinate.latitude;
+        vm.room.x = vm.coordinate.y;
+        vm.room.y = vm.coordinate.y;
 
         vm.ctx.fillStyle = "#FFFF00";
         vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
         break;
       case 'entrance':
         if (Object.keys(vm.entrance).length) {
-          vm.ctx.clearRect(vm.entrance.longitude, vm.entrance.latitude, 6, 6);
+          vm.ctx.clearRect(vm.entrance.x, vm.entrance.y, 6, 6);
         }
-        vm.entrance.longitude = vm.coordinate.longitude;
-        vm.entrance.latitude = vm.coordinate.latitude;
+        vm.entrance.x = vm.coordinate.x;
+        vm.entrance.y = vm.coordinate.y;
 
         vm.ctx.fillStyle = "#606060";
         vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
