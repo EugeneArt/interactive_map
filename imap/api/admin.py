@@ -15,7 +15,7 @@ class RoomInline(admin.TabularInline):
 
 @admin.register(Coordinate)
 class CoordinateAdmin(admin.ModelAdmin):
-    list_display = ['latitude', 'longitude']
+    list_display = ['x', 'y']
 
 @admin.register(Map)
 class MapAdmin(admin.ModelAdmin):

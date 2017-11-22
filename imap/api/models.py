@@ -2,8 +2,8 @@ from django.db import models
 from django_resized import ResizedImageField
 
 class Coordinate(models.Model):
-    latitude = models.IntegerField()
-    longitude = models.IntegerField()
+    x = models.IntegerField()
+    y = models.IntegerField()
 
     def __str__(self):
         return "{}".format(self.id)

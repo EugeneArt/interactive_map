@@ -8,7 +8,7 @@ from imap.settings import MEDIA_ROOT
 class CoordinateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coordinate
-        fields = ('latitude', 'longitude')
+        fields = ('__all__')
 
 class MapSerializer(serializers.ModelSerializer):
     class Meta:
