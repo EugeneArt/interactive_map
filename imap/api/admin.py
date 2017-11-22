@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Map, Coordinate, Scheme, Building, Floor, Room, MapImage
+from .models import Map, Coordinate, Scheme, Building, Floor, Room
 
 class BuildingInline(admin.TabularInline):
     model = Building
@@ -17,13 +17,9 @@ class RoomInline(admin.TabularInline):
 class CoordinateAdmin(admin.ModelAdmin):
     list_display = ['latitude', 'longitude']
 
-@admin.register(MapImage)
-class MapImageAdmin(admin.ModelAdmin):
-    list_display = ['id','image']
-
 @admin.register(Map)
 class MapAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['image']
 
 @admin.register(Scheme)
 class SchemeAdmin(admin.ModelAdmin):

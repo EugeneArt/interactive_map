@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Scheme, Building, Map, Coordinate, MapImage, Room, Floor, Terminal
+from .models import Scheme, Building, Map, Coordinate, Room, Floor, Terminal
 from PIL import Image
 import pickle
 import os
@@ -10,34 +10,16 @@ class CoordinateSerializer(serializers.ModelSerializer):
         model = Coordinate
         fields = ('latitude', 'longitude')
 
-class MapImageSerializer(serializers.ModelSerializer):
-    widthOfImage = serializers.SerializerMethodField('get_width')
-    heightOfImage = serializers.SerializerMethodField('get_height')
-
-    def get_width(self, instance):
-        img = Image.open(instance.image)
-        return img.size[0]
-
-    def get_height(self, instance):
-        img = Image.open(instance.image)
-        return img.size[1]
-
-    class Meta:
-        model = MapImage
-        fields = ('__all__')
-
 class MapSerializer(serializers.ModelSerializer):
     class Meta:
         model = Map
         fields = ('__all__')
-        read_only_fields = ('path_to_graph',)
 
 class TerminalSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
     class Meta:
         model = Terminal
         fields = ('__all__')
-
 
 class BuildingSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()

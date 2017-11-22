@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import SchemeSerializer, MapImageSerializer, BuildingSerializer, FloorSerializer, RoomSerializer, CoordinateSerializer
-from .models import Scheme, MapImage, Building, Floor, Room
+from .serializers import SchemeSerializer, MapSerializer, BuildingSerializer, FloorSerializer, RoomSerializer, CoordinateSerializer
+from .models import Scheme, Map, Building, Floor, Room
 
 class CreateSchemeView(generics.ListCreateAPIView):
     queryset = Scheme.objects.all()
@@ -13,17 +13,16 @@ class CreateSchemeView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
-class CreateMapImageView(generics.ListCreateAPIView):
-    queryset = MapImage.objects.all()
-    serializer_class = MapImageSerializer
+class CreateMapView(generics.ListCreateAPIView):
+    queryset = Map.objects.all()
+    serializer_class = MapSerializer
 
     def perform_create(self, serializer):
         serializer.save()
 
-class DetailMapImageView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = MapImage.objects.all()
-    serializer_class = MapImageSerializer
-
+class DetailMapView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Map.objects.all()
+    serializer_class = MapSerializer
 
 class CreateBuildingView(generics.ListCreateAPIView):
     queryset = Building.objects.all()
