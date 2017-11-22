@@ -17,7 +17,6 @@ function selectCoordinateComponentController() {
   var vm = this;
   vm.$onInit = onInit;
   vm.activateAction = activateAction;
-  vm.setCoordinateWall = setCoordinate;
   vm.getCoordinate = getCoordinate;
 
   function onInit() {
@@ -26,23 +25,7 @@ function selectCoordinateComponentController() {
   
   function activateAction() {
     vm.scheme.unbind('click');
-
-    if(vm.object) {
-      vm.scheme.bind('click', getCoordinate);
-    } else {
-      vm.scheme.bind('click', setCoordinate);
-    }
-  }
-
-  function setCoordinate(event) {
-    if(event.target.localName === 'td') {
-      var cellIndex = event.target.cellIndex;
-      var parentTr = event.target.parentElement;
-      var rowIndex = parentTr.rowIndex;
-
-      event.target.style.backgroundColor = event.target.style.backgroundColor? '': 'red';
-      vm.graph[rowIndex][cellIndex] = vm.graph[rowIndex][cellIndex] === 1? 0: 1;
-    }
+    vm.scheme.bind('click', getCoordinate);
   }
 
   function getCoordinate(event) {
