@@ -1,58 +1,46 @@
 <h1>Создание схемы этажа</h1>
 <div class="uploadedform" ng-if="!$ctrl.showForm">
     <div class="category__item_label">Загрузите изображение карты этажа</div>
-    <input type="file" nv-file-select="" uploader="$ctrl.uploader" />
+    <input type="file" nv-file-select="" uploader="$ctrl.uploader"/>
+</div>
+<div id="scheme"></div>
+<div class="floor-map" ng-if="$ctrl.showForm">
+    <form name="floorForm">
+        <div class="floorform__item">
+            <div class="floor__item_label">Выберите в каком здании находится этаж</div>
+            <select name="building" id="buildingId" ng-model="$ctrl.model.building">
+                <option ng-repeat="option in $ctrl.buildings" value="{{option.id}}">{{option.name}}</option>
+            </select>
+        </div>
+        <div class="floorform__item">
+            <div class="floor__item_label">Этаж</div>
+            <input name="number" ng-model="$ctrl.model.number">
+        </div>
+        <button ng-click="$ctrl.saveScheme()">Сохранить карту</button>
+    </form>
+
+    <div class="terminal">
+        <div class="terminal__btn_add" ng-click="$ctrl.addTerminal()">
+            <button>Добавить терминал</button>
+        </div>
+        <div class="terminal___coordinates" ng-if="$ctrl.model.terminal">
+            Указать координаты терминала
+            <select-coordinate-component
+                    coordinate="$ctrl.model.terminal.coordinate"
+                    name="terminal">
+            </select-coordinate-component>
+        </div>
+    </div>
+
+    Указать вход/выход
+    <select-coordinate-component
+            coordinate="$ctrl.model.entrance"
+            name="entrance">
+    </select-coordinate-component>
+
+    <div class="floors">
+        <room-form-component ng-repeat="room in $ctrl.model.rooms" room="room"></room-form-component>
+        <button ng-click="$ctrl.addRoom()">Добавить комнату</button>
+    </div>
 </div>
 
-<form name="floorForm">
-    <div class="floorform__item">
-        <div class="floor__item_label">Выберите в каком здании находится этаж</div>
-        <select name="building" id="buildingId" ng-model="$ctrl.model.building">
-          <option ng-repeat="option in $ctrl.buildings" value="{{option.id}}">{{option.name}}</option>
-        </select>
-    </div>
-    <div class="floorform__item">
-        <div class="floor__item_label">Этаж</div>
-        <input name="number" ng-model="$ctrl.model.number">
-    </div>
-    <div class="floorform__item">
-        <div class="floor__item_label">Название используемой карты</div>
-        <input name="name" ng-model="$ctrl.model.map.name">
-    </div>
-    <button ng-click="$ctrl.saveScheme()">Сохранить карту</button>
-</form>
-
-<table id="scheme">
-    <tbody id="scheme-area">
-    </tbody>
-</table>
-
-Указать координаты стен
-<select-coordinate-component
-        graph="$ctrl.model.graph"
-        start-coordinate="$ctrl.model.map.start_coordinate">
-</select-coordinate-component>
-
-<div class="terminal">
-    <div class="terminal__btn_add" ng-click="$ctrl.addTerminal()" >
-        <button>Добавить терминал</button>
-    </div>
-    <div class="terminal___coordinates" ng-if="$ctrl.model.terminal">
-        Указать координаты терминала
-        <select-coordinate-component
-                start-coordinate="$ctrl.model.terminal.coordinate"
-                object="terminal">
-        </select-coordinate-component>
-    </div>
-</div>
-
-Указать вход/выход
-<select-coordinate-component
-        start-coordinate="$ctrl.model.entrance"
-        object="entrance">
-</select-coordinate-component>
-
-<div class="floors">
-    <room-form-component ng-repeat="room in $ctrl.model.rooms" room="room"></room-form-component>
-    <button ng-click="$ctrl.addRoom()">Добавить комнату</button>
-</div>

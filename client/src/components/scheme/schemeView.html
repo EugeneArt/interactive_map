@@ -12,8 +12,7 @@
         </div>
         <button ng-click="$ctrl.saveScheme()">Сохранить карту</button>
     </form>
-    <div id="scheme">
-    </div>
+    <div id="scheme"></div>
     <div class="buildings">
         <building-form-component ng-repeat="building in $ctrl.model.buildings" building="building"></building-form-component>
         <button ng-click="$ctrl.addBuilding()">Добавить здание</button>
