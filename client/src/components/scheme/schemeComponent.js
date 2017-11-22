@@ -25,7 +25,6 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
     headers: {},
     onSuccessItem: function (file, response) {
       vm.model.map.image = response.id;
-      console.log(response);
       createMap(response.image);
     }
   });
@@ -64,7 +63,8 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
       img.onerror = function () {
         reject(img)
       };
-      img.src = url
+      img.src = url;
+      img.setAttribute('crossOrigin', '');
     })
   }
 
@@ -76,6 +76,5 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
   function saveScheme() {
     vm.model.$save();
   }
-
 
 }

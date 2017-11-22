@@ -1,15 +1,13 @@
 angular
-  .module('app')
-  .component('selectCoordinateComponent', {
-    templateUrl: '/src/components/selectCoordinate/selectCoordinateView.html',
-    bindings: {
-      graph: '<',
-      startCoordinate: '<',
-      name: '<',
-      object: '@'
-    },
-    controller: selectCoordinateComponentController
-  })
+    .module('app')
+    .component('selectCoordinateComponent', {
+      templateUrl: '/src/components/selectCoordinate/selectCoordinateView.html',
+      bindings: {
+        coordinate: '<',
+        name: '@'
+      },
+      controller: selectCoordinateComponentController
+    })
 ;
 
 function selectCoordinateComponentController() {
@@ -18,73 +16,66 @@ function selectCoordinateComponentController() {
   vm.$onInit = onInit;
   vm.activateAction = activateAction;
   vm.getCoordinate = getCoordinate;
+  vm.get = get;
 
   function onInit() {
-    vm.scheme = angular.element(document.querySelector("#scheme"));
+    vm.canvas = document.querySelector("#container");
+    vm.angCanvas = angular.element(document.querySelector("#container"));
+    vm.ctx = vm.canvas.getContext("2d");
+    vm.tmpImgData = vm.ctx.getImageData(0, 0, vm.canvas.width, vm.canvas.height);
   }
-  
+
   function activateAction() {
-    vm.scheme.unbind('click');
-    vm.scheme.bind('click', getCoordinate);
+    vm.angCanvas.unbind('click');
+    vm.angCanvas.bind('click', getCoordinate);
+  }
+
+  function get(event) {
+    var rect = vm.canvas.getBoundingClientRect();
+    var x = event.clientX - rect.left;
+    var y = event.clientY - rect.top;
+
+    vm.ctx.clearRect(0, 0, vm.canvas.width, vm.canvas.height);
+    vm.ctx.putImageData(vm.tmpImgData, 0, 0);
+
+    vm.ctx.fillStyle = "#dd4";
+    vm.ctx.fillRect(x, y, 6, 6);
+
+    vm.coordinate.longitude = x;
+    vm.coordinate.latitude = y;
+
+    console.log(vm.coordinate);
   }
 
   function getCoordinate(event) {
-    if( event.target.localName === 'td') {
-      var cellIndex = event.target.cellIndex;
-      var parentTr = event.target.parentElement;
-      var rowIndex = parentTr.rowIndex;
+    var rect = vm.canvas.getBoundingClientRect();
+    var x = event.clientX - rect.left;
+    var y = event.clientY - rect.top;
 
-      switch(vm.object) {
-        case 'terminal':
-          if(Object.keys(vm.startCoordinate).length) {
-            vm.startCoordinate = {};
-            var oldInitialTerminal = angular.element(document.querySelector(".scheme-terminal__color"));
-            var oldInitialTerminal = angular.element(document.querySelector(".scheme-terminal__color"));
-            oldInitialTerminal[0].remove('scheme-terminal__color');
-          }
-          vm.startCoordinate.latitude = cellIndex;
-          vm.startCoordinate.longitude = rowIndex;
-          event.target.classList.add("scheme-terminal","scheme-terminal__color");
-          event.target.innerHTML = '<span class="scheme-terminal__dialog">Ваш терминал</span>';
-          break;
-        case 'building':
-          if(Object.keys(vm.startCoordinate).length) {
-            var oldInitialBuilding = angular.element(document.getElementById(vm.startCoordinate.longitude + "_" + vm.startCoordinate.latitude ));
-            oldInitialBuilding[0].remove('scheme-building__color');
-            vm.startCoordinate = {};
-          }
-          vm.startCoordinate.latitude = cellIndex;
-          vm.startCoordinate.longitude = rowIndex;
-          event.target.setAttribute("id", rowIndex + "_"+ cellIndex);
-          event.target.classList.add("scheme-building","scheme-building__color");
-          event.target.innerHTML = '<span class="scheme-building__dialog">Вход в здание: ' + vm.name + '</span>';
-          break;
-        case 'room':
-          if(Object.keys(vm.startCoordinate).length) {
-            var oldInitialBuilding = angular.element(document.getElementById(vm.startCoordinate.longitude + "_" + vm.startCoordinate.latitude ));
-            oldInitialBuilding[0].remove('scheme-room__color');
-            vm.startCoordinate = {};
-          }
-          vm.startCoordinate.latitude = cellIndex;
-          vm.startCoordinate.longitude = rowIndex;
-          event.target.setAttribute("id", rowIndex + "_"+ cellIndex);
-          event.target.classList.add("scheme-room","scheme-room__color");
-          event.target.innerHTML = '<span class="scheme-room__dialog">Комната №: ' + vm.name + '</span>';
-          break;
-        case 'entrance':
-          if(Object.keys(vm.startCoordinate).length) {
-            var oldInitialBuilding = angular.element(document.getElementById(vm.startCoordinate.longitude + "_" + vm.startCoordinate.latitude ));
-            oldInitialBuilding[0].remove('scheme-entrance__color');
-            vm.startCoordinate = {};
-          }
-          vm.startCoordinate.latitude = cellIndex;
-          vm.startCoordinate.longitude = rowIndex;
-          event.target.setAttribute("id", rowIndex + "_"+ cellIndex);
-          event.target.classList.add("scheme-entrance","scheme-entrance__color");
-          event.target.innerHTML = '<span class="scheme-entrance__dialog">Вход/Выход</span>';
-          break;
-      }
+    vm.ctx.clearRect(0, 0, vm.canvas.width, vm.canvas.height);
+    vm.ctx.putImageData(vm.tmpImgData, 0, 0);
+
+    switch (vm.name) {
+      case 'terminal':
+        vm.ctx.fillStyle = "#336600";
+        vm.ctx.fillRect(x, y, 6, 6);
+        break;
+      case 'building':
+        vm.ctx.fillStyle = "#00FFFF";
+        vm.ctx.fillRect(x, y, 6, 6);
+        break;
+      case 'room':
+        vm.ctx.fillStyle = "#FFFF00";
+        vm.ctx.fillRect(x, y, 6, 6);
+        break;
+      case 'entrance':
+        vm.ctx.fillStyle = "#606060";
+        vm.ctx.fillRect(x, y, 6, 6);
+        break;
     }
+    vm.coordinate.longitude = Math.round(x);
+    vm.coordinate.latitude = Math.round(y);
+    console.log(vm.coordinate);
   }
 
 
