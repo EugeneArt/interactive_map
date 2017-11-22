@@ -31,23 +31,23 @@ function routeComponentController(findPathEntity, imageEntity,  FLOOR_ID) {
     findPathEntity.fetchAll(params).then(success, fail);
 
     function success(result) {
-      var path = result[0];
-      var terminal = result[0].current_floor.terminal.coordinate;
-      var endpoint = path.coordinate;
-      var img_id = result[0].current_floor.map.image;
-
-      var graph = new Graph(path.current_floor.graph);
-
-      var start = graph.grid[terminal.longitude][terminal.latitude];
-	  var end = graph.grid[endpoint.longitude][endpoint.latitude];
-
-	  var route = astar.search(graph, start, end);
-	  console.log(route);
-
-      imageEntity.fetchOne(img_id).then(function (result) {
-        vm.createGraph(result.image, result.widthOfImage, result.heightOfImage, route);
-      });
-
+      // var path = result[0];
+      // var terminal = result[0].current_floor.terminal.coordinate;
+      // var endpoint = path.coordinate;
+      // var img_id = result[0].current_floor.map.image;
+      //
+      // var graph = new Graph(path.current_floor.graph);
+      //
+      // var start = graph.grid[terminal.longitude][terminal.latitude];
+      // var end = graph.grid[endpoint.longitude][endpoint.latitude];
+      //
+      // var route = astar.search(graph, start, end);
+      // console.log(route);
+      //
+      // imageEntity.fetchOne(img_id).then(function (result) {
+      //   vm.createGraph(result.image, result.widthOfImage, result.heightOfImage, route);
+      // });
+      console.log(result);
     }
 
     function fail(error) {

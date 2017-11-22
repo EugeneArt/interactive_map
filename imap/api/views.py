@@ -58,26 +58,36 @@ class FindPathView(APIView):
         from_floor_id = request.query_params.get('floor')
         to_room_id = request.query_params.get('room')
 
+        # get the room which's looking for
+        room = Room.objects.get(pk=to_room_id)
+        room_coordinate__serializer = CoordinateSerializer(room.coordinate)
+
         # get current floor
         current_floor = Floor.objects.get(pk=from_floor_id)
-        current_floor_number = current_floor.number
+        current_floor_serializer = FloorSerializer(current_floor)
 
-        # get the room you are looking for
-        room = Room.objects.get(pk=to_room_id)
-        coordinate_room_serializer = CoordinateSerializer(room.coordinate)
-        floor_serializer = FloorSerializer(room.floor)
-        floor_number = room.floor.number
+        # get a floor where is room located
+        other_floor = Floor.objects.get(pk=room.floor.id)
+        other_floor_serializer = FloorSerializer(other_floor)
 
-        if current_floor_number - floor_number == 0:
+
+        if (current_floor.number - other_floor.number == 0) and (current_floor.building.name == other_floor.building.name):
             return Response([{
-                'current_floor': floor_serializer.data,
-                'coordinate': coordinate_room_serializer.data
+                'currentFloor': current_floor_serializer.data,
+                'roomCoordinate': room_coordinate__serializer.data
+            }])
+        elif(current_floor.number - other_floor.number != 0) and (current_floor.building.name == other_floor.building.name):
+            return Response([{
+                'currentFloor': current_floor_serializer.data,
+                'otherFloor': other_floor_serializer.data,
+                'roomCoordinate': room_coordinate__serializer.data
             }])
         else:
             return Response([{
-                'current_floor': current_floor.data,
-                'floor': floor_serializer.data,
-                'coordinate': coordinate_room_serializer.data
+                'currentFloor': current_floor_serializer.data,
+                'otherFloor': other_floor_serializer.data,
+                'roomCoordinate': room_coordinate__serializer.data,
+                'other_building': other_floor.building.name
             }])
 
 
