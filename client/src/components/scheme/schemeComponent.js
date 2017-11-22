@@ -9,7 +9,7 @@ angular
     })
 ;
 
-function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
+function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $scope) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -48,6 +48,8 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
       vm.scheme.append(vm.canvas);
       var ctx = vm.canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
+      vm.showForm = true;
+      $scope.$apply();
     }).catch(function (img) {
       console.log(img);
     });

@@ -3,8 +3,8 @@
     <div class="category__item_label">Загрузите изображение карты</div>
     <input type="file" nv-file-select="" uploader="$ctrl.uploader" />
 </div>
-
-<div class="scheme">
+<div id="scheme"></div>
+<div class="scheme" ng-if="$ctrl.showForm">
     <form name="schemeForm" >
          <div class="schemeform__item">
             <div class="category__item_label">Название карты улицы</div>
@@ -12,7 +12,6 @@
         </div>
         <button ng-click="$ctrl.saveScheme()">Сохранить карту</button>
     </form>
-    <div id="scheme"></div>
     <div class="buildings">
         <building-form-component ng-repeat="building in $ctrl.model.buildings" building="building"></building-form-component>
         <button ng-click="$ctrl.addBuilding()">Добавить здание</button>
