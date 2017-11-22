@@ -28,43 +28,20 @@ class BuildingSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class SchemeSerializer(serializers.ModelSerializer):
-    map = MapSerializer()
     buildings = BuildingSerializer(many=True)
-    graph = serializers.SerializerMethodField()
 
     class Meta:
         model = Scheme
         fields = ('__all__')
 
-    def get_graph(self, obj):
-        # read pickle from file
-        with open(obj.map.path_to_graph, 'rb') as f:
-            return pickle.load(f)
-
     def create(self, validated_data):
         # get buildings
         buildings = validated_data.pop('buildings')
 
-        # data for map entity
-        map = validated_data.get('map')
-        image_obj = map.get('image')
-
-        #add graph frome request to file
-        data = self.context['request'].data.get('graph')
-
-        filename = MEDIA_ROOT + '/graphs/' + str(image_obj.id) + '.txt'
-
-        # write pickle to file
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-        with open(filename, 'wb+') as f:
-            pickle.dump(data, f)
-
-        # create map entity
-        mapObj = Map.objects.create(name=map.get('name'), image=image_obj, path_to_graph=filename)
-
         # create scheme entity
         name = validated_data.get('name')
-        scheme = Scheme.objects.create(name=name, map=mapObj)
+        map = validated_data.get('map')
+        scheme = Scheme.objects.create(name=name, map=map)
 
         # create buildings
         for building in buildings:
