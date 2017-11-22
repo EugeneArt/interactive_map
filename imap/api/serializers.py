@@ -59,19 +59,12 @@ class RoomSerializer(serializers.ModelSerializer):
 
 class FloorSerializer(serializers.ModelSerializer):
     entrance = CoordinateSerializer()
-    rooms = RoomSerializer(many=True)
-    map = MapSerializer()
-    graph = serializers.SerializerMethodField()
     terminal = TerminalSerializer(required=False)
+    rooms = RoomSerializer(many=True)
 
     class Meta:
         model = Floor
         fields = ('__all__')
-
-    def get_graph(self, obj):
-        # read pickle from file
-        with open(obj.map.path_to_graph, 'rb') as f:
-            return pickle.load(f)
 
     def create(self, validated_data):
         #create entrance coordinate
@@ -88,30 +81,11 @@ class FloorSerializer(serializers.ModelSerializer):
         else:
             terminal_obj = None
 
-        # data for map entity
-        map = validated_data.get('map')
-        imageObj = map.get('image')
-
-        # write graph to file
-        image_id = validated_data.get('map')['image'].id
-
-        #add graph frome request to file
-        data = self.context['request'].data.get('graph')
-
-        filename = MEDIA_ROOT + '/graphs/' + str(image_id) + '.txt'
-
-        # write pickle to file
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-        with open(filename, 'wb+') as f:
-            pickle.dump(data, f)
-
-        # create map entity
-        mapObj = Map.objects.create(name=map.get('name'), image=imageObj, path_to_graph=filename)
-
         # create floor entity
         number = validated_data.get('number')
         building = validated_data.get('building')
-        floor = Floor.objects.create(number=number, building=building, map=mapObj, entrance=entrance_coordinate_obj, terminal=terminal_obj)
+        map = validated_data.get('map')
+        floor = Floor.objects.create(number=number, building=building, map=map, entrance=entrance_coordinate_obj, terminal=terminal_obj)
 
         # get rooms
         rooms = validated_data.pop('rooms')
