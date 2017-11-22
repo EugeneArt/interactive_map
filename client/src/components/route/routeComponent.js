@@ -36,11 +36,6 @@ function routeComponentController(findPathEntity, imageEntity,  FLOOR_ID) {
       var endpoint = path.coordinate;
       var img_id = result[0].current_floor.map.image;
 
-      imageEntity.fetchOne(img_id).then(function (result) {
-        vm.createGraph(result.image, result.widthOfImage, result.heightOfImage);
-      });
-
-
       var graph = new Graph(path.current_floor.graph);
 
       var start = graph.grid[terminal.longitude][terminal.latitude];
@@ -48,6 +43,10 @@ function routeComponentController(findPathEntity, imageEntity,  FLOOR_ID) {
 
 	  var route = astar.search(graph, start, end);
 	  console.log(route);
+
+      imageEntity.fetchOne(img_id).then(function (result) {
+        vm.createGraph(result.image, result.widthOfImage, result.heightOfImage, route);
+      });
 
     }
 
@@ -58,7 +57,7 @@ function routeComponentController(findPathEntity, imageEntity,  FLOOR_ID) {
 
   }
 
-  function createGraph(image, widthOfImage, heightOfImage) {
+  function createGraph(image, widthOfImage, heightOfImage, route) {
       vm.scheme.css('background-image',  'url(' + image + ')');
       var width = Math.ceil(widthOfImage/10);
       var heigth = Math.ceil(heightOfImage/10);
@@ -69,11 +68,16 @@ function routeComponentController(findPathEntity, imageEntity,  FLOOR_ID) {
       for (var h = 0; h < heigth; h++ ) {
         var tr = angular.element('<tr></tr>');
         for(var w = 0; w < width; w++) {
-             var td = angular.element('<td></td>');
+             var td = angular.element('<td id="map_'+ h + w + '"></td>');
              tr.append(td)
         }
         vm.schemeArea.append(tr);
       }
+       route.forEach(function (item) {
+            var cell = document.getElementById('map_' + item.x + item.y);
+            cell.style.backgroundColor = "red";
+        });
+
   }
   
   

@@ -1,32 +1,32 @@
 angular
-  .module('app')
-  .component('schemeComponent', {
-    templateUrl: '/src/components/scheme/schemeView.html',
-    bindings: {
+    .module('app')
+    .component('schemeComponent', {
+      templateUrl: '/src/components/scheme/schemeView.html',
+      bindings: {
         schemelist: '<'
-    },
-    controller: schemeComponentController
-  })
+      },
+      controller: schemeComponentController
+    })
 ;
 
 function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
 
   var vm = this;
   vm.$onInit = onInit;
-  vm.createGraph = createGraph;
+  vm.createMap = createMap;
   vm.saveScheme = saveScheme;
   vm.addBuilding = addBuilding;
+  vm.getImage = getImage;
 
   vm.uploader = new FileUploader({
-    url: API_ENDPOINT + 'imagelist/',
+    url: API_ENDPOINT + 'map/',
     alias: 'image',
     autoUpload: true,
     headers: {},
     onSuccessItem: function (file, response) {
-        vm.model.map.image = response.id;
-        console.log(response);
-        vm.createGraph(response.image, response.widthOfImage, response.heightOfImage);
-        vm.showForm = true;
+      vm.model.map.image = response.id;
+      console.log(response);
+      createMap(response.image);
     }
   });
 
@@ -35,38 +35,37 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
     vm.model.map = {};
     vm.model.buildings = [];
     vm.scheme = angular.element(document.querySelector("#scheme"));
-    vm.schemeArea = angular.element(document.querySelector("#scheme-area"));
+    vm.canvas = document.createElement("canvas");
+    vm.canvas.id = "container";
     vm.showForm = false;
-    vm.model.graph = [];
   }
-  
-  function createGraph(image, widthOfImage, heightOfImage) {
-      vm.scheme.css('background-image',  'url(' + image + ')');
-      var width = Math.ceil(widthOfImage/10);
-      var heigth = Math.ceil(heightOfImage/10);
 
-      /*
-        fill graph
-       */
-      for (var i = 0; i < heigth; i++ ) {
-        vm.model.graph[i] = [];
-        for(var j = 0; j < width; j++) {
-            vm.model.graph[i][j] = 1;
-        }
-      }
+  function createMap(url) {
+    getImage(url).then(function (img) {
+      //create canvas
+      var width = img.width;
+      var height = img.height;
+      vm.canvas.width = width % 2 === 0 ? width - 1 : width;
+      vm.canvas.height = height;
+      vm.scheme.append(vm.canvas);
+      var ctx = vm.canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+    }).catch(function (img) {
+      console.log(img);
+    });
+  }
 
-      /*
-        create graph' table
-       */
-      for (var h = 0; h < heigth; h++ ) {
-        var tr = angular.element('<tr></tr>');
-        for(var w = 0; w < width; w++) {
-             var td = angular.element('<td></td>');
-             tr.append(td)
-        }
-        vm.schemeArea.append(tr);
-      }
-       vm.showBtnSetInitialCoordinate = true;
+  function getImage(url) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image();
+      img.onload = function () {
+        resolve(img)
+      };
+      img.onerror = function () {
+        reject(img)
+      };
+      img.src = url
+    })
   }
 
   function addBuilding() {
@@ -77,9 +76,6 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
   function saveScheme() {
     vm.model.$save();
   }
-  
-
-
 
 
 }
