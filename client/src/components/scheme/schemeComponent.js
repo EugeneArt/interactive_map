@@ -9,7 +9,7 @@ angular
     })
 ;
 
-function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $scope) {
+function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $scope, $state) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -75,7 +75,9 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $sc
   }
 
   function saveScheme() {
-    vm.model.$save();
+    vm.model.$save().then(function () {
+      $state.reload();
+    });
   }
 
 }

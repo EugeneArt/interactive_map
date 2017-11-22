@@ -9,7 +9,7 @@ angular
     })
 ;
 
-function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope) {
+function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -84,8 +84,9 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scop
     if (!Object.keys(vm.model.terminal.coordinate).length) {
       delete vm.model.terminal;
     }
-    console.log(vm.model);
-    vm.model.$save();
+    vm.model.$save().then(function () {
+      $state.reload();
+    });
   }
 
 }
