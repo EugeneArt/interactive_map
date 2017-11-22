@@ -24,14 +24,13 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT) {
     autoUpload: true,
     headers: {},
     onSuccessItem: function (file, response) {
-      vm.model.map.image = response.id;
+      vm.model.map = response.id;
       createMap(response.image);
     }
   });
 
   function onInit() {
     vm.model = new schemeEntity();
-    vm.model.map = {};
     vm.model.buildings = [];
     vm.scheme = angular.element(document.querySelector("#scheme"));
     vm.canvas = document.createElement("canvas");
