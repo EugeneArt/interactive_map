@@ -90,6 +90,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
       };
       img.src = url;
       img.setAttribute('crossOrigin', '');
+      img.crossOrigin = "Anonymous";
     })
   }
 

@@ -18,6 +18,7 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scop
   vm.saveScheme = saveScheme;
   vm.addRoom = addRoom;
   vm.addTerminal = addTerminal;
+  vm.addPassageway = addPassageway;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'map/',
@@ -78,6 +79,11 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scop
   function addTerminal() {
     vm.model.terminal = {};
     vm.model.terminal.coordinate = {};
+  }
+  
+  function addPassageway() {
+    vm.model.passageway = {};
+    vm.model.passageway.coordinate = {};
   }
 
   function saveScheme() {

@@ -3,6 +3,10 @@
         <div class="category__item_label">Название здания</div>
         <input name="name" ng-model="$ctrl.building.name">
      </div>
+    <div>
+        <label for="isPassageway">Проход в здание</label>
+        <input type="checkbox" id="isPassageway" ng-model="$ctrl.building.isPassageway">
+    </div>
     Укажите координаты здания
     <select-coordinate-component
         coordinate="$ctrl.building.coordinate"

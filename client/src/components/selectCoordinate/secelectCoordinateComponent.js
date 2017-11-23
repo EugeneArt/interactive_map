@@ -22,6 +22,7 @@ function selectCoordinateComponentController() {
     vm.entrance = {};
     vm.building = {};
     vm.room = {};
+    vm.passageway = {};
     vm.rectWidht = 6;
     vm.rectHeight = 6;
     vm.canvas = document.querySelector("#container");
@@ -71,7 +72,7 @@ function selectCoordinateComponentController() {
         if (Object.keys(vm.room).length) {
           vm.ctx.clearRect(vm.room.x, vm.room.y, vm.rectWidht, vm.rectHeight);
         }
-        vm.room.x = vm.coordinate.y;
+        vm.room.x = vm.coordinate.x;
         vm.room.y = vm.coordinate.y;
 
         vm.ctx.fillStyle = "#FFFF00";
@@ -85,6 +86,16 @@ function selectCoordinateComponentController() {
         vm.entrance.y = vm.coordinate.y;
 
         vm.ctx.fillStyle = "#606060";
+        vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
+        break;
+      case 'passageway':
+        if (Object.keys(vm.passageway).length) {
+          vm.ctx.clearRect(vm.passageway.x, vm.passageway.y, 6, 6);
+        }
+        vm.passageway.x = vm.coordinate.x;
+        vm.passageway.y = vm.coordinate.y;
+
+        vm.ctx.fillStyle = "#791fd4";
         vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
         break;
     }

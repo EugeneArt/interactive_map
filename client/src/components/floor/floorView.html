@@ -32,6 +32,19 @@
         </div>
     </div>
 
+    <div class="passageway">
+        <div class="passageway__btn_add" ng-click="$ctrl.addPassageway()">
+            <button>Добавить проход</button>
+        </div>
+        <div class="passageway___coordinates" ng-if="$ctrl.model.passageway">
+            Указать координаты прохода
+            <select-coordinate-component
+                    coordinate="$ctrl.model.passageway.coordinate"
+                    name="passageway">
+            </select-coordinate-component>
+        </div>
+    </div>
+
     Указать вход/выход
     <select-coordinate-component
             coordinate="$ctrl.model.entrance"
