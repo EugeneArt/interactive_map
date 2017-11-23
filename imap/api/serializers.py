@@ -78,7 +78,7 @@ class FloorSerializer(serializers.ModelSerializer):
         entrance_coordinate = validated_data.get('entrance')
         entrance_coordinate_obj = Coordinate.objects.create(**entrance_coordinate)
 
-        # create entrance coordinate
+        # create terminal coordinate
         terminal = validated_data.get('terminal')
 
         if terminal:
@@ -88,11 +88,21 @@ class FloorSerializer(serializers.ModelSerializer):
         else:
             terminal_obj = None
 
+        # create passageway coordinate
+        passageway = validated_data.get('passageway')
+
+        if passageway:
+            passageway_coordinate = passageway.get('coordinate')
+            passageway_coordinate_obj = Coordinate.objects.create(**passageway_coordinate)
+            passageway_obj = Passageway.objects.create(coordinate=passageway_coordinate_obj)
+        else:
+            passageway_obj = None
+
         # create floor entity
         number = validated_data.get('number')
         building = validated_data.get('building')
         map = validated_data.get('map')
-        floor = Floor.objects.create(number=number, building=building, map=map, entrance=entrance_coordinate_obj, terminal=terminal_obj)
+        floor = Floor.objects.create(number=number, building=building, map=map, entrance=entrance_coordinate_obj, terminal=terminal_obj, passageway=passageway_obj)
 
         # get rooms
         rooms = validated_data.pop('rooms')
