@@ -42,6 +42,12 @@
                     coordinate="$ctrl.model.passageway.coordinate"
                     name="passageway">
             </select-coordinate-component>
+            <div class="floorform__item">
+                <div class="floor__item_label">Выберите здание к которому ведет проход</div>
+                <select name="building" id="toBuildingId" ng-model="$ctrl.model.passageway.toBuildingId">
+                    <option ng-repeat="option in $ctrl.buildings" value="{{option.id}}">{{option.name}}</option>
+                </select>
+            </div>
         </div>
     </div>
 
