@@ -92,9 +92,9 @@ class FloorSerializer(serializers.ModelSerializer):
         passageway = validated_data.get('passageway')
 
         if passageway:
-            passageway_coordinate = passageway.get('coordinate')
+            passageway_coordinate = passageway.pop('coordinate')
             passageway_coordinate_obj = Coordinate.objects.create(**passageway_coordinate)
-            passageway_obj = Passageway.objects.create(coordinate=passageway_coordinate_obj)
+            passageway_obj = Passageway.objects.create(coordinate=passageway_coordinate_obj, **passageway)
         else:
             passageway_obj = None
 
