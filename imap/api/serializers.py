@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Scheme, Building, Map, Coordinate, Room, Floor, Terminal
+from .models import Scheme, Building, Map, Coordinate, Room, Floor, Terminal, Passageway
 from PIL import Image
 import pickle
 import os
@@ -19,6 +19,12 @@ class TerminalSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
     class Meta:
         model = Terminal
+        fields = ('__all__')
+
+class PassagewaySerializer(serializers.ModelSerializer):
+    coordinate = CoordinateSerializer()
+    class Meta:
+        model = Passageway
         fields = ('__all__')
 
 class BuildingSerializer(serializers.ModelSerializer):
@@ -60,6 +66,7 @@ class RoomSerializer(serializers.ModelSerializer):
 class FloorSerializer(serializers.ModelSerializer):
     entrance = CoordinateSerializer()
     terminal = TerminalSerializer(required=False)
+    passageway = PassagewaySerializer(required=False)
     rooms = RoomSerializer(many=True)
 
     class Meta:

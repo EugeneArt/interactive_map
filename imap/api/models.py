@@ -20,6 +20,12 @@ class Terminal(models.Model):
     def __str__(self):
         return "{}".format(self.id)
 
+class Passageway(models.Model):
+    coordinate = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{}".format(self.id)
+
 class Scheme(models.Model):
     name = models.CharField(max_length=128, blank=True, null=True, default=None)
     map = models.OneToOneField(Map, on_delete=models.CASCADE)
@@ -29,6 +35,7 @@ class Scheme(models.Model):
 
 class Building(models.Model):
     name = models.CharField(max_length=255)
+    isPassageway = models.BooleanField(default=False)
     scheme = models.ForeignKey(Scheme, related_name='buildings', blank=True, null=True, on_delete=models.CASCADE)
     coordinate = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
 
@@ -41,6 +48,7 @@ class Floor(models.Model):
     map = models.OneToOneField(Map, on_delete=models.CASCADE)
     entrance = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
     terminal = models.OneToOneField(Terminal, on_delete=models.CASCADE, blank=True, null=True)
+    passageway = models.OneToOneField(Passageway, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return "{}".format(self.number)
