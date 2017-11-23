@@ -22,6 +22,7 @@ class Terminal(models.Model):
 
 class Passageway(models.Model):
     coordinate = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
+    toBuildingId = models.IntegerField(default=None)
 
     def __str__(self):
         return "{}".format(self.id)
@@ -35,7 +36,7 @@ class Scheme(models.Model):
 
 class Building(models.Model):
     name = models.CharField(max_length=255)
-    isPassageway = models.BooleanField(default=False)
+    passagewayFloorNumber = models.IntegerField(blank=True, null=True)
     scheme = models.ForeignKey(Scheme, related_name='buildings', blank=True, null=True, on_delete=models.CASCADE)
     coordinate = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
 
