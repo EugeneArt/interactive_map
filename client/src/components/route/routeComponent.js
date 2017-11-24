@@ -13,6 +13,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
   vm.$onInit = onInit;
   vm.getPath = getPath;
   vm.createMap = createMap;
+  vm.createSlide = createSlide;
   vm.getImage = getImage;
   vm.createBinaryArray = createBinaryArray;
   vm.drawPath = drawPath;
@@ -41,131 +42,39 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
       vm.roomCoordinate = data.roomCoordinate;
       vm.currentFloor = data.currentFloor;
       vm.otherFloor = data.otherFloor;
+      vm.currentPassagewayFloor = data.currentPassagewayFloor;
+      vm.otherPassagewayFloor = data.otherPassagewayFloor;
 
       console.log(data.case);
       console.log(data);
 
       switch (data.case) {
         case 0:
-          mapEntity.fetchOne(vm.currentFloor.map).then(function (response) {
-            var containerCase0 = document.createElement("div");
-            containerCase0.className = 'map__item map__item_active';
-            vm.mapSlides.push(containerCase0);
-            vm.mapContainer.append(containerCase0);
-            createMap(containerCase0, response.image, vm.currentFloor.terminal.coordinate, vm.roomCoordinate);
-          });
+          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate);
           break;
         case 1:
-          mapEntity.fetchOne(vm.currentFloor.map).then(function (response) {
-            var containerCase0 = document.createElement("div");
-            containerCase0.className = 'map__item map__item_active';
-            vm.mapSlides.push(containerCase0);
-            vm.mapContainer.append(containerCase0);
-            createMap(containerCase0, response.image, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
-          });
-          mapEntity.fetchOne(vm.otherFloor.map).then(function (response) {
-            var containerCase1 = document.createElement("div");
-            containerCase1.className = 'map__item';
-            vm.mapSlides.push(containerCase1);
-            vm.mapContainer.append(containerCase1);
-            createMap(containerCase1, response.image, vm.otherFloor.entrance, vm.roomCoordinate);
-          });
+          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
+          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
           break;
         case 2:
-          mapEntity.fetchOne(vm.currentFloor.map).then(function (response) {
-            var containerCase0 = document.createElement("div");
-            containerCase0.className = 'map__item map__item_active';
-            vm.mapSlides.push(containerCase0);
-            vm.mapContainer.append(containerCase0);
-            createMap(containerCase0, response.image, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
-          });
-          mapEntity.fetchOne(vm.otherFloor.map).then(function (response) {
-            var containerCase1 = document.createElement("div");
-            containerCase1.className = 'map__item';
-            vm.mapSlides.push(containerCase1);
-            vm.mapContainer.append(containerCase1);
-            createMap(containerCase1, response.image, vm.otherFloor.entrance, vm.roomCoordinate);
-          });
+          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate);
+          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
           break;
         case 3:
-          mapEntity.fetchOne(vm.currentFloor.map).then(function (response) {
-            var containerCase0 = document.createElement("div");
-            containerCase0.className = 'map__item map__item_active';
-            vm.mapSlides.push(containerCase0);
-            vm.mapContainer.append(containerCase0);
-            createMap(containerCase0, response.image, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
-          });
-          vm.currentPassagewayFloor = data.currentPassagewayFloor;
-          mapEntity.fetchOne(vm.currentPassagewayFloor.map).then(function (response) {
-            var containerCase1 = document.createElement("div");
-            containerCase1.className = 'map__item';
-            vm.mapSlides.push(containerCase1);
-            vm.mapContainer.append(containerCase1);
-            createMap(containerCase1, response.image, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate);
-          });
-          mapEntity.fetchOne(vm.otherFloor.map).then(function (response) {
-            var containerCase2 = document.createElement("div");
-            containerCase2.className = 'map__item';
-            vm.mapSlides.push(containerCase2);
-            vm.mapContainer.append(containerCase2);
-            createMap(containerCase2, response.image, vm.otherFloor.entrance, vm.roomCoordinate);
-          });
+          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
+          createSlide(vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate);
+          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
           break;
         case 4:
-          mapEntity.fetchOne(vm.currentFloor.map).then(function (response) {
-            var containerCase0 = document.createElement("div");
-            containerCase0.className = 'map__item map__item_active';
-            vm.mapSlides.push(containerCase0);
-            vm.mapContainer.append(containerCase0);
-            createMap(containerCase0, response.image, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
-          });
-          vm.otherPassagewayFloor = data.otherPassagewayFloor;
-          mapEntity.fetchOne(vm.otherPassagewayFloor.map).then(function (response) {
-            var containerCase1 = document.createElement("div");
-            containerCase1.className = 'map__item';
-            vm.mapSlides.push(containerCase1);
-            vm.mapContainer.append(containerCase1);
-            createMap(containerCase1, response.image, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate);
-          });
-          mapEntity.fetchOne(vm.otherFloor.map).then(function (response) {
-            var containerCase2 = document.createElement("div");
-            containerCase2.className = 'map__item';
-            vm.mapSlides.push(containerCase2);
-            vm.mapContainer.append(containerCase2);
-            createMap(containerCase2, response.image, vm.otherFloor.entrance, vm.roomCoordinate);
-          });
+          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
+          createSlide(vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate);
+          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
           break;
         case 5:
-          mapEntity.fetchOne(vm.currentFloor.map).then(function (response) {
-            var containerCase0 = document.createElement("div");
-            containerCase0.className = 'map__item map__item_active';
-            vm.mapSlides.push(containerCase0);
-            vm.mapContainer.append(containerCase0);
-            createMap(containerCase0, response.image, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
-          });
-          vm.currentPassagewayFloor = data.currentPassagewayFloor;
-          mapEntity.fetchOne(vm.currentPassagewayFloor.map).then(function (response) {
-            var containerCase1 = document.createElement("div");
-            containerCase1.className = 'map__item';
-            vm.mapSlides.push(containerCase1);
-            vm.mapContainer.append(containerCase1);
-            createMap(containerCase1, response.image, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate);
-          });
-          vm.otherPassagewayFloor = data.otherPassagewayFloor;
-          mapEntity.fetchOne(vm.otherPassagewayFloor.map).then(function (response) {
-            var containerCase2 = document.createElement("div");
-            containerCase2.className = 'map__item';
-            vm.mapSlides.push(containerCase2);
-            vm.mapContainer.append(containerCase2);
-            createMap(containerCase2, response.image, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate);
-          });
-          mapEntity.fetchOne(vm.otherFloor.map).then(function (response) {
-            var containerCase3 = document.createElement("div");
-            containerCase3.className = 'map__item';
-            vm.mapSlides.push(containerCase3);
-            vm.mapContainer.append(containerCase3);
-            createMap(containerCase3, response.image, vm.otherFloor.entrance, vm.roomCoordinate);
-          });
+          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
+          createSlide(vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate);
+          createSlide(vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate);
+          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
           break;
       }
     }
@@ -173,6 +82,17 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     function fail(error) {
       console.log(error);
     }
+  }
+
+  function createSlide(floor, start, end) {
+     mapEntity.fetchOne(floor.map).then(function (response) {
+        var container = document.createElement("div");
+        var isActive = floor.id == FLOOR_ID;
+        container.className = isActive? 'map__item map__item_active': 'map__item';
+        vm.mapSlides.push(container);
+        vm.mapContainer.append(container);
+        createMap(container, response.image, start, end);
+    });
   }
 
   function createMap(container, url, start, end) {
@@ -201,9 +121,8 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
       img.onerror = function () {
         reject(img)
       };
+      img.crossOrigin = 'anonymous';
       img.src = url;
-      img.setAttribute('crossOrigin', '');
-      img.crossOrigin = "Anonymous";
     })
   }
 
@@ -239,7 +158,6 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     var endCoordinate = graph.grid[end.y][end.x];
 
     var path = astar.search(graph, startCoordinate, endCoordinate);
-    console.log(graph, path);
 
     var ctx = canvas.getContext("2d");
     ctx.fillStyle = "#00ff00";
