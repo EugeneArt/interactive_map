@@ -13,14 +13,10 @@
     </div>
     <div class="search__btn" ng-click="$ctrl.getPath()"><a href ng-if="$ctrl.selectedRoom">Построить маршрут</a></div>
 </div>
-
-<div id="currentFloor" ng-if="$ctrl.currentFloor">
-    <h1>Этаж {{$ctrl.currentFloor.number}}</h1>
-    <span>Вы находитесь здесь</span>
+<div class="map__navigation">
+    <div class="map__navigation__tool map__navigation__tool_left" ng-click="$ctrl.slideToLeft()"><i class="glyphicon glyphicon-chevron-left"></i></div>
+    <div class="map__navigation__tool map__navigation__tool_right" ng-click="$ctrl.slideToRight()"><i class="glyphicon glyphicon-chevron-right"></i></div>
 </div>
+<div id="mapContainer"></div>
 
-<div id="otherFloor" ng-if="$ctrl.otherFloor">
-    <h1>Пройдите к выходу и проследуйте на этаж {{$ctrl.otherFloor.number}}</h1>
-    <h1>Этаж {{$ctrl.otherFloor.number}}</h1>
-</div>
 

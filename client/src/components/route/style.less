@@ -10,3 +10,20 @@
     }
   }
 }
+.map__navigation {
+  display: flex;
+  justify-content: space-between;
+  .map__navigation__tool{
+    font-size: 3rem;
+    padding: 20px;
+    cursor: pointer;
+  }
+}
+#mapContainer {
+  .map__item {
+    display: none;
+  }
+  .map__item.map__item_active {
+    display: block;
+  }
+}
