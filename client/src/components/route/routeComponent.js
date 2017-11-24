@@ -46,35 +46,34 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
       vm.otherPassagewayFloor = data.otherPassagewayFloor;
 
       console.log(data.case);
-      console.log(data);
 
       switch (data.case) {
         case 0:
-          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate);
+          createSlide("Пройдите в комнату", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate, 0);
           break;
         case 1:
-          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
-          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
+          createSlide("Пройдите к лифту", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance, 0);
+          createSlide("Пройдите в комнату", vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 1);
           break;
         case 2:
-          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate);
-          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
+          createSlide("Пройдите в проход", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate, 0);
+          createSlide("Пройдите в комнату", vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 1);
           break;
         case 3:
-          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
-          createSlide(vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate);
-          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
+          createSlide("Пройдите к лифту", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance, 0);
+          createSlide("Пройдите в проход", vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate, 1);
+          createSlide("Пройдите в комнату",vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 2);
           break;
         case 4:
-          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
-          createSlide(vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate);
-          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
+          createSlide("Пройдите к лифту", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance, 0);
+          createSlide("Пройдите в проход", vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate, 1);
+          createSlide("Пройдите в комнату", vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 2);
           break;
         case 5:
-          createSlide(vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance);
-          createSlide(vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate);
-          createSlide(vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate);
-          createSlide(vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate);
+          createSlide("Пройдите к лифту", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance, 0);
+          createSlide("Пройдите в проход", vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate, 1);
+          createSlide("Пройдите к лифту", vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate, 2);
+          createSlide("Пройдите в комнату", vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 3);
           break;
       }
     }
@@ -84,12 +83,16 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     }
   }
 
-  function createSlide(floor, start, end) {
+  function createSlide(text, floor, start, end, slide) {
      mapEntity.fetchOne(floor.map).then(function (response) {
         var container = document.createElement("div");
+        var h1 = document.createElement("h1");
         var isActive = floor.id == FLOOR_ID;
+
+        h1.textContent = text;
+        container.append(h1);
         container.className = isActive? 'map__item map__item_active': 'map__item';
-        vm.mapSlides.push(container);
+        vm.mapSlides[slide] = container;
         vm.mapContainer.append(container);
         createMap(container, response.image, start, end);
     });
