@@ -1,10 +1,12 @@
 from django.db import models
+from api.models import Room as Api_room
 from django.utils.safestring import mark_safe
 
 # services
 class Service(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
+    room = models.OneToOneField(Api_room, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "{}".format(self.name)
@@ -82,6 +84,7 @@ class SubTherapy(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     image = models.ImageField(upload_to='Therapy/')
+    room = models.OneToOneField(Api_room, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "{}".format(self.id)

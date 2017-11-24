@@ -62,4 +62,4 @@ class Room(models.Model):
     coordinate = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "{}".format(self.number)
+        return "{}".format(self.name)
