@@ -111,7 +111,6 @@ class FindPathView(APIView):
                     }])
                 elif (current_floor.number != current_building.passagewayFloorNumber) and (other_floor.number == other_building.passagewayFloorNumber):
                     current_passageway_floor = Floor.objects.get(building=current_building, number=current_building.passagewayFloorNumber)
-                    print(current_passageway_floor)
                     current_passageway_floor_serializer = FloorSerializer(current_passageway_floor)
                     return Response([{
                         'case': 3,
