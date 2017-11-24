@@ -96,22 +96,22 @@ class FindPathView(APIView):
                 }])
         # different buildings
         else:
-            current_building = Building.objects.get(current_floor.building.id)
+            current_building = Building.objects.get(pk=current_floor.building.id)
             current_building_serializer = BuildingSerializer(current_building)
-            other_building = Building.objects.get(other_floor.building.id)
+            other_building = Building.objects.get(pk=other_floor.building.id)
             other_building_serializer = BuildingSerializer(other_building)
-
             # building with passageway
             if current_building.passagewayFloorNumber:
-                if (current_floor.number == current_building.passagewayFloorNumber) and (other_floor.number == other_floor.passagewayFloorNumber):
+                if (current_floor.number == current_building.passagewayFloorNumber) and (other_floor.number == other_building.passagewayFloorNumber):
                     return Response([{
                         'case': 2,
                         'currentFloor': current_floor_serializer.data,
                         'otherFloor': other_floor_serializer.data,
                         'roomCoordinate': room_coordinate_serializer.data
                     }])
-                elif (current_floor.number != current_building.passagewayFloorNumber) and (other_floor.number == other_floor.passagewayFloorNumber):
-                    current_passageway_floor = Floor.objects.filter(building=current_building, number=current_building.passagewayFloorNumber)
+                elif (current_floor.number != current_building.passagewayFloorNumber) and (other_floor.number == other_building.passagewayFloorNumber):
+                    current_passageway_floor = Floor.objects.get(building=current_building, number=current_building.passagewayFloorNumber)
+                    print(current_passageway_floor)
                     current_passageway_floor_serializer = FloorSerializer(current_passageway_floor)
                     return Response([{
                         'case': 3,
@@ -120,8 +120,8 @@ class FindPathView(APIView):
                         'otherFloor': other_floor_serializer.data,
                         'roomCoordinate': room_coordinate_serializer.data
                     }])
-                elif (current_floor.number == current_building.passagewayFloorNumber) and (other_floor.number != other_floor.passagewayFloorNumber):
-                    other_passageway_floor = Floor.objects.filter(building=other_building, number=other_building.passagewayFloorNumber)
+                elif (current_floor.number == current_building.passagewayFloorNumber) and (other_floor.number != other_building.passagewayFloorNumber):
+                    other_passageway_floor = Floor.objects.get(building=other_building, number=other_building.passagewayFloorNumber)
                     other_passageway_floor_serializer = FloorSerializer(other_passageway_floor)
                     return Response([{
                         'case': 4,
@@ -130,10 +130,10 @@ class FindPathView(APIView):
                         'otherPassagewayFloor': other_passageway_floor_serializer.data,
                         'roomCoordinate': room_coordinate_serializer.data
                     }])
-                elif (current_floor.number != current_building.passagewayFloorNumber) and (other_floor.number != other_floor.passagewayFloorNumber):
-                    current_passageway_floor = Floor.objects.filter(building=current_building, number=current_building.passagewayFloorNumber)
+                elif (current_floor.number != current_building.passagewayFloorNumber) and (other_floor.number != other_building.passagewayFloorNumber):
+                    current_passageway_floor = Floor.objects.get(building=current_building, number=current_building.passagewayFloorNumber)
                     current_passageway_floor_serializer = FloorSerializer(current_passageway_floor)
-                    other_passageway_floor = Floor.objects.filter(building=other_building, number=other_building.passagewayFloorNumber)
+                    other_passageway_floor = Floor.objects.get(building=other_building, number=other_building.passagewayFloorNumber)
                     other_passageway_floor_serializer = FloorSerializer(other_passageway_floor)
                     return Response([{
                         'case': 5,
@@ -161,7 +161,7 @@ class FindPathView(APIView):
                         'map': map_serizlizer.data
                     }])
                 elif (current_floor.number > 1) and (other_floor.number == 1):
-                    current_floor_first = Floor.objects.filter(building=current_building, number=1)
+                    current_floor_first = Floor.objects.get(building=current_building, number=1)
                     current_floor_first_serializer = FloorSerializer(current_floor_first)
                     return Response([{
                         'case': 7,
@@ -174,7 +174,7 @@ class FindPathView(APIView):
                         'map': map_serizlizer.data
                     }])
                 elif (current_floor.number == 1) and (other_floor.number > 1):
-                    other_floor_first = Floor.objects.filter(building=other_building, number=1)
+                    other_floor_first = Floor.objects.get(building=other_building, number=1)
                     other_floor_first_serializer = FloorSerializer(other_floor_first)
                     return Response([{
                         'case': 8,
@@ -187,9 +187,9 @@ class FindPathView(APIView):
                         'map': map_serizlizer.data
                     }])
                 elif (current_floor.number > 1) and (other_floor.number > 1):
-                    current_floor_first = Floor.objects.filter(building=current_building, number=1)
+                    current_floor_first = Floor.objects.get(building=current_building, number=1)
                     current_floor_first_serializer = FloorSerializer(current_floor_first)
-                    other_floor_first = Floor.objects.filter(building=other_building, number=1)
+                    other_floor_first = Floor.objects.get(building=other_building, number=1)
                     other_floor_first_serializer = FloorSerializer(other_floor_first)
                     return Response([{
                         'case': 9,
