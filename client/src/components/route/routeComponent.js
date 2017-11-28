@@ -19,11 +19,14 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
   vm.drawPath = drawPath;
   vm.slideToLeft = slideToLeft;
   vm.slideToRight = slideToRight;
+  vm.zoomIn = zoomIn;
+  vm.zoomOut = zoomOut;
 
   function onInit() {
     vm.mapContainer = angular.element(document.querySelector("#mapContainer"));
     vm.mapSlides = [];
     vm.activeSide = 0;
+    vm.initialImageWidth = 1000;
   }
 
   function getPath() {
@@ -101,10 +104,10 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
   function createMap(container, url, start, end) {
     var canvas = document.createElement("canvas");
     getImage(url).then(function (img) {
-      var width = img.width;
-      var height = img.height;
-      canvas.width = width % 2 === 0 ? width - 1 : width;
-      canvas.height = height;
+      vm.imageWidth = img.width;
+      vm.imageHeight = img.height;
+      canvas.width = vm.imageWidth % 2 === 0 ? vm.imageWidth - 1 : vm.imageWidth;
+      canvas.height = vm.imageHeight;
       container.append(canvas);
       var ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
@@ -112,7 +115,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
       drawPath(canvas, arr, start, end);
     }).catch(function (img) {
       console.log(img);
-    });
+    })
   }
 
   function getImage(url) {
@@ -170,7 +173,9 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     for (var i = 0; i < path.length; i += 9) {
       ctx.fillRect(path[i].y, path[i].x, 4, 4);
     }
+
   }
+
   
   function slideToLeft() {
     if(vm.activeSide !== 0) {
@@ -187,5 +192,45 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
       vm.mapSlides[vm.activeSide].classList.add('map__item_active');
     }
   }
+  
+  function zoomIn() {
+    var canvas = document.querySelector("canvas");
+    var tmpCanvas = document.createElement("canvas");
+    tmpCanvas.width = canvas.width;
+    tmpCanvas.height = canvas.height;
+
+    var ctx = canvas.getContext("2d");
+
+    vm.initialImageWidth = vm.initialImageWidth / 2;
+    vm.newImageHeight =  vm.imageHeight / vm.imageWidth * vm.initialImageWidth;
+
+    var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    tmpCanvas.getContext("2d").putImageData(imgData, 0, 0);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(tmpCanvas, 0, 0, vm.initialImageWidth, vm.newImageHeight);
+
+  }
+
+  function zoomOut() {
+    var canvas = document.querySelector("canvas");
+    var tmpCanvas = document.createElement("canvas");
+    tmpCanvas.width = canvas.width;
+    tmpCanvas.height = canvas.height;
+
+    var ctx = canvas.getContext("2d");
+
+    vm.initialImageWidth = vm.initialImageWidth * 2;
+    vm.newImageHeight =  vm.imageHeight / vm.imageWidth * vm.initialImageWidth;
+
+    var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    tmpCanvas.getContext("2d").putImageData(imgData, 0, 0);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(tmpCanvas, 0, 0, vm.initialImageWidth, vm.newImageHeight);
+
+  }
+
+
 
 }
