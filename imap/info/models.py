@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from api.models import Room as Api_room
 from django.utils.safestring import mark_safe
@@ -71,8 +74,8 @@ class Voucher(models.Model):
     name = models.CharField(max_length=200, help_text='Название')
 
     class Meta:
-        verbose_name = 'Период'
-        verbose_name_plural = 'Периоды'
+        verbose_name = 'Путевка'
+        verbose_name_plural = 'Путевка'
 
     def __str__(self):
         return "{}".format(self.name)
@@ -105,19 +108,23 @@ class Therapy(models.Model):
     name = models.CharField(max_length=200, help_text='Название')
 
     class Meta:
-        verbose_name = 'Терапия'
-        verbose_name_plural = 'Терапия'
+        verbose_name = 'Лечение'
+        verbose_name_plural = 'Лечение'
 
     def __str__(self):
-        return "{}".format(self.name)
+        return "{}".format(self.id)
 
 
 class SubTherapy(models.Model):
-    subTherapy = models.ForeignKey(Therapy, related_name='therapy', blank=True, null=True, on_delete=models.CASCADE)
+    therapy = models.ForeignKey(Therapy, related_name='therapy', blank=True, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, help_text='Название')
     description = models.TextField(help_text='Описание')
-    video = models.FileField(upload_to='therapy/')
+    video = models.FileField(upload_to='therapy/', blank=True, null=True, default=True)
     room = models.OneToOneField(Api_room, blank=True, null=True, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Каталог лечения'
+        verbose_name_plural = 'Каталоги лечения'
 
     def __str__(self):
         return "{}".format(self.id)
