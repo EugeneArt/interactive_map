@@ -76,15 +76,14 @@ WSGI_APPLICATION = 'imap.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'imap',
-    'HOST': '127.0.0.1',
-    'PORT': '3306',
-    'USER': 'root',
-    'PASSWORD': '1111',
-}}
-
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'imap',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'USER': 'root',
+        'PASSWORD': 'root',
+    }}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -145,4 +144,3 @@ REST_FRAMEWORK = {
 # DJANGORESIZED_DEFAULT_QUALITY = 100
 # DJANGORESIZED_DEFAULT_KEEP_META = True
 # DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'PNG'
-

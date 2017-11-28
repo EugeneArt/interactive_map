@@ -27,3 +27,4 @@ node_modules/
 dist/
 interactive_map.iml
 imap/info/migrations/*
+imap/api/migrations/*
