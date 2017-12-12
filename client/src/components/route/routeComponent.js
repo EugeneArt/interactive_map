@@ -176,7 +176,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
 
   }
 
-  
+
   function slideToLeft() {
     if(vm.activeSide !== 0) {
       vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
@@ -184,7 +184,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
       vm.mapSlides[vm.activeSide].classList.add('map__item_active');
     }
   }
-  
+
   function slideToRight() {
     if((vm.mapSlides.length - 1) !== vm.activeSide) {
       vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
@@ -192,7 +192,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
       vm.mapSlides[vm.activeSide].classList.add('map__item_active');
     }
   }
-  
+
   function zoomIn() {
     var canvas = document.querySelector("canvas");
     var tmpCanvas = document.createElement("canvas");
@@ -230,7 +230,5 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     ctx.drawImage(tmpCanvas, 0, 0, vm.initialImageWidth, vm.newImageHeight);
 
   }
-
-
 
 }
