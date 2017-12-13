@@ -9,12 +9,11 @@ angular
     })
 ;
 
-function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state) {
+function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $timeout, $state) {
 
   var vm = this;
   vm.$onInit = onInit;
   vm.createMap = createMap;
-  vm.getImage = getImage;
   vm.saveScheme = saveScheme;
   vm.addRoom = addRoom;
   vm.addTerminal = addTerminal;
@@ -28,6 +27,11 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scop
     onSuccessItem: function (file, response) {
       vm.model.map = response.id;
       createMap(response.image);
+
+      //fix!!!
+      $timeout(function () {
+        vm.showForm = true;
+      }, 500);
     }
   });
 
@@ -35,40 +39,25 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scop
     vm.model = new floorEntity();
     vm.model.entrance = {};
     vm.model.rooms = [];
-    vm.scheme = angular.element(document.querySelector("#scheme"));
-    vm.canvas = document.createElement("canvas");
-    vm.canvas.id = "container";
+    vm.container = angular.element(document.querySelector("#container"));
     vm.showForm = false;
   }
 
   function createMap(url) {
-    getImage(url).then(function (img) {
-      var width = img.width;
-      var height = img.height;
-      vm.canvas.width = width % 2 === 0 ? width - 1 : width;
-      vm.canvas.height = height;
-      vm.scheme.append(vm.canvas);
-      var ctx = vm.canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      vm.showForm = true;
-      $scope.$apply();
-    }).catch(function (img) {
-      console.log(img);
-    });
-  }
+    var options = {
+      container: vm.container,
+      url: url,
+      canvas: {
+        width: 1080,
+        height: 608,
+        initialWidth: 1080,
+        scale: false
+      },
+      map: {
 
-  function getImage(url) {
-    return new Promise(function (resolve, reject) {
-      var img = new Image();
-      img.onload = function () {
-        resolve(img)
-      };
-      img.onerror = function () {
-        reject(img)
-      };
-      img.src = url;
-      img.setAttribute('crossOrigin', '');
-    })
+      }
+    };
+    var map = new canvasRouteMap.CanvasRouteMap(options);
   }
 
   function addRoom() {

@@ -36,7 +36,6 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
   }
 
   function createMap(url) {
-    this.imageMap = url;
     var options = {
       container: vm.container,
       url: url,
