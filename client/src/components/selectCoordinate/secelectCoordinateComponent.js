@@ -25,7 +25,7 @@ function selectCoordinateComponentController() {
     vm.passageway = {};
     vm.rectWidht = 6;
     vm.rectHeight = 6;
-    vm.canvas = document.querySelector("#container");
+    vm.canvas = document.querySelector("#container").childNodes[0];
     vm.angCanvas = angular.element(document.querySelector("#container"));
     vm.ctx = vm.canvas.getContext("2d");
     // vm.tmpImgData = vm.ctx.getImageData(0, 0, vm.canvas.width, vm.canvas.height);

@@ -15,6 +15,7 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
   vm.createMap = createMap;
   vm.saveScheme = saveScheme;
   vm.addBuilding = addBuilding;
+  vm.showForm = false;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'map/',
@@ -23,6 +24,7 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
     headers: {},
     onSuccessItem: function (file, response) {
       vm.model.map = response.id;
+      vm.showForm = true;
       createMap(response.image);
     }
   });
@@ -30,13 +32,13 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
   function onInit() {
     vm.model = new schemeEntity();
     vm.model.buildings = [];
-    vm.scheme = angular.element(document.querySelector("#scheme"));
+    vm.container = angular.element(document.querySelector("#container"));
   }
 
   function createMap(url) {
     this.imageMap = url;
     var options = {
-      container: vm.scheme,
+      container: vm.container,
       url: url,
       canvas: {
         width: 1080,
