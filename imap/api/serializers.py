@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Scheme, Building, Map, Coordinate, Room, Floor, Terminal, Passageway
+from info.models import Service, SubTherapy
 from PIL import Image
 import pickle
 import os
@@ -59,12 +60,20 @@ class SchemeSerializer(serializers.ModelSerializer):
 
 class RoomSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
+    service = serializers.SerializerMethodField()
+    subtherapy = serializers.SerializerMethodField()
 
     class Meta:
         model = Room
         fields = ('__all__')
 
+    def get_service(self, obj):
+        if hasattr(obj, 'service'):
+            return obj.service.name
 
+    def get_subtherapy(self, obj):
+        if hasattr(obj, 'subtherapy'):
+            return obj.subtherapy.name
 
 class FloorSerializer(serializers.ModelSerializer):
     entrance = CoordinateSerializer()
