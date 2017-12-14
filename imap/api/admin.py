@@ -38,5 +38,5 @@ class FloorAdmin(admin.ModelAdmin):
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ['number', 'name' , 'description', 'floor', 'coordinate']
+    list_display = ['number', 'floor', 'coordinate']
 
