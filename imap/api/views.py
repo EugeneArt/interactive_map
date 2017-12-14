@@ -49,7 +49,7 @@ class CreateRoomView(generics.ListCreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('number', 'name')
+    search_fields = ('service__name', 'subtherapy__name', 'number')
 
     def perform_create(self, serializer):
         serializer.save()

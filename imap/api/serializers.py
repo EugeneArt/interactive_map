@@ -59,9 +59,12 @@ class SchemeSerializer(serializers.ModelSerializer):
 
 class RoomSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
+
     class Meta:
         model = Room
         fields = ('__all__')
+
+
 
 class FloorSerializer(serializers.ModelSerializer):
     entrance = CoordinateSerializer()
