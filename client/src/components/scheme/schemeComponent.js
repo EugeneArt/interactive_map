@@ -8,7 +8,8 @@ angular
     controller: schemeComponentController
   })
 ;
-function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $state) {
+
+function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $state, $scope) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -24,7 +25,6 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
     headers: {},
     onSuccessItem: function (file, response) {
       vm.model.map = response.id;
-      vm.showForm = true;
       createMap(response.image);
     }
   });
@@ -44,12 +44,13 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
         height: 608,
         initialWidth: 1080,
         scale: false
-      },
-      map: {
-
       }
     };
     var map = new canvasRouteMap.CanvasRouteMap(options);
+    map.ready(function () {
+      vm.showForm = true;
+      $scope.$apply();
+    });
   }
 
   function addBuilding() {

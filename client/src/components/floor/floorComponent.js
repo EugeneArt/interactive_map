@@ -9,7 +9,7 @@ angular
     })
 ;
 
-function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $timeout, $state) {
+function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -27,11 +27,6 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $time
     onSuccessItem: function (file, response) {
       vm.model.map = response.id;
       createMap(response.image);
-
-      //fix!!!
-      $timeout(function () {
-        vm.showForm = true;
-      }, 500);
     }
   });
 
@@ -52,12 +47,13 @@ function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $time
         height: 608,
         initialWidth: 1080,
         scale: false
-      },
-      map: {
-
       }
     };
     var map = new canvasRouteMap.CanvasRouteMap(options);
+    map.ready(function () {
+      vm.showForm = true;
+      $scope.$apply();
+    });
   }
 
   function addRoom() {
