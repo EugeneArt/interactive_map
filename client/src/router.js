@@ -197,4 +197,17 @@ angular
               }]
             }
           })
+          .state('admin.buildingList', {
+            url: '/buildinglist',
+            permissions: false,
+            module: false,
+            template: '<building-list-component ' +
+                      'buildings="$resolve.buildings"' +
+                      '</building-list-component>',
+            resolve: {
+              buildings: ['buildingEntity', function (buildingEntity) {
+                return buildingEntity.fetchAll();
+              }]
+            }
+          })
     });
