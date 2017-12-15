@@ -201,9 +201,9 @@ angular
             url: '/floorupdate/:buildingId/:floorId',
             permissions: false,
             module: false,
-            template: '<floor-component ' +
-                      'item="$resolve.buildings">' +
-                      '</floor-component>',
+            template: '<floor-update-component ' +
+                      'model="$resolve.item">' +
+                      '</floor-update-component>',
             resolve: {
               item: ['$stateParams', 'floorEntity', function ($stateParams, floorEntity) {
                 return floorEntity.fetchOne($stateParams.floorId);
