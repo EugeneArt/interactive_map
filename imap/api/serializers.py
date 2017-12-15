@@ -28,36 +28,6 @@ class PassagewaySerializer(serializers.ModelSerializer):
         model = Passageway
         fields = ('__all__')
 
-class BuildingSerializer(serializers.ModelSerializer):
-    coordinate = CoordinateSerializer()
-
-    class Meta:
-        model = Building
-        fields = ('__all__')
-
-class SchemeSerializer(serializers.ModelSerializer):
-    buildings = BuildingSerializer(many=True)
-
-    class Meta:
-        model = Scheme
-        fields = ('__all__')
-
-    def create(self, validated_data):
-        # get buildings
-        buildings = validated_data.pop('buildings')
-
-        # create scheme entity
-        name = validated_data.get('name')
-        map = validated_data.get('map')
-        scheme = Scheme.objects.create(name=name, map=map)
-
-        # create buildings
-        for building in buildings:
-            data_coordinate = building.pop('coordinate')
-            building_coordinate = Coordinate.objects.create(**data_coordinate)
-            Building.objects.create(scheme=scheme, coordinate=building_coordinate, **building)
-
-        return scheme
 
 class RoomSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
@@ -128,10 +98,34 @@ class FloorSerializer(serializers.ModelSerializer):
 
         return floor
 
-class BuildingDetailSerializer(serializers.ModelSerializer):
+class BuildingSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
     floors = FloorSerializer(many=True)
 
     class Meta:
         model = Building
         fields = ('__all__')
+
+class SchemeSerializer(serializers.ModelSerializer):
+    buildings = BuildingSerializer(many=True)
+
+    class Meta:
+        model = Scheme
+        fields = ('__all__')
+
+    def create(self, validated_data):
+        # get buildings
+        buildings = validated_data.pop('buildings')
+
+        # create scheme entity
+        name = validated_data.get('name')
+        map = validated_data.get('map')
+        scheme = Scheme.objects.create(name=name, map=map)
+
+        # create buildings
+        for building in buildings:
+            data_coordinate = building.pop('coordinate')
+            building_coordinate = Coordinate.objects.create(**data_coordinate)
+            Building.objects.create(scheme=scheme, coordinate=building_coordinate, **building)
+
+        return scheme
