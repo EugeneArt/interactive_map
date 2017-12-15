@@ -1,1 +1,11 @@
 <h1>Список зданий</h1>
+<ul>
+    <li ng-repeat="building in $ctrl.buildings">
+        <h4>{{building.name}}</h4>
+        <ul>
+            <li ng-repeat="floor in building.floors">
+                <a href ui-sref="admin.floorUpdate({ buildingId: building.id, floorId: floor.id })">Этаж: {{floor.number}}</a>
+            </li>
+        </ul>
+    </li>
+</ul>

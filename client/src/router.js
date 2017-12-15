@@ -184,16 +184,29 @@ angular
               }]
             }
           })
-          .state('admin.floorList', {
-            url: '/floorlist',
+          .state('admin.floorCreate', {
+            url: '/floorcreate',
             permissions: false,
             module: false,
             template: '<floor-component ' +
-                      'buildings="$resolve.buildings"' +
+                      'buildings="$resolve.buildings">' +
                       '</floor-component>',
             resolve: {
               buildings: ['buildingEntity', function (buildingEntity) {
                 return buildingEntity.fetchAll();
+              }]
+            }
+          })
+          .state('admin.floorUpdate', {
+            url: '/floorupdate/:buildingId/:floorId',
+            permissions: false,
+            module: false,
+            template: '<floor-component ' +
+                      'item="$resolve.buildings">' +
+                      '</floor-component>',
+            resolve: {
+              item: ['$stateParams', 'floorEntity', function ($stateParams, floorEntity) {
+                return floorEntity.fetchOne($stateParams.floorId);
               }]
             }
           })
@@ -202,7 +215,7 @@ angular
             permissions: false,
             module: false,
             template: '<building-list-component ' +
-                      'buildings="$resolve.buildings"' +
+                      'buildings="$resolve.buildings">' +
                       '</building-list-component>',
             resolve: {
               buildings: ['buildingEntity', function (buildingEntity) {
