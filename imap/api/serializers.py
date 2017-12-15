@@ -98,9 +98,15 @@ class FloorSerializer(serializers.ModelSerializer):
 
         return floor
 
+class FloorListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Floor
+        fields = ('id', 'number')
+
 class BuildingSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
-    floors = FloorSerializer(many=True)
+    floors = FloorListSerializer(many=True)
 
     class Meta:
         model = Building
