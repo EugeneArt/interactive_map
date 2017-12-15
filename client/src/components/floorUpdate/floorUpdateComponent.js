@@ -1,15 +1,15 @@
 angular
-    .module('app')
-    .component('floorUpdateComponent', {
-      templateUrl: '/src/components/floorUpdate/floorUpdateView.html',
-      bindings: {
-        model: '<'
-      },
-      controller: floorUpdateComponentController
-    })
+  .module('app')
+  .component('floorUpdateComponent', {
+    templateUrl: '/src/components/floorUpdate/floorUpdateView.html',
+    bindings: {
+      model: '<'
+    },
+    controller: floorUpdateComponentController
+  })
 ;
 
-function floorUpdateComponentController(floorEntity, mapEntity, API_ENDPOINT, $scope, $state) {
+function floorUpdateComponentController(mapEntity, $scope, $state) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -24,10 +24,11 @@ function floorUpdateComponentController(floorEntity, mapEntity, API_ENDPOINT, $s
     vm.container = angular.element(document.querySelector("#container"));
     vm.showForm = false;
     vm.getMap();
+
   }
 
   function getMap() {
-     mapEntity.fetchOne(vm.model.map).then(function (response) {
+    mapEntity.fetchOne(vm.model.map).then(function (response) {
       createMap(response.image);
     });
   }
@@ -59,7 +60,7 @@ function floorUpdateComponentController(floorEntity, mapEntity, API_ENDPOINT, $s
     vm.model.terminal = {};
     vm.model.terminal.coordinate = {};
   }
-  
+
   function addPassageway() {
     vm.model.passageway = {};
     vm.model.passageway.coordinate = {};

@@ -18,17 +18,42 @@ function selectCoordinateComponentController() {
   vm.getCoordinate = getCoordinate;
 
   function onInit() {
-    vm.terminal = {};
-    vm.entrance = {};
-    vm.building = {};
-    vm.room = {};
-    vm.passageway = {};
+    console.log(vm.coordinate, vm.name);
     vm.rectWidht = 6;
     vm.rectHeight = 6;
     vm.canvas = document.querySelector("#container").childNodes[0];
     vm.angCanvas = angular.element(document.querySelector("#container"));
     vm.ctx = vm.canvas.getContext("2d");
-    // vm.tmpImgData = vm.ctx.getImageData(0, 0, vm.canvas.width, vm.canvas.height);
+
+    switch (vm.name) {
+      case 'terminal':
+        vm.terminal = vm.coordinate;
+        vm.ctx.fillStyle = "#336600";
+        vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
+        break;
+      case 'entrance':
+        vm.entrance = vm.coordinate;
+        vm.ctx.fillStyle = "#606060";
+        vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
+        break;
+      case 'room':
+        console.log('room');
+        vm.room = vm.coordinate;
+        vm.ctx.fillStyle = "#FFFF00";
+        vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
+        break;
+      case 'building':
+        vm.building = vm.coordinate;
+        vm.ctx.fillStyle = "#FFFF00";
+        vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
+        break;
+      case 'passageway':
+        vm.passageway = vm.coordinate;
+        vm.ctx.fillStyle = "#791fd4";
+        vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
+        break;
+    }
+
   }
 
   function activateAction() {
@@ -37,21 +62,17 @@ function selectCoordinateComponentController() {
   }
 
   function getCoordinate(event) {
+    vm.ctx.clearRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
+
     var rect = vm.canvas.getBoundingClientRect();
     var x = event.clientX - rect.left;
     var y = event.clientY - rect.top;
-
-    // vm.ctx.clearRect(0, 0, vm.canvas.width, vm.canvas.height);
-    // vm.ctx.putImageData(vm.tmpImgData, 0, 0);
 
     vm.coordinate.x = Math.round(x);
     vm.coordinate.y = Math.round(y);
 
     switch (vm.name) {
       case 'terminal':
-        if (Object.keys(vm.terminal).length) {
-          vm.ctx.clearRect(vm.terminal.x, vm.terminal.y, vm.rectWidht, vm.rectHeight);
-        }
         vm.terminal.x = vm.coordinate.x;
         vm.terminal.y = vm.coordinate.y;
 
@@ -59,9 +80,6 @@ function selectCoordinateComponentController() {
         vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
         break;
       case 'building':
-        if (Object.keys(vm.building).length) {
-          vm.ctx.clearRect(vm.building.x, vm.building.y, vm.rectWidht, vm.rectHeight);
-        }
         vm.building.x = vm.coordinate.x;
         vm.building.y = vm.coordinate.y;
 
@@ -69,9 +87,6 @@ function selectCoordinateComponentController() {
         vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
         break;
       case 'room':
-        if (Object.keys(vm.room).length) {
-          vm.ctx.clearRect(vm.room.x, vm.room.y, vm.rectWidht, vm.rectHeight);
-        }
         vm.room.x = vm.coordinate.x;
         vm.room.y = vm.coordinate.y;
 
@@ -79,9 +94,6 @@ function selectCoordinateComponentController() {
         vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
         break;
       case 'entrance':
-        if (Object.keys(vm.entrance).length) {
-          vm.ctx.clearRect(vm.entrance.x, vm.entrance.y, 6, 6);
-        }
         vm.entrance.x = vm.coordinate.x;
         vm.entrance.y = vm.coordinate.y;
 
@@ -89,9 +101,6 @@ function selectCoordinateComponentController() {
         vm.ctx.fillRect(x, y, vm.rectWidht, vm.rectHeight);
         break;
       case 'passageway':
-        if (Object.keys(vm.passageway).length) {
-          vm.ctx.clearRect(vm.passageway.x, vm.passageway.y, 6, 6);
-        }
         vm.passageway.x = vm.coordinate.x;
         vm.passageway.y = vm.coordinate.y;
 
@@ -100,7 +109,6 @@ function selectCoordinateComponentController() {
         break;
     }
 
-    console.log(vm.coordinate);
   }
 
 }

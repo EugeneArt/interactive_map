@@ -15,7 +15,7 @@ function roomFormComponentController() {
 
 
   function onInit() {
-    vm.room.coordinate = {};
+    vm.room.coordinate = vm.room.coordinate || {};
   }
 
 }
