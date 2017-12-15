@@ -44,6 +44,10 @@ class CreateFloorView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+class DetailFloorView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Floor.objects.all()
+    serializer_class = FloorSerializer
+
 
 class CreateRoomView(generics.ListCreateAPIView):
     queryset = Room.objects.all()
