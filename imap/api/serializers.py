@@ -30,6 +30,7 @@ class PassagewaySerializer(serializers.ModelSerializer):
 
 class BuildingSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
+
     class Meta:
         model = Building
         fields = ('__all__')
@@ -126,3 +127,11 @@ class FloorSerializer(serializers.ModelSerializer):
             Room.objects.create(floor=floor, coordinate=room_coordinate, **room)
 
         return floor
+
+class BuildingDetailSerializer(serializers.ModelSerializer):
+    coordinate = CoordinateSerializer()
+    floors = FloorSerializer(many=True)
+
+    class Meta:
+        model = Building
+        fields = ('__all__')

@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import SchemeSerializer, MapSerializer, BuildingSerializer, FloorSerializer, RoomSerializer, \
+from .serializers import SchemeSerializer, MapSerializer, BuildingSerializer,BuildingDetailSerializer, FloorSerializer, RoomSerializer, \
     CoordinateSerializer
 from .models import Scheme, Map, Building, Floor, Room
 
@@ -36,6 +36,9 @@ class CreateBuildingView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+class DetailBuildingView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Building.objects.all()
+    serializer_class = BuildingDetailSerializer
 
 class CreateFloorView(generics.ListCreateAPIView):
     queryset = Floor.objects.all()

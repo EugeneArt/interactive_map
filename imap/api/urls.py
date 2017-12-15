@@ -2,13 +2,14 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import CreateSchemeView, CreateMapView, DetailMapView, CreateBuildingView, CreateFloorView, CreateRoomView, RoomDetailView, FindPathView
+from .views import CreateSchemeView, CreateMapView, DetailMapView, CreateBuildingView, DetailBuildingView, CreateFloorView, CreateRoomView, RoomDetailView, FindPathView
 
 urlpatterns = {
     url(r'^schemelist/$', CreateSchemeView.as_view(), name="create_scheme"),
     url(r'^map/$', CreateMapView.as_view(), name="create_map"),
     url(r'^map/(?P<pk>[0-9]+)/?$', DetailMapView.as_view(), name="detail_map"),
     url(r'^buildinglist/$', CreateBuildingView.as_view(), name="create_building"),
+    url(r'^buildinglist/(?P<pk>[0-9]+)/?$', DetailBuildingView.as_view(), name="detail_map"),
     url(r'^floorlist/$', CreateFloorView.as_view(), name="create_floor"),
     url(r'^roomlist/$', CreateRoomView.as_view(), name="create_room"),
     url(r'^roomlist/(?P<pk>[0-9]+)/?$', RoomDetailView.as_view(), name="detail_room"),
