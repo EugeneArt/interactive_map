@@ -15,7 +15,7 @@ function buildingFormComponentController() {
 
 
   function onInit() {
-    vm.building.coordinate = {};
+    vm.building.coordinate = vm.building.coordinate || {};
   }
 
 }
