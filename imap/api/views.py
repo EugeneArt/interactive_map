@@ -15,6 +15,9 @@ class CreateSchemeView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+class DetailSchemeView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Scheme.objects.all()
+    serializer_class = SchemeSerializer
 
 class CreateMapView(generics.ListCreateAPIView):
     queryset = Map.objects.all()
