@@ -42,7 +42,7 @@ function selectCoordinateComponentController() {
         break;
       case 'building':
         vm.building = vm.coordinate;
-        vm.ctx.fillStyle = "#FFFF00";
+        vm.ctx.fillStyle = "#00FFFF";
         vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
         break;
       case 'passageway':

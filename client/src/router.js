@@ -171,26 +171,17 @@ angular
             module: false,
             template: '<admin-component></admin-component>'
           })
-          .state('admin.shemeList', {
-            url: '/schemelist',
-            permissions: false,
-            module: false,
-            template: '<scheme-component ' +
-                      'schemelist="$resolve.schemelist">' +
-                      '</scheme-component>',
-            resolve: {
-              schemelist: ['schemeEntity', function (schemeEntity) {
-                return schemeEntity.fetchAll();
-              }]
-            }
-          })
           .state('admin.sсhemeList', {
             url: '/schemelist',
             permissions: false,
             module: false,
-            template: '<scheme-component ' +
-                      'schemelist="$resolve.schemelist">' +
-                      '</scheme-component>',
+            views: {
+              'content@admin': {
+                  template: '<scheme-component ' +
+                            'schemelist="$resolve.schemelist">' +
+                            '</scheme-component>'
+              }
+            },
             resolve: {
               schemelist: ['schemeEntity', function (schemeEntity) {
                 return schemeEntity.fetchAll();
@@ -198,41 +189,19 @@ angular
             }
           })
           .state('admin.schemeUpdate', {
-            url: '/schemeupdate/:schemeId',
+            url: '/schemelist/:schemeId',
             permissions: false,
             module: false,
-            template: '<scheme-update-component ' +
-                      'model="$resolve.item">' +
-                      '</scheme-update-component>',
+            views: {
+              'content@admin': {
+                  template: '<scheme-update-component ' +
+                            'model="$resolve.item">' +
+                            '</scheme-update-component>'
+              }
+            },
             resolve: {
               item: ['$stateParams', 'schemeEntity', function ($stateParams, schemeEntity) {
                 return schemeEntity.fetchOne($stateParams.schemeId);
-              }]
-            }
-          })
-          .state('admin.floorCreate', {
-            url: '/floorcreate',
-            permissions: false,
-            module: false,
-            template: '<floor-create-component ' +
-                      'buildings="$resolve.buildings">' +
-                      '</floor-create-component>',
-            resolve: {
-              buildings: ['buildingEntity', function (buildingEntity) {
-                return buildingEntity.fetchAll();
-              }]
-            }
-          })
-          .state('admin.floorUpdate', {
-            url: '/floorupdate/:buildingId/:floorId',
-            permissions: false,
-            module: false,
-            template: '<floor-update-component ' +
-                      'model="$resolve.item">' +
-                      '</floor-update-component>',
-            resolve: {
-              item: ['$stateParams', 'floorEntity', function ($stateParams, floorEntity) {
-                return floorEntity.fetchOne($stateParams.floorId);
               }]
             }
           })
@@ -240,12 +209,45 @@ angular
             url: '/buildinglist',
             permissions: false,
             module: false,
-            template: '<building-list-component ' +
-                      'buildings="$resolve.buildings">' +
-                      '</building-list-component>',
+            views: {
+              'content@admin': {
+                  template: '<building-list-component ' +
+                            'buildings="$resolve.buildings">' +
+                            '</building-list-component>'
+              }
+            },
             resolve: {
               buildings: ['buildingEntity', function (buildingEntity) {
                 return buildingEntity.fetchAll();
+              }]
+            }
+          })
+          .state('admin.buildingList.floorCreate', {
+            url: '/:buildingId/floor/',
+            permissions: false,
+            module: false,
+            views: {
+              'content@admin': {
+                  template: '<floor-create-component ' +
+                      'buildings="$resolve.building">' +
+                      '</floor-create-component>'
+              }
+            }
+          })
+          .state('admin.buildingList.floorUpdate', {
+            url: '/:buildingId/floor/:floorId',
+            permissions: false,
+            module: false,
+            views: {
+              'content@admin': {
+                 template: '<floor-update-component ' +
+                            'model="$resolve.item">' +
+                            '</floor-update-component>'
+              }
+            },
+            resolve: {
+              item: ['$stateParams', 'floorEntity', function ($stateParams, floorEntity) {
+                return floorEntity.fetchOne($stateParams.floorId);
               }]
             }
           })

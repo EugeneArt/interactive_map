@@ -32,6 +32,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
 
   function onInit() {
     vm.model = new floorEntity();
+    // vm.model.building = vm.building;
     vm.model.entrance = {};
     vm.model.rooms = [];
     vm.container = angular.element(document.querySelector("#container"));
