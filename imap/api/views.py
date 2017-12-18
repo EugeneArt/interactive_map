@@ -26,7 +26,6 @@ class CreateMapView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
-
 class DetailMapView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Map.objects.all()
     serializer_class = MapSerializer
@@ -39,6 +38,9 @@ class CreateBuildingView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+class DetailBuildingView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Building.objects.all()
+    serializer_class = BuildingSerializer
 
 class CreateFloorView(generics.ListCreateAPIView):
     queryset = Floor.objects.all()
