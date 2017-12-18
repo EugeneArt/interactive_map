@@ -7,8 +7,7 @@ angular
         name: '@'
       },
       controller: selectCoordinateComponentController
-    })
-;
+    });
 
 function selectCoordinateComponentController() {
 
@@ -37,7 +36,6 @@ function selectCoordinateComponentController() {
         vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
         break;
       case 'room':
-        console.log('room');
         vm.room = vm.coordinate;
         vm.ctx.fillStyle = "#FFFF00";
         vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
@@ -53,7 +51,6 @@ function selectCoordinateComponentController() {
         vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectWidht, vm.rectHeight);
         break;
     }
-
   }
 
   function activateAction() {

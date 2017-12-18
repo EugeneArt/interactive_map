@@ -22,9 +22,9 @@ function floorUpdateComponentController(mapEntity, $scope, $state) {
 
   function onInit() {
     vm.container = angular.element(document.querySelector("#container"));
+    delete vm.model.passageway; //fix in API
     vm.showForm = false;
     vm.getMap();
-
   }
 
   function getMap() {

@@ -1,15 +1,15 @@
 angular
     .module('app')
-    .component('floorComponent', {
-      templateUrl: '/src/components/floor/floorView.html',
+    .component('floorCreateComponent', {
+      templateUrl: '/src/components/floorCreate/floorCreateView.html',
       bindings: {
         buildings: '<'
       },
-      controller: floorComponentController
+      controller: floorCreateComponentController
     })
 ;
 
-function floorComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state) {
+function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state) {
 
   var vm = this;
   vm.$onInit = onInit;

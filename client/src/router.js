@@ -184,13 +184,39 @@ angular
               }]
             }
           })
+          .state('admin.sсhemeList', {
+            url: '/schemelist',
+            permissions: false,
+            module: false,
+            template: '<scheme-component ' +
+                      'schemelist="$resolve.schemelist">' +
+                      '</scheme-component>',
+            resolve: {
+              schemelist: ['schemeEntity', function (schemeEntity) {
+                return schemeEntity.fetchAll();
+              }]
+            }
+          })
+          .state('admin.schemeUpdate', {
+            url: '/schemeupdate/:schemeId',
+            permissions: false,
+            module: false,
+            template: '<scheme-update-component ' +
+                      'model="$resolve.item">' +
+                      '</scheme-update-component>',
+            resolve: {
+              item: ['$stateParams', 'schemeEntity', function ($stateParams, schemeEntity) {
+                return schemeEntity.fetchOne($stateParams.schemeId);
+              }]
+            }
+          })
           .state('admin.floorCreate', {
             url: '/floorcreate',
             permissions: false,
             module: false,
-            template: '<floor-component ' +
+            template: '<floor-create-component ' +
                       'buildings="$resolve.buildings">' +
-                      '</floor-component>',
+                      '</floor-create-component>',
             resolve: {
               buildings: ['buildingEntity', function (buildingEntity) {
                 return buildingEntity.fetchAll();
