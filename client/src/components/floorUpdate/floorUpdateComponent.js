@@ -14,7 +14,7 @@ function floorUpdateComponentController(mapEntity, $scope, $state) {
   var vm = this;
   vm.$onInit = onInit;
   vm.createMap = createMap;
-  vm.saveScheme = saveScheme;
+  vm.saveFloor = saveFloor;
   vm.addRoom = addRoom;
   vm.addTerminal = addTerminal;
   vm.addPassageway = addPassageway;
@@ -66,7 +66,7 @@ function floorUpdateComponentController(mapEntity, $scope, $state) {
     vm.model.passageway.coordinate = {};
   }
 
-  function saveScheme() {
+  function saveFloor() {
     if (!Object.keys(vm.model.terminal.coordinate).length) {
       delete vm.model.terminal;
     }
