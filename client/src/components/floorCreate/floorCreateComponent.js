@@ -9,7 +9,7 @@ angular
     })
 ;
 
-function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state) {
+function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state, $stateParams) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -32,7 +32,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
 
   function onInit() {
     vm.model = new floorEntity();
-    // vm.model.building = vm.building;
+    vm.model.building = $stateParams.buildingId;
     vm.model.entrance = {};
     vm.model.rooms = [];
     vm.container = angular.element(document.querySelector("#container"));
@@ -73,11 +73,8 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
   }
 
   function saveScheme() {
-    if (!Object.keys(vm.model.terminal.coordinate).length) {
-      delete vm.model.terminal;
-    }
     vm.model.$save().then(function () {
-      $state.reload();
+      $state.go('admin.buildingList');
     });
   }
 

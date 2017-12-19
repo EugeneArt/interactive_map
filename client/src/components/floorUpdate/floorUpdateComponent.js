@@ -3,7 +3,8 @@ angular
   .component('floorUpdateComponent', {
     templateUrl: '/src/components/floorUpdate/floorUpdateView.html',
     bindings: {
-      model: '<'
+      model: '<',
+      buildings: '<'
     },
     controller: floorUpdateComponentController
   })
@@ -22,7 +23,6 @@ function floorUpdateComponentController(mapEntity, $scope, $state) {
 
   function onInit() {
     vm.container = angular.element(document.querySelector("#container"));
-    delete vm.model.passageway; //fix in API
     vm.showForm = false;
     vm.getMap();
   }
@@ -67,11 +67,8 @@ function floorUpdateComponentController(mapEntity, $scope, $state) {
   }
 
   function saveFloor() {
-    if (!Object.keys(vm.model.terminal.coordinate).length) {
-      delete vm.model.terminal;
-    }
     vm.model.$save().then(function () {
-      $state.reload();
+      $state.go('admin.buildingList');
     });
   }
 

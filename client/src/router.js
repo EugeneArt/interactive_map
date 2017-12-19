@@ -229,7 +229,7 @@ angular
             views: {
               'content@admin': {
                   template: '<floor-create-component ' +
-                      'buildings="$resolve.building">' +
+                      'buildings="$resolve.buildings">' +
                       '</floor-create-component>'
               }
             }
@@ -241,7 +241,8 @@ angular
             views: {
               'content@admin': {
                  template: '<floor-update-component ' +
-                            'model="$resolve.item">' +
+                            'model="$resolve.item"' +
+                            'buildings="$resolve.buildings" >' +
                             '</floor-update-component>'
               }
             },
