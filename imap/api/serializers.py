@@ -106,7 +106,7 @@ class FloorListSerializer(serializers.ModelSerializer):
 
 class BuildingSerializer(serializers.ModelSerializer):
     coordinate = CoordinateSerializer()
-    floors = FloorListSerializer(many=True)
+    floors = FloorListSerializer(many=True, required=False)
 
     class Meta:
         model = Building
