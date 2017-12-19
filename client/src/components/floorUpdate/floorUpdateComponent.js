@@ -68,7 +68,7 @@ function floorUpdateComponentController(mapEntity, $scope, $state) {
 
   function saveFloor() {
     vm.model.$save().then(function () {
-      $state.go('admin.buildingList');
+      $state.go('admin.buildingList', {}, {reload: true});
     });
   }
 

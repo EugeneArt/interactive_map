@@ -1,12 +1,12 @@
 angular
-    .module('app')
-    .component('floorCreateComponent', {
-      templateUrl: '/src/components/floorCreate/floorCreateView.html',
-      bindings: {
-        buildings: '<'
-      },
-      controller: floorCreateComponentController
-    })
+  .module('app')
+  .component('floorCreateComponent', {
+    templateUrl: '/src/components/floorCreate/floorCreateView.html',
+    bindings: {
+      buildings: '<'
+    },
+    controller: floorCreateComponentController
+  })
 ;
 
 function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state, $stateParams) {
@@ -66,7 +66,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
     vm.model.terminal = {};
     vm.model.terminal.coordinate = {};
   }
-  
+
   function addPassageway() {
     vm.model.passageway = {};
     vm.model.passageway.coordinate = {};
@@ -74,7 +74,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
 
   function saveScheme() {
     vm.model.$save().then(function () {
-      $state.go('admin.buildingList');
+      $state.go('admin.buildingList', {}, {reload: true});
     });
   }
 

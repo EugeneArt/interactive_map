@@ -30,6 +30,7 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
   });
 
   function onInit() {
+    vm.isScheme = !!vm.schemelist.length;
     vm.model = new schemeEntity();
     vm.model.buildings = [];
     vm.container = angular.element(document.querySelector("#container"));
