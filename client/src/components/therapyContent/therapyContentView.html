@@ -1,8 +1,8 @@
 <div class="therapy__content">
-    <h1>{{$ctrl.item.name}}</h1>
+    <h1>{{::$ctrl.item.name}}</h1>
     <div class="therapy__cards" ng-if="!$ctrl.subtherapy">
         <ul class="therapy__list">
-            <li ng-repeat="subtherapy in $ctrl.item.therapy"
+            <li ng-repeat="subtherapy in ::$ctrl.item.therapy"
                 ui-sref="app.main.therapy.treat.subtherapy({subTherapyId: subtherapy.id})"
                 class="therapy__list__item">
                     <img src="{{subtherapy.image}}" alt="" width="150">
@@ -11,7 +11,7 @@
         </ul>
     </div>
     <div class="therapy__subtherapy__content" ng-if="$ctrl.subtherapy">
-        <p class="therapy__subtherapy__content_description">{{$ctrl.item.description}}</p>
-        <img src="{{$ctrl.item.image}}" alt="" width="500">
+        <p class="therapy__subtherapy__content_description">{{::$ctrl.item.description}}</p>
+        <img src="{{::$ctrl.item.image}}" alt="" width="500">
     </div>
 </div>

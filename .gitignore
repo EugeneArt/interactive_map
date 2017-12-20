@@ -22,6 +22,7 @@ __pycache__/
 npm-debug.log
 
 client/index.html
+client/src/config.locale.js
 bower_components/
 node_modules/
 dist/

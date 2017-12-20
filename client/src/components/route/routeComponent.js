@@ -7,12 +7,11 @@ angular
   })
 ;
 
-function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
+function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q) {
 
   var vm = this;
   vm.$onInit = onInit;
   vm.getPath = getPath;
-  vm.createMap = createMap;
   vm.createSlide = createSlide;
   vm.slideToLeft = slideToLeft;
   vm.slideToRight = slideToRight;
@@ -21,7 +20,13 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     vm.mapContainer = angular.element(document.querySelector("#mapContainer"));
     vm.mapSlides = [];
     vm.activeSide = 0;
-    vm.initialImageWidth = 1000;
+    vm.loading = true;
+
+    vm.instructions = {
+      room: "Пройдите в комнату",
+      elevator: "Пройдите к лифту",
+      passageway: "Пройдите в проход"
+    }
   }
 
   function getPath() {
@@ -37,41 +42,82 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
 
     function success(result) {
       var data = result[0];
+
       vm.roomCoordinate = data.roomCoordinate;
       vm.currentFloor = data.currentFloor;
       vm.otherFloor = data.otherFloor;
       vm.currentPassagewayFloor = data.currentPassagewayFloor;
       vm.otherPassagewayFloor = data.otherPassagewayFloor;
 
-      console.log(data.case);
-
       switch (data.case) {
+        //room is located on the same floor as a terminal
         case 0:
-          createSlide("Пройдите в комнату", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate, 0);
+          createSlide(vm.instructions.room, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate)
+            .then(function () {
+              vm.loading = false;
+            });
           break;
+        //room is located on different floor as a terminal
         case 1:
-          createSlide("Пройдите к лифту", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance, 0);
-          createSlide("Пройдите в комнату", vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 1);
+          createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
+            .then(function () {
+              return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                .then(function () {
+                  vm.loading = false;
+                });
+            });
           break;
+          //room is located on the same floor as a terminal in another building(by passageway)
         case 2:
-          createSlide("Пройдите в проход", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate, 0);
-          createSlide("Пройдите в комнату", vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 1);
+          createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate)
+            .then(function () {
+              return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                .then(function () {
+                  vm.loading = false;
+                })
+            });
           break;
+           //room is located on the different floor as a terminal in another building(by passageway)
         case 3:
-          createSlide("Пройдите к лифту", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance, 0);
-          createSlide("Пройдите в проход", vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate, 1);
-          createSlide("Пройдите в комнату", vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 2);
+          createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
+            .then(function () {
+              return createSlide(vm.instructions.passageway, vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate)
+                .then(function () {
+                  return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                    .then(function () {
+                      vm.loading = false;
+                    })
+                })
+            });
           break;
+           //room is located on the different floor as a terminal in another building(by passageway) and terminal is located in different floor as passageway
         case 4:
-          createSlide("Пройдите к лифту", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance, 0);
-          createSlide("Пройдите в проход", vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate, 1);
-          createSlide("Пройдите в комнату", vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 2);
+          createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
+            .then(function () {
+              return createSlide(vm.instructions.passageway, vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate)
+                .then(function () {
+                  return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                    .then(function () {
+                      vm.loading = false;
+                    })
+                })
+            });
           break;
+          //buildings with passageway, terminal and room are located on the different floors and buildings
         case 5:
-          createSlide("Пройдите к лифту", vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance, 0);
-          createSlide("Пройдите в проход", vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate, 1);
-          createSlide("Пройдите к лифту", vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate, 2);
-          createSlide("Пройдите в комнату", vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate, 3);
+          createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
+            .then(function () {
+              return createSlide(vm.instructions.passageway, vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate)
+                .then(function () {
+                  return createSlide(vm.instructions.elevator, vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate)
+                    .then(function () {
+                      return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                        .then(function () {
+                          vm.loading = false;
+                        });
+                    })
+                })
+            });
           break;
       }
     }
@@ -81,41 +127,45 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID) {
     }
   }
 
-  function createSlide(text, floor, start, end, slide) {
-    mapEntity.fetchOne(floor.map).then(function (response) {
-      var container = document.createElement("div");
-      var h1 = document.createElement("h1");
-      var isActive = floor.id == FLOOR_ID;
+  function createSlide(text, floor, start, end) {
+    return $q(function (resolve) {
+      mapEntity.fetchOne(floor.map).then(function (response) {
+        var container = document.createElement("div");
+        var h1 = document.createElement("h1");
+        var isActive = floor.id == FLOOR_ID;
 
-      h1.textContent = text;
-      container.append(h1);
-      container.className = isActive ? 'map__item map__item_active' : 'map__item';
-      vm.mapSlides[slide] = container;
-      vm.mapContainer.append(container);
-      createMap(container, response.image, start, end);
+        h1.textContent = text;
+        container.append(h1);
+        container.className = isActive ? 'map__item map__item_active' : 'map__item';
+        vm.mapContainer.append(container);
+
+        var options = {
+          container: container,
+          url: response.image,
+          canvas: {
+            width: 1080,
+            height: 608,
+            initialWidth: 1080,
+            scale: true
+          },
+          map: {
+            startPoint: {
+              coordinates: start
+            },
+            endPoint: {
+              coordinates: end
+            }
+          }
+        };
+
+        var map = new canvasRouteMap.CanvasRouteMap(options);
+        map.ready(function () {
+          vm.mapSlides.push(container);
+          resolve();
+        })
+      });
     });
-  }
 
-  function createMap(container, url, start, end) {
-    var options = {
-      container: container,
-      url: url,
-      canvas: {
-        width: 1080,
-        height: 608,
-        initialWidth: 1080,
-        scale: true
-      },
-      map: {
-        startPoint: {
-          coordinates: start
-        },
-        endPoint: {
-          coordinates: end
-        }
-      }
-    };
-    var map = new canvasRouteMap.CanvasRouteMap(options);
   }
 
   function slideToLeft() {

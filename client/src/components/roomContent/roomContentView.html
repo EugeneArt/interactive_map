@@ -10,9 +10,9 @@
 <div class="content__prices">
 	<h2>Стоимость отдыха</h2>
 	<uib-tabset active="active">
-	<uib-tab index="$index + 1" ng-repeat="voucher in $ctrl.content.voucher" heading="{{voucher.name}}" disable="tab.disabled">
+	<uib-tab index="$index + 1" ng-repeat="voucher in ::$ctrl.content.voucher" heading="{{voucher.name}}" disable="tab.disabled">
 		<uib-tabset type="pills">
-			<uib-tab ng-repeat="currency in voucher.currency" heading="{{currency.name}}">
+			<uib-tab ng-repeat="currency in ::voucher.currency" heading="{{currency.name}}">
 	  			<table style="width:90%" class="content__table">
 					<tr>
 						<th>Дни</th>
@@ -24,7 +24,7 @@
 						<td>12</td>
 						<td>21</td>
 					</tr>
-					<tr ng-repeat="item in currency.price_type">
+					<tr ng-repeat="item in ::currency.price_type">
 						<td>{{item.during}}</td>
 						<td>{{item.price_per_day}}</td>
 						<td>{{item.price_per_day * 12}}</td>
