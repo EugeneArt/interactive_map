@@ -1,12 +1,12 @@
 <div ng-if="$ctrl.name == 'services'">
     <ul class="sidebar__list">
-        <li ng-repeat="item in $ctrl.list" ui-sref-active="active" class="sidebar__list__item"><a href ui-sref="app.main.services.service({id: item.id})">{{item.name}}</a></li>
+        <li ng-repeat="item in ::$ctrl.list" ui-sref-active="active" class="sidebar__list__item"><a href ui-sref="app.main.services.service({id: item.id})">{{item.name}}</a></li>
     </ul>
 </div>
 
 <div ng-if="$ctrl.name == 'rooms'">
     <ul class="sidebar__list">
-        <li ng-repeat="item in $ctrl.list" ui-sref-active="active" class="sidebar__list__item"><a href ui-sref="app.main.rooms.room({id: item.id})">{{item.name}}</a></li>
+        <li ng-repeat="item in ::$ctrl.list" ui-sref-active="active" class="sidebar__list__item"><a href ui-sref="app.main.rooms.room({id: item.id})">{{item.name}}</a></li>
     </ul>
 </div>
 
@@ -15,7 +15,7 @@
         <li ng-repeat="item in $ctrl.list" ui-sref-active="active" class="sidebar__list__item">
             <a href ui-sref="app.main.therapy.treat({therapyId: item.id})" ng-click="item.checked = true">{{item.name}}</a>
             <ul class="sidebar__sublist">
-                <li ng-repeat="subtherapy in item.therapy" ng-if="item.checked" ui-sref-active="active"  class="sidebar__sublist__item"><a href ui-sref="app.main.therapy.treat.subtherapy({subTherapyId: subtherapy.id})">{{subtherapy.name}}</a></li>
+                <li ng-repeat="subtherapy in ::item.therapy" ng-if="item.checked" ui-sref-active="active"  class="sidebar__sublist__item"><a href ui-sref="app.main.therapy.treat.subtherapy({subTherapyId: subtherapy.id})">{{subtherapy.name}}</a></li>
             </ul>
         </li>
     </ul>
