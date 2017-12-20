@@ -1,0 +1,17 @@
+<div class="search">
+    <div class="search__input">
+        <angucomplete-alt
+                id="search"
+                placeholder="Поиск комнаты"
+                pause="100"
+                selected-object="$ctrl.selectedRoom"
+                remote-url="http://0.0.0.0:8000/roomlist/?search="
+                search-fields="service, subtherapy"
+                title-field="subtherapy"
+                description-field="service"
+                image-field="profilePic"
+                minlength="1"
+                input-class="form-control form-control-small"/>
+    </div>
+</div>
+

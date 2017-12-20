@@ -17,6 +17,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q) {
   vm.slideToRight = slideToRight;
 
   function onInit() {
+    vm.selectedRoom = {};
     vm.mapContainer = angular.element(document.querySelector("#mapContainer"));
     vm.mapSlides = [];
     vm.activeSide = 0;
@@ -42,6 +43,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q) {
 
     function success(result) {
       var data = result[0];
+      vm.selectedRoom = {};
 
       vm.roomCoordinate = data.roomCoordinate;
       vm.currentFloor = data.currentFloor;
