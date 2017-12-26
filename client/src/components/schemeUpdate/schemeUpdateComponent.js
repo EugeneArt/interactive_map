@@ -9,7 +9,7 @@ angular
   })
 ;
 
-function schemeUpdateComponentController(mapEntity, $state, $scope) {
+function schemeUpdateComponentController(mapEntity, $state, $scope, canvasMap) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -41,7 +41,7 @@ function schemeUpdateComponentController(mapEntity, $state, $scope) {
         scale: false
       }
     };
-    var map = new canvasRouteMap.CanvasRouteMap(options);
+    var map = new canvasMap.CanvasRouteMap(options);
     map.ready(function () {
       vm.showForm = true;
       $scope.$apply();

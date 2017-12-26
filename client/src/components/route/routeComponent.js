@@ -7,7 +7,7 @@ angular
   })
 ;
 
-function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q) {
+function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canvasMap) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -160,7 +160,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q) {
           }
         };
 
-        var map = new canvasRouteMap.CanvasRouteMap(options);
+        var map = new canvasMap.CanvasRouteMap(options);
         map.ready(function () {
           vm.mapSlides.push(container);
           resolve();

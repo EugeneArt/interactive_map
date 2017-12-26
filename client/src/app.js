@@ -5,5 +5,6 @@ window.app = angular.module('app', [
   'angularFileUpload',
   'angular-flexslider',
   'ui.bootstrap',
-  'angucomplete-alt'
+  'angucomplete-alt',
+  'canvasMap'
 ]);

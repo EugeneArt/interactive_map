@@ -10,7 +10,7 @@ angular
   })
 ;
 
-function floorUpdateComponentController(mapEntity, $scope, $state) {
+function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -44,7 +44,7 @@ function floorUpdateComponentController(mapEntity, $scope, $state) {
         scale: false
       }
     };
-    var map = new canvasRouteMap.CanvasRouteMap(options);
+    var map = new canvasMap.CanvasRouteMap(options);
     map.ready(function () {
       vm.showForm = true;
       $scope.$apply();

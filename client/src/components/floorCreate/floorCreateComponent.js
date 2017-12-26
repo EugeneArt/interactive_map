@@ -9,7 +9,7 @@ angular
   })
 ;
 
-function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state, $stateParams) {
+function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT, $scope, $state, $stateParams, canvasMap) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -50,7 +50,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
         scale: false
       }
     };
-    var map = new canvasRouteMap.CanvasRouteMap(options);
+    var map = new canvasMap.CanvasRouteMap(options);
     map.ready(function () {
       vm.showForm = true;
       $scope.$apply();

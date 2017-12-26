@@ -9,7 +9,7 @@ angular
   })
 ;
 
-function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $state, $scope) {
+function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $state, $scope, canvasMap) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -47,7 +47,7 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
         scale: false
       }
     };
-    var map = new canvasRouteMap.CanvasRouteMap(options);
+    var map = new canvasMap.CanvasRouteMap(options);
     map.ready(function () {
       vm.showForm = true;
       $scope.$apply();
