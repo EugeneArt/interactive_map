@@ -7,6 +7,7 @@ import os
 from imap.settings import MEDIA_ROOT
 
 class CoordinateSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     class Meta:
         model = Coordinate
         fields = ('__all__')
@@ -105,6 +106,7 @@ class FloorListSerializer(serializers.ModelSerializer):
         fields = ('id', 'number')
 
 class BuildingSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     coordinate = CoordinateSerializer()
     floors = FloorListSerializer(many=True, required=False)
 
@@ -135,3 +137,44 @@ class SchemeSerializer(serializers.ModelSerializer):
             Building.objects.create(scheme=scheme, coordinate=building_coordinate, **building)
 
         return scheme
+
+    def update(self, instance, validated_data):
+        buildings_data = validated_data.pop('buildings')
+        buildings = list((instance.buildings).all())
+
+        # Perform scheme update.
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+
+        #Perform creations and updates buildings.
+        for building_data in buildings_data:
+            if building_data.get('id'):
+                for building in buildings:
+                    if building.id == building_data.get('id'):
+                        building.name = building_data.get('name', building.name)
+                        building.passagewayFloorNumber = building_data.get('passagewayFloorNumber', building.passagewayFloorNumber)
+
+                        data_coordinate = building_data.pop('coordinate')
+                        coordinate_id = data_coordinate.get('id')
+                        if(coordinate_id):
+                            coordinate_instance = Coordinate.objects.get(pk=coordinate_id)
+                            coordinate_instance.x = data_coordinate.get('x',coordinate_instance.x)
+                            coordinate_instance.y = data_coordinate.get('y', coordinate_instance.y)
+                            coordinate_instance.save()
+                        else:
+                            building_coordinate = Coordinate.objects.create(**data_coordinate)
+
+                        building.save()
+                        buildings.remove(building)
+            else:
+                print('create')
+                data_coordinate = building_data.pop('coordinate')
+                building_coordinate = Coordinate.objects.create(**data_coordinate)
+                Building.objects.create(scheme=instance, coordinate=building_coordinate, **building_data)
+
+        # Perform deletions tracks.
+        for building_to_delete in buildings:
+            building_to_delete.delete()
+
+
+        return instance
