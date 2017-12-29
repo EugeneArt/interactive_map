@@ -18,12 +18,14 @@ class MapSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class TerminalSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     coordinate = CoordinateSerializer()
     class Meta:
         model = Terminal
         fields = ('__all__')
 
 class PassagewaySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     coordinate = CoordinateSerializer()
     class Meta:
         model = Passageway
@@ -31,6 +33,7 @@ class PassagewaySerializer(serializers.ModelSerializer):
 
 
 class RoomSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     coordinate = CoordinateSerializer()
     service = serializers.SerializerMethodField()
     subtherapy = serializers.SerializerMethodField()
@@ -49,8 +52,8 @@ class RoomSerializer(serializers.ModelSerializer):
 
 class FloorSerializer(serializers.ModelSerializer):
     entrance = CoordinateSerializer()
-    terminal = TerminalSerializer(required=False)
-    passageway = PassagewaySerializer(required=False)
+    terminal = TerminalSerializer(required=False, allow_null=True)
+    passageway = PassagewaySerializer(required=False, allow_null=True)
     rooms = RoomSerializer(many=True)
 
     class Meta:
@@ -99,8 +102,86 @@ class FloorSerializer(serializers.ModelSerializer):
 
         return floor
 
-class FloorListSerializer(serializers.ModelSerializer):
+    def update(self, instance, validated_data):
+        rooms_data = validated_data.pop('rooms')
+        terminal_data = validated_data.pop('terminal')
+        passageway_data = validated_data.pop('passageway')
+        entrance_data = validated_data.pop('entrance')
 
+        rooms = list((instance.rooms).all())
+
+        # Perform scheme update.
+        instance.number = validated_data.get('number', instance.number)
+
+        #entrance
+        entrance_coordinate_id = entrance_data.get('id')
+        coordinate_entrance = Coordinate.objects.get(pk=entrance_coordinate_id)
+        coordinate_entrance.x = entrance_data.get('x', coordinate_entrance.x)
+        coordinate_entrance.y = entrance_data.get('y', coordinate_entrance.y)
+        coordinate_entrance.save()
+
+        if(passageway_data):
+            coordinate_passageway = passageway_data.get('coordinate')
+            if(coordinate_passageway.get('id')):
+                coordinate_passageway_obj = Coordinate.objects.get(pk=coordinate_passageway.get('id'))
+                coordinate_passageway_obj.x = coordinate_passageway.get('x', coordinate_passageway_obj.x)
+                coordinate_passageway_obj.y = coordinate_passageway.get('y', coordinate_passageway_obj.y)
+                coordinate_passageway_obj.save()
+            else:
+                passageway_coordinate_new = Coordinate.objects.create(**coordinate_passageway)
+                passageway_obj = Passageway.objects.create(coordinate=passageway_coordinate_new, toBuildingId=passageway_data.get('toBuildingId'))
+                instance.passageway = passageway_obj
+
+        if(terminal_data):
+            coordinate_terminal = terminal_data.get('coordinate')
+            if(coordinate_terminal.get('id')):
+                coordinate_terminal_obj = Coordinate.objects.get(pk=coordinate_terminal.get('id'))
+                coordinate_terminal_obj.x = coordinate_terminal.get('x', coordinate_terminal_obj.x)
+                coordinate_terminal_obj.y = coordinate_terminal.get('y', coordinate_terminal_obj.y)
+                coordinate_terminal_obj.save()
+            else:
+                terminal_coordinate_new = Coordinate.objects.create(**coordinate_terminal)
+                terminal_obj = Terminal.objects.create(coordinate=terminal_coordinate_new)
+                instance.terminal = terminal_obj
+
+        instance.save()
+
+        #Perform creations and updates buildings.
+        for room_data in rooms_data:
+            if room_data.get('id'):
+                for room in rooms:
+                    if room.id == room_data.get('id'):
+                        room.number = room_data.get('number', room.number)
+
+                        data_coordinate = room_data.pop('coordinate')
+                        coordinate_id = data_coordinate.get('id')
+                        if(coordinate_id):
+                            coordinate_instance = Coordinate.objects.get(pk=coordinate_id)
+                            coordinate_instance.x = data_coordinate.get('x',coordinate_instance.x)
+                            coordinate_instance.y = data_coordinate.get('y', coordinate_instance.y)
+                            coordinate_instance.save()
+                        else:
+                            room_coordinate = Coordinate.objects.create(**data_coordinate)
+                            room.coordinate = room_coordinate
+
+                        room.save()
+                        rooms.remove(room)
+            else:
+                data_coordinate = room_data.pop('coordinate')
+                room_coordinate = Coordinate.objects.create(**data_coordinate)
+                Room.objects.create(scheme=instance, coordinate=room_coordinate, **room_data)
+
+        # # Perform deletions tracks.
+        # for building_to_delete in buildings:
+        #     building_to_delete.delete()
+
+
+        return instance
+
+
+
+class FloorListSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     class Meta:
         model = Floor
         fields = ('id', 'number')
@@ -163,6 +244,7 @@ class SchemeSerializer(serializers.ModelSerializer):
                             coordinate_instance.save()
                         else:
                             building_coordinate = Coordinate.objects.create(**data_coordinate)
+                            building.coordinate = building_coordinate
 
                         building.save()
                         buildings.remove(building)
