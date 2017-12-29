@@ -16,8 +16,8 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
   vm.createMap = createMap;
   vm.saveScheme = saveScheme;
   vm.addRoom = addRoom;
-  vm.addTerminal = addTerminal;
-  vm.addPassageway = addPassageway;
+  vm.closePopup = closePopup;
+  vm.deleteEmptyCoordinates = deleteEmptyCoordinates;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'map/',
@@ -35,8 +35,14 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
     vm.model.building = $stateParams.buildingId;
     vm.model.entrance = {};
     vm.model.rooms = [];
+    vm.model.terminal = {};
+    vm.model.terminal.coordinate = {};
+    vm.model.passageway = {};
+    vm.model.passageway.coordinate = {};
+
     vm.container = angular.element(document.querySelector("#container"));
     vm.showForm = false;
+    vm.formError = false;
   }
 
   function createMap(url) {
@@ -62,20 +68,38 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
     vm.model.rooms.push(vm.room);
   }
 
-  function addTerminal() {
-    vm.model.terminal = {};
-    vm.model.terminal.coordinate = {};
-  }
-
-  function addPassageway() {
-    vm.model.passageway = {};
-    vm.model.passageway.coordinate = {};
-  }
-
   function saveScheme() {
+    if(!Object.keys(vm.model.entrance).length) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Необходимо указать выход';
+      return false;
+    } else {
+      vm.deleteEmptyCoordinates();
+    }
     vm.model.$save().then(function () {
       $state.go('admin.buildingList', {}, {reload: true});
     });
+  }
+  
+  function closePopup() {
+    vm.formError = !vm.formError;
+    vm.popupMsg = '';
+  }
+
+  function deleteEmptyCoordinates() {
+    if(!Object.keys(vm.model.terminal.coordinate).length) {
+      delete vm.model.terminal;
+    }
+    if(!Object.keys(vm.model.passageway.coordinate).length) {
+      delete vm.model.passageway;
+    }
+    if(vm.model.rooms.length) {
+      vm.model.rooms.forEach(function (item) {
+        if(!Object.keys(item).length) {
+          delete vm.model.rooms[item];
+        }
+      })
+    }
   }
 
 }

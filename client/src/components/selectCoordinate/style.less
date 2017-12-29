@@ -1,28 +1,17 @@
-.scheme-terminal, .scheme-building, .scheme-room, .scheme-entrance{
-  position: relative;
-  .scheme-terminal__dialog, .scheme-building__dialog, .scheme-room__dialog, .scheme-entrance__dialog  {
-    position: absolute;
-    display: none;
+.select-coordinate__btn {
+  text-decoration: none;
+  color: green;
+  border: 1px solid;
+  display: inline-block;
+  padding: 8px 10px;
+  border-radius: 20px;
+  &:hover {
+    text-decoration: none;
+    color: red;
   }
-}
-.scheme-terminal:hover, .scheme-building:hover, .scheme-room:hover, .scheme-entrance:hover{
-  .scheme-terminal__dialog, .scheme-building__dialog, .scheme-room__dialog, .scheme-entrance__dialog{
-    display: block;
+  &:focus {
+    text-decoration: none;
+    color: red;
   }
-}
 
-.scheme-terminal__color {
-  background-color: green;
-}
-
-.scheme-building__color {
-  background-color: blue;
-}
-
-.scheme-room__color {
-  background-color: skyblue;
-}
-
-.scheme-entrance__color {
-  background-color: silver;
 }

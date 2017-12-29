@@ -1,9 +1,10 @@
-<form name="roomForm">
-     <div class="roomform__item">
-        <div class="category__item_label">Номер комнаты</div>
+<form name="roomForm" class="room-form">
+    <a href class="room-form__close"><i class="glyphicon glyphicon-remove-circle"></i></a>
+     <p class="roomform__item">
+        <h5>Номер комнаты</h5>
         <input name="number" ng-model="$ctrl.room.number">
      </div>
-    Укажите координаты комнаты
+    <h5>Укажите координаты</h5>
     <select-coordinate-component
         coordinate="$ctrl.room.coordinate"
         name="room">
