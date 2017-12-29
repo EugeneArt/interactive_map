@@ -1,5 +1,5 @@
 <form name="roomForm" class="room-form">
-    <a href class="room-form__close"><i class="glyphicon glyphicon-remove-circle"></i></a>
+    <a href class="room-form__close" ng-click="$ctrl.removeRoom()"><i class="glyphicon glyphicon-remove-circle"></i></a>
      <p class="roomform__item">
         <h5>Номер комнаты</h5>
         <input name="number" ng-model="$ctrl.room.number">

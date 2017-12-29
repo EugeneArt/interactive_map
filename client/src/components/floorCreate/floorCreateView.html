@@ -50,7 +50,8 @@
         <div class="floor-list row">
             <h4>Список комнат</h4>
             <room-form-component ng-repeat="room in $ctrl.model.rooms" room="room"
-                                 class="floor-form__item  col-md-3"></room-form-component>
+                                 class="floor-form__item  col-md-3">
+            </room-form-component>
             <div class="floor-form__item  col-md-3">
                 <a href ng-click="$ctrl.addRoom()" class="floor-list__btn"><i class="glyphicon glyphicon-plus-sign"></i></a>
             </div>
