@@ -16,7 +16,8 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
   vm.createMap = createMap;
   vm.saveScheme = saveScheme;
   vm.addBuilding = addBuilding;
-  vm.showForm = false;
+  vm.cancel = cancel;
+  vm.removeScheme = removeScheme;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'map/',
@@ -31,6 +32,7 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
 
   function onInit() {
     vm.isScheme = !!vm.schemelist.length;
+    vm.showForm = false;
     vm.model = new schemeEntity();
     vm.model.buildings = [];
     vm.container = angular.element(document.querySelector("#container"));
@@ -63,6 +65,16 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
     vm.model.$save().then(function () {
       $state.reload();
     });
+  }
+
+  function cancel() {
+     $state.go('admin.sсhemeList', {}, {reload: true});
+  }
+
+  function removeScheme(scheme) {
+    var s = new schemeEntity();
+    var obj = angular.merge(s, scheme);
+    obj.$destroy();
   }
 
 }
