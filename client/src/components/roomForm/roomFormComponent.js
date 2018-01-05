@@ -8,7 +8,7 @@ angular
     controller: roomFormComponentController
   });
 
-function roomFormComponentController() {
+function roomFormComponentController($scope) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -16,10 +16,11 @@ function roomFormComponentController() {
 
   function onInit() {
     vm.room.coordinate = vm.room.coordinate || {};
+
   }
 
   function removeRoom() {
-    delete vm.room;
+    $scope.$emit('removeRoomListener', vm.room);
   }
 
 }

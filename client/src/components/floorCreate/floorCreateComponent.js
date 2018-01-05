@@ -13,11 +13,13 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
 
   var vm = this;
   vm.$onInit = onInit;
+  vm.$onDestroy = onDestroy;
   vm.createMap = createMap;
   vm.saveScheme = saveScheme;
   vm.addRoom = addRoom;
   vm.closePopup = closePopup;
   vm.deleteEmptyCoordinates = deleteEmptyCoordinates;
+  vm.removeRoom = removeRoom;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'map/',
@@ -101,5 +103,15 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
       })
     }
   }
+  
+  function removeRoom(event,room) {
+    var index = vm.model.rooms.indexOf(room);
+    vm.model.rooms.splice(index,1)
+  }
 
+  var removeRoomListener = $scope.$on('removeRoomListener', removeRoom);
+
+  function onDestroy() {
+    $scope.$on('$destroy', removeRoomListener);
+  }
 }
