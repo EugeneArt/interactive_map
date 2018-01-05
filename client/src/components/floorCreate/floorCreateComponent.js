@@ -20,6 +20,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
   vm.closePopup = closePopup;
   vm.deleteEmptyCoordinates = deleteEmptyCoordinates;
   vm.removeRoom = removeRoom;
+  vm.validateRooms = validateRooms;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'map/',
@@ -75,12 +76,26 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
       vm.formError = !vm.formError;
       vm.popupMsg = 'Необходимо указать выход';
       return false;
+    }else if(!vm.model.number) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Необходимо указать номер этажа';
+      return false;
+    } else if(validateRooms()) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Проверьте правильность заполнения информации по комантам';
+      return false;
     } else {
       vm.deleteEmptyCoordinates();
     }
-    vm.model.$save().then(function () {
+    vm.model.$save().then(success, error);
+    
+    function success() {
       $state.go('admin.buildingList', {}, {reload: true});
-    });
+    }
+    
+    function error(response) {
+      console.log(response.data);
+    }
   }
   
   function closePopup() {
@@ -104,9 +119,23 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
     }
   }
   
-  function removeRoom(event,room) {
+  function removeRoom(event, room) {
     var index = vm.model.rooms.indexOf(room);
     vm.model.rooms.splice(index,1)
+  }
+
+  function validateRooms() {
+    var flag = false;
+    vm.model.rooms.forEach(function (room) {
+      if(!Object.keys(room.coordinate) || !room.number) {
+          room.noValid = true;
+          flag = !flag;
+      }
+
+
+    });
+    console.log(vm.model);
+    return flag;
   }
 
   var removeRoomListener = $scope.$on('removeRoomListener', removeRoom);
