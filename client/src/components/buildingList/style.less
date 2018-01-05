@@ -1,17 +1,25 @@
-#scheme {
-  background-repeat : no-repeat;
-}
-#scheme-area {
-    opacity: 0.6;
-}
+.building-list {
+  h1 {
+    text-align: center;
+  }
+  .building-list__item {
+    list-style: none;
+    font-size: 1.5rem;
+    .floor-list {
+      width: 90%;
+      border-bottom: 1px solid green;
+      &__item {
+        a{
+          text-decoration: none;
+        }
+        &_edit {
+          color: green;
+        }
+        &_delete {
+          color: red;
+        }
 
-#scheme-area {
-    border-collapse: collapse;
-    opacity: 0.6;
-}
-#scheme-area tr,td {
-    border: 1px solid black;
-}
-#scheme-area td {
-  padding: 4px;
+      }
+    }
+  }
 }

@@ -20,6 +20,11 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
   vm.addTerminal = addTerminal;
   vm.addPassageway = addPassageway;
   vm.getMap = getMap;
+  vm.closePopup = closePopup;
+  vm.deleteEmptyCoordinates = deleteEmptyCoordinates;
+  vm.removeRoom = removeRoom;
+  vm.validateRooms = validateRooms;
+  vm.cancel = cancel;
 
   function onInit() {
     vm.container = angular.element(document.querySelector("#container"));
@@ -67,9 +72,79 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
   }
 
   function saveFloor() {
-    vm.model.$save().then(function () {
+    if (!Object.keys(vm.model.entrance).length) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Необходимо указать выход';
+      return false;
+    } else if (!vm.model.number) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Необходимо указать номер этажа';
+      return false;
+    } else if (validateRooms()) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Проверьте правильность заполнения информации по комнатам';
+      return false;
+    } else {
+      vm.deleteEmptyCoordinates();
+    }
+    vm.model.$save().then(success, error);
+
+    function success() {
       $state.go('admin.buildingList', {}, {reload: true});
+    }
+
+    function error(response) {
+      console.log(response.data);
+    }
+  }
+
+  function closePopup() {
+    vm.formError = !vm.formError;
+    vm.popupMsg = '';
+  }
+
+  function deleteEmptyCoordinates() {
+    if (!Object.keys(vm.model.terminal.coordinate).length) {
+      delete vm.model.terminal;
+    }
+    if (!Object.keys(vm.model.passageway.coordinate).length) {
+      delete vm.model.passageway;
+    }
+    if (vm.model.rooms.length) {
+      vm.model.rooms.forEach(function (item) {
+        if (!Object.keys(item).length) {
+          delete vm.model.rooms[item];
+        }
+      })
+    }
+  }
+
+  function removeRoom(event, room) {
+    var index = vm.model.rooms.indexOf(room);
+    vm.model.rooms.splice(index, 1)
+  }
+
+  function validateRooms() {
+    var flag = false;
+    vm.model.rooms.forEach(function (room) {
+      if (!Object.keys(room.coordinate) || !room.number) {
+        room.noValid = true;
+        flag = !flag;
+      }
+
+
     });
+    return flag;
+  }
+  
+  function cancel() {
+     $state.go('admin.buildingList', {}, {reload: true});
+  }
+
+  var removeRoomListener = $scope.$on('removeRoomListener', removeRoom);
+
+  function onDestroy() {
+    $scope.$on('$destroy', removeRoomListener);
   }
 
 }

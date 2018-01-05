@@ -34,30 +34,35 @@
   }
 }
 
-.btn__save {
-  margin-top: 10px;
-  text-align: right;
-  color: green;
-  button {
-    background: none;
-    border: 1px solid green;
-    padding: 10px;
-    border-radius: 25px;
-    i {
-      color: green;
+.form__btns {
+    float: right;
+    .form__btns_btn {
+    display: inline-block;
+    margin-top: 10px;
+    text-align: right;
+    color: green;
+    button {
+      background: none;
+      border: 1px solid green;
+      padding: 10px;
+      border-radius: 25px;
+      i {
+        color: green;
+      }
     }
-  }
-  button:focus {
-    outline:0;
-  }
-  &:hover button{
-    background-color: green;
-    color: #fff;
-    i {
+    button:focus {
+      outline:0;
+    }
+    &:hover button{
+      background-color: green;
       color: #fff;
+      i {
+        color: #fff;
+      }
     }
   }
 }
+
 
 .floor-form {
   width: 1080px;

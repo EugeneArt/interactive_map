@@ -15,12 +15,13 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
   vm.$onInit = onInit;
   vm.$onDestroy = onDestroy;
   vm.createMap = createMap;
-  vm.saveScheme = saveScheme;
+  vm.saveFloor= saveFloor;
   vm.addRoom = addRoom;
   vm.closePopup = closePopup;
   vm.deleteEmptyCoordinates = deleteEmptyCoordinates;
   vm.removeRoom = removeRoom;
   vm.validateRooms = validateRooms;
+  vm.cancel = cancel;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'map/',
@@ -71,7 +72,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
     vm.model.rooms.push(vm.room);
   }
 
-  function saveScheme() {
+  function saveFloor() {
     if(!Object.keys(vm.model.entrance).length) {
       vm.formError = !vm.formError;
       vm.popupMsg = 'Необходимо указать выход';
@@ -82,7 +83,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
       return false;
     } else if(validateRooms()) {
       vm.formError = !vm.formError;
-      vm.popupMsg = 'Проверьте правильность заполнения информации по комантам';
+      vm.popupMsg = 'Проверьте правильность заполнения информации по комнатам';
       return false;
     } else {
       vm.deleteEmptyCoordinates();
@@ -134,8 +135,11 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
 
 
     });
-    console.log(vm.model);
     return flag;
+  }
+
+  function cancel() {
+     $state.go('admin.buildingList', {}, {reload: true});
   }
 
   var removeRoomListener = $scope.$on('removeRoomListener', removeRoom);
