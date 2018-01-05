@@ -30,6 +30,14 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
     vm.container = angular.element(document.querySelector("#container"));
     vm.showForm = false;
     vm.getMap();
+
+    vm.model.entrance = vm.model.entrance || {};
+    vm.model.rooms = vm.model.rooms || [];
+    vm.model.terminal = vm.model.terminal || {};
+    vm.model.terminal.coordinate = vm.model.terminal.coordinate || {};
+    vm.model.passageway = vm.model.passageway || {};
+    vm.model.passageway.coordinate = vm.model.passageway.coordinate || {};
+
   }
 
   function getMap() {

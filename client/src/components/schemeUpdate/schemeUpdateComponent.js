@@ -17,6 +17,10 @@ function schemeUpdateComponentController(mapEntity, $state, $scope, canvasMap) {
   vm.saveScheme = saveScheme;
   vm.addBuilding = addBuilding;
   vm.getMap = getMap;
+  vm.removeBuilding = removeBuilding;
+  vm.validateBuildings = validateBuildings;
+  vm.cancel = cancel;
+  vm.onDestroy = onDestroy;
 
   function onInit() {
     vm.container = angular.element(document.querySelector("#container"));
@@ -57,6 +61,32 @@ function schemeUpdateComponentController(mapEntity, $state, $scope, canvasMap) {
     vm.model.$save().then(function () {
       $state.reload();
     });
+  }
+
+  function removeBuilding(event, building) {
+    var index = vm.model.buildings.indexOf(building);
+    vm.model.buildings.splice(index, 1)
+  }
+
+  function validateBuildings() {
+    var flag = false;
+    vm.model.rooms.forEach(function (room) {
+      if (!Object.keys(room.coordinate) || !room.number) {
+        room.noValid = true;
+        flag = !flag;
+      }
+    });
+    return flag;
+  }
+
+  function cancel() {
+     $state.go('admin.sсhemeList', {}, {reload: true});
+  }
+
+  var removeBuildingListener = $scope.$on('removeBuildingListener', removeBuilding);
+
+  function onDestroy() {
+    $scope.$on('$destroy', removeBuildingListener);
   }
 
 }

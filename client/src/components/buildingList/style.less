@@ -4,13 +4,17 @@
   }
   .building-list__item {
     list-style: none;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     .floor-list {
       width: 90%;
       border-bottom: 1px solid green;
+      list-style: disc;
       &__item {
         a{
           text-decoration: none;
+        }
+        &_add {
+          color: green;
         }
         &_edit {
           color: green;
@@ -18,7 +22,6 @@
         &_delete {
           color: red;
         }
-
       }
     }
   }

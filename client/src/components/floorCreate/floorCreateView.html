@@ -1,8 +1,11 @@
 <div class="floor__wrapper">
     <h1>Создание схемы этажа</h1>
+
     <div class="uploaded-form" ng-if="!$ctrl.showForm">
-        <div class="category__item_label">Загрузите изображение карты этажа</div>
-        <input type="file" nv-file-select="" uploader="$ctrl.uploader"/>
+        <div class="uploaded-form__wrapper">
+            <div class="category__item_label">Загрузите изображение карты этажа</div>
+            <input type="file" nv-file-select="" uploader="$ctrl.uploader"/>
+        </div>
     </div>
     <div id="container"></div>
     <form class="floor-form container" name="floorForm" novalidate ng-if="$ctrl.showForm">

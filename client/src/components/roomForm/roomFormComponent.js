@@ -24,6 +24,7 @@ function roomFormComponentController($scope) {
   function removeRoom() {
     $scope.$emit('removeRoomListener', vm.room);
   }
+
   function clearErrors() {
      vm.room.noValid = false;
   }
