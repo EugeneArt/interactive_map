@@ -12,21 +12,28 @@ function loginComponentController($auth, $state) {
   var vm = this;
   vm.$onInit = onInit;
   vm.handleLoginBtnClick = handleLoginBtnClick;
+  vm.clearErrors = clearErrors;
 
   function onInit() {
     vm.user = {};
+    vm.error = false;
   }
 
   function handleLoginBtnClick() {
       $auth.login(vm.user)
         .then(function(resp) {
-          // handle success response
           $state.go('admin.sсhemeList', {}, {reload: true});
 
         })
         .catch(function(resp) {
-          // handle error response
+          vm.error = true;
+          vm.msg = resp.data.non_field_errors[0];
         });
+  }
+  
+  function clearErrors() {
+     vm.error = false;
+     vm.msg = "";
   }
 
 }

@@ -177,9 +177,9 @@ angular
             module: false,
             template: '<admin-component></admin-component>',
             resolve: {
-              user: ['$state', '$auth', function ($state, $auth) {
+              authenticate: ['$state', '$auth', function ($state, $auth) {
                 if(!$auth.isAuthenticated()) {
-                  $state.go('submitLogin');
+                  $state.go('submitLogin', {}, {reload: true});
                 }
               }]
             }

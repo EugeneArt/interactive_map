@@ -1,7 +1,7 @@
 <div class="scheme-list" ng-if="$ctrl.isScheme">
     <h2>Улица</h2>
     <ul>
-        <li ng-repeat="scheme in $ctrl.schemelist">
+        <li ng-repeat="scheme in $ctrl.schemelist" class="scheme-list__item">
             {{scheme.name}}
             <a href
                ui-sref="admin.schemeUpdate({ schemeId: scheme.id })"

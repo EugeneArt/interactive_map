@@ -1,6 +1,9 @@
 .building-list {
   h1 {
-    text-align: center;
+    text-align: left;
+    padding-left: 20px;
+    font-size: 3rem;
+    font-style: italic;
   }
   .building-list__item {
     list-style: none;
@@ -8,19 +11,31 @@
     .floor-list {
       width: 90%;
       border-bottom: 1px solid green;
-      list-style: disc;
+      list-style: none;
       &__item {
-        a{
+        margin: 3px 0;
+        a {
+          font-size: 18px;
           text-decoration: none;
         }
         &_add {
           color: green;
         }
         &_edit {
+          padding: 3px;
           color: green;
+          &:hover {
+            color: blue;
+            text-decoration: none;
+          }
         }
         &_delete {
+          padding: 3px;
           color: red;
+          &:hover {
+            color: blue;
+            text-decoration: none;
+          }
         }
       }
     }
