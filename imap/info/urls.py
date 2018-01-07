@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^therapylist/$', TherapyView.as_view(), name="create_therapy"),
     url(r'^therapylist/(?P<pk>[0-9]+)/?$', TherapyDetailView.as_view(), name="therapy_detail"),
     url(r'^subtherapylist/(?P<pk>[0-9]+)/?$', SubTherapyDetailView.as_view(), name="subtherapy_detail"),
-    url(r'^advertisement/$', AdvertisementView.as_view(), name="advertisement"),
+    url(r'^adver/$', AdvertisementView.as_view(), name="advertisement"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
