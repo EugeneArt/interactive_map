@@ -1,13 +1,16 @@
-<form role="form">
-  <div class="form-group">
-    <label>login</label>
-    <input type="text" name="username" ng-model="$ctrl.user.username" required="required" class="form-control"/>
-  </div>
+<div class="container">
+    <form role="form" class="login-form">
+        <h3>Авторизация</h3>
+        <div class="login-form__item">
+            <label>Имя</label>
+            <input type="text" name="username" ng-model="$ctrl.user.username" required="required" class="form-control"/>
+        </div>
 
-  <div class="form-group">
-    <label>password</label>
-    <input type="password" name="password" ng-model="$ctrl.user.password" required="required" class="form-control"/>
-  </div>
-
-  <button class="btn btn-primary btn-lg" ng-click="$ctrl.handleLoginBtnClick()">Sign in</button>
-</form>
+        <div class="login-form__item">
+            <label>Пароль</label>
+            <input type="password" name="password" ng-model="$ctrl.user.password" required="required"
+                   class="form-control"/>
+        </div>
+        <button class="btn btn-primary" ng-click="$ctrl.handleLoginBtnClick()">Войти</button>
+    </form>
+</div>
