@@ -14,7 +14,14 @@ angular
             abstract: true,
             permissions: false,
             module: false,
-            template: '<app-component></app-component>'
+            template: '<app-component' +
+            ' video="$resolve.video">' +
+            '</app-component>',
+            resolve: {
+              video: ['advertisementEntity', function (advertisementEntity) {
+                return advertisementEntity.fetchAll();
+              }]
+            }
           })
           .state('app.route', {
             url: '/route',

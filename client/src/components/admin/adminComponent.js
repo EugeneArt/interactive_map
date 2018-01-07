@@ -22,6 +22,7 @@ function adminComponentController($auth, $state, ngDialog) {
     $auth.logout();
     $state.go('submitLogin');
   }
+
   function showInfo() {
     ngDialog.open({
       template: '<info-component></info-component>',
