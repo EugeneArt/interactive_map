@@ -24,7 +24,7 @@ function adminComponentController($auth, $state, ngDialog) {
   }
   function showInfo() {
     ngDialog.open({
-      template: '',
+      template: '<info-component></info-component>',
       plain: true,
       className: 'ngdialog-theme-default'
     });
