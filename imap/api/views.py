@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -6,9 +7,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import SchemeSerializer, MapSerializer, BuildingSerializer, FloorSerializer, RoomSerializer, \
     CoordinateSerializer
 from .models import Scheme, Map, Building, Floor, Room
+from rest_framework.permissions import IsAuthenticated
 
 
 class CreateSchemeView(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Scheme.objects.all()
     serializer_class = SchemeSerializer
 
@@ -43,6 +46,7 @@ class DetailBuildingView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BuildingSerializer
 
 class CreateFloorView(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Floor.objects.all()
     serializer_class = FloorSerializer
 
