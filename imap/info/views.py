@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 
-from .models import Service, Room, Therapy, SubTherapy
-from .serializers import ServiceSerializer, ServiceNameSerializer, RoomSerializer, RoomNameSerializer, TherapySerializer, TherapyNameSerializer,  SubTherapySerializer
+from .models import Service, Room, Therapy, SubTherapy, Advertisement
+from .serializers import ServiceSerializer, ServiceNameSerializer, RoomSerializer, RoomNameSerializer, TherapySerializer, TherapyNameSerializer,  SubTherapySerializer, AdvertisementSerializer
 from rest_framework import generics
 
 
@@ -61,6 +61,13 @@ class SubTherapyView(generics.ListCreateAPIView):
 class SubTherapyDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = SubTherapy.objects.all()
     serializer_class = SubTherapySerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+class AdvertisementView(generics.ListCreateAPIView):
+    queryset = Advertisement.objects.all()
+    serializer_class = AdvertisementSerializer
 
     def perform_create(self, serializer):
         serializer.save()

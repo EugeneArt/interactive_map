@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -146,6 +147,8 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
 'JWT_SECRET_KEY': 'you',
 'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+'JWT_VERIFY_EXPIRATION': False,
+'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000),
 }
 
 # resize image

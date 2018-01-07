@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy, PriceRoom, Currency, Voucher
+from .models import Service, ImageService, Room, ImageRoom, Therapy, SubTherapy, PriceRoom, Currency, Voucher, Advertisement
 
 
 # service
@@ -81,6 +81,12 @@ class TherapyNameSerializer(ModelSerializer):
 
     class Meta:
         model = Therapy
+        fields = '__all__'
+
+class AdvertisementSerializer(ModelSerializer):
+
+    class Meta:
+        model = Advertisement
         fields = '__all__'
 
 

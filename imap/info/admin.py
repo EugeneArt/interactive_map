@@ -64,3 +64,7 @@ class AdminTherapy(admin.ModelAdmin):
 @admin.register(Therapy)
 class AdminPackageTherapy(admin.ModelAdmin):
     ordering = ['name']
+
+@admin.register(Advertisement)
+class AdminAdvertisement(admin.ModelAdmin):
+    pass
