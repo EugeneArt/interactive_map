@@ -6,5 +6,6 @@ window.app = angular.module('app', [
   'angular-flexslider',
   'ui.bootstrap',
   'angucomplete-alt',
-  'canvasMap'
+  'canvasMap',
+  'satellizer'
 ]);

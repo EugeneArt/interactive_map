@@ -42,6 +42,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
     "jquery": "^3.2.1",
-    "ng-dialog": "^1.4.0"
+    "ng-dialog": "^1.4.0",
+    "satellizer": "^0.15.5"
   }
 }

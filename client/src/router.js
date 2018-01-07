@@ -1,8 +1,14 @@
 angular
     .module('app')
     .config(function ($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.otherwise("app/main/services");
+      $urlRouterProvider.otherwise("/app/main/services");
       $stateProvider
+          .state('submitLogin', {
+            url: '/login',
+            permissions: false,
+            module: false,
+            template: '<login-component></login-component>'
+          })
           .state('app', {
             url: '/app',
             abstract: true,
@@ -169,7 +175,14 @@ angular
             abstract: true,
             permissions: false,
             module: false,
-            template: '<admin-component></admin-component>'
+            template: '<admin-component></admin-component>',
+            resolve: {
+              user: ['$state', '$auth', function ($state, $auth) {
+                if(!$auth.isAuthenticated()) {
+                  $state.go('submitLogin');
+                }
+              }]
+            }
           })
           .state('admin.sсhemeList', {
             url: '/schemelist',
