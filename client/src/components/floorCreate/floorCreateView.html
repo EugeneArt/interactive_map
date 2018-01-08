@@ -6,6 +6,14 @@
             <div class="category__item_label">Загрузите изображение карты этажа</div>
             <input type="file" nv-file-select="" uploader="$ctrl.uploader"/>
         </div>
+        <div class="form__btns">
+            <div class="form__btns_btn">
+                <button ng-click="$ctrl.cancel()">
+                    Отменить
+                    <i class="glyphicon glyphicon-ban-circle" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
     </div>
     <div id="container"></div>
     <form class="floor-form container" name="floorForm" novalidate ng-if="$ctrl.showForm">
@@ -60,7 +68,7 @@
             </div>
 
         </div>
- <div class="form__btns">
+        <div class="form__btns">
             <div class="form__btns_btn">
                 <button ng-click="$ctrl.cancel()">
                     Отменить
