@@ -16,7 +16,7 @@ function therapyContentComponentController() {
   vm.$onInit = onInit;
 
   function onInit() {
-
+    console.log(vm.subtherapy, vm.item);
   }
 
 }

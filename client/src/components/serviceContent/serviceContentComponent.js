@@ -17,5 +17,4 @@ function serviceContentComponentController() {
   function onInit() {
 
   }
-
 }

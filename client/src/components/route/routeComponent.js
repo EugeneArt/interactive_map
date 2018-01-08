@@ -7,7 +7,7 @@ angular
   })
 ;
 
-function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canvasMap) {
+function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canvasMap, $stateParams, $state) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -15,6 +15,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
   vm.createSlide = createSlide;
   vm.slideToLeft = slideToLeft;
   vm.slideToRight = slideToRight;
+  vm.$onDestroy = onDestroy;
 
   function onInit() {
     vm.selectedRoom = {};
@@ -23,11 +24,15 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
     vm.activeSide = 0;
     vm.loading = true;
 
+
     vm.instructions = {
       room: "Пройдите в комнату",
       elevator: "Пройдите к лифту",
       passageway: "Пройдите в проход"
-    }
+    };
+
+    //when find route from service or therapy
+    if($stateParams.room) vm.getPath();
   }
 
   function getPath() {
@@ -35,9 +40,10 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
     var params = {
       params: {
         floor: FLOOR_ID,
-        room: vm.selectedRoom.originalObject.id
+        room: $stateParams.room || vm.selectedRoom.originalObject.id
       }
     };
+
 
     findPathEntity.fetchAll(params).then(success, fail);
 
@@ -180,8 +186,8 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
           }
         };
 
-        var map = new canvasMap.CanvasRouteMap(options);
-        map.ready(function () {
+        vm.map = new canvasMap.CanvasRouteMap(options);
+        vm.map.ready(function () {
           vm.mapSlides.push(container);
           resolve();
         })
@@ -205,4 +211,9 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
       vm.mapSlides[vm.activeSide].classList.add('map__item_active');
     }
   }
+
+  function onDestroy() {
+
+  }
+
 }

@@ -24,7 +24,7 @@ angular
             }
           })
           .state('app.route', {
-            url: '/route',
+            url: '/route?room',
             permissions: false,
             module: false,
             views: {
