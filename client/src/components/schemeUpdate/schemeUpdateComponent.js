@@ -20,6 +20,7 @@ function schemeUpdateComponentController(mapEntity, $state, $scope, canvasMap) {
   vm.removeBuilding = removeBuilding;
   vm.validateBuildings = validateBuildings;
   vm.cancel = cancel;
+  vm.closePopup = closePopup;
   vm.onDestroy = onDestroy;
 
   function onInit() {
@@ -58,9 +59,21 @@ function schemeUpdateComponentController(mapEntity, $state, $scope, canvasMap) {
   }
 
   function saveScheme() {
-    vm.model.$save().then(function () {
-      $state.reload();
-    });
+    if (validateBuildings()) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Проверьте правильность заполнения информации по комнатам';
+      return false;
+    }
+
+    vm.model.$save().then(success, error);
+
+    function success() {
+      $state.go('admin.sсhemeList', {}, {reload: true});
+    }
+
+    function error(response) {
+      console.log(response.data);
+    }
   }
 
   function removeBuilding(event, building) {
@@ -70,9 +83,9 @@ function schemeUpdateComponentController(mapEntity, $state, $scope, canvasMap) {
 
   function validateBuildings() {
     var flag = false;
-    vm.model.rooms.forEach(function (room) {
-      if (!Object.keys(room.coordinate) || !room.number) {
-        room.noValid = true;
+    vm.model.buildings.forEach(function (building) {
+      if (!Object.keys(building.coordinate) || !building.name) {
+        building.noValid = true;
         flag = !flag;
       }
     });
@@ -81,6 +94,11 @@ function schemeUpdateComponentController(mapEntity, $state, $scope, canvasMap) {
 
   function cancel() {
      $state.go('admin.sсhemeList', {}, {reload: true});
+  }
+
+  function closePopup() {
+    vm.formError = !vm.formError;
+    vm.popupMsg = '';
   }
 
   var removeBuildingListener = $scope.$on('removeBuildingListener', removeBuilding);

@@ -18,6 +18,8 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
   vm.addBuilding = addBuilding;
   vm.cancel = cancel;
   vm.removeScheme = removeScheme;
+  vm.onDestroy = onDestroy;
+  vm.removeBuilding = removeBuilding;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'map/',
@@ -75,6 +77,18 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
     var s = new schemeEntity();
     var obj = angular.merge(s, scheme);
     obj.$destroy();
+    $state.go('admin.sсhemeList', {}, {reload: true});
+  }
+
+  function removeBuilding(event, building) {
+    var index = vm.model.buildings.indexOf(building);
+    vm.model.buildings.splice(index, 1)
+  }
+
+  var removeBuildingListener = $scope.$on('removeBuildingListener', removeBuilding);
+
+  function onDestroy() {
+    $scope.$on('$destroy', removeBuildingListener);
   }
 
 }
