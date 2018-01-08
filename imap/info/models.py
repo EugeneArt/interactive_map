@@ -112,14 +112,14 @@ class Therapy(models.Model):
         verbose_name_plural = 'Лечение'
 
     def __str__(self):
-        return "{}".format(self.id)
+        return "{}".format(self.name)
 
 
 class SubTherapy(models.Model):
     therapy = models.ForeignKey(Therapy, related_name='therapy', blank=True, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, help_text='Название')
     description = models.TextField(help_text='Описание')
-    # video = models.FileField(upload_to='therapy/', blank=True, null=True, default=True)
+    movie = models.FileField(upload_to='therapy/', blank=True, null=True)
     room = models.OneToOneField(Api_room, blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
@@ -132,7 +132,7 @@ class SubTherapy(models.Model):
 
 class ImageTherapy(models.Model):
     image = models.ImageField(upload_to='therapy/')
-    room = models.ForeignKey(SubTherapy, related_name='images', blank=True, null=True, on_delete=models.CASCADE)
+    subtherapy = models.ForeignKey(SubTherapy, related_name='images', blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Изображение'
