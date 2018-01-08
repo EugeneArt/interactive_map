@@ -9,12 +9,20 @@ angular
   })
 ;
 
-function advertisementPopupController() {
+function advertisementPopupController($rootScope) {
 
   var vm = this;
   vm.$onInit = onInit;
+  vm.close = close;
+
 
   function onInit() {
   }
+
+  function close() {
+    $rootScope.$broadcast('closeAdvertisementListener');
+  }
+
+
 
 }

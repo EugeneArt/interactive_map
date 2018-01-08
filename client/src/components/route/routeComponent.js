@@ -69,7 +69,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
                 });
             });
           break;
-          //room is located on the same floor as a terminal in another building(by passageway)
+        //room is located on the same floor as a terminal in another building(by passageway)
         case 2:
           createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate)
             .then(function () {
@@ -79,7 +79,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
                 })
             });
           break;
-           //room is located on the different floor as a terminal in another building(by passageway)
+        //room is located on the different floor as a terminal in another building(by passageway)
         case 3:
           createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
             .then(function () {
@@ -92,7 +92,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
                 })
             });
           break;
-           //room is located on the different floor as a terminal in another building(by passageway) and terminal is located in different floor as passageway
+        //room is located on the different floor as a terminal in another building(by passageway) and terminal is located in different floor as passageway
         case 4:
           createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
             .then(function () {
@@ -105,7 +105,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
                 })
             });
           break;
-          //buildings with passageway, terminal and room are located on the different floors and buildings
+        //buildings with passageway, terminal and room are located on the different floors and buildings
         case 5:
           createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
             .then(function () {
@@ -152,10 +152,30 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
           },
           map: {
             startPoint: {
-              coordinates: start
+              coordinates: start,
+              image: {
+                url: './dist/img/pointA.png',
+                width: 25,
+                height: 35,
+                position: 'up'
+              }
             },
             endPoint: {
-              coordinates: end
+              coordinates: end,
+              image: {
+                url: './dist/img/pointB.png',
+                width: 25,
+                height: 35,
+                position: 'up'
+              }
+            },
+            route: {
+              animateSpeed: 50,
+              step: 12,
+              drawing: {
+                color: '#51ff05',
+                printWeight: 5
+              }
             }
           }
         };

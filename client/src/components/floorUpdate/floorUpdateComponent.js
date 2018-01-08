@@ -25,6 +25,7 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
   vm.removeRoom = removeRoom;
   vm.validateRooms = validateRooms;
   vm.cancel = cancel;
+  vm.$onDestroy = onDestroy;
 
   function onInit() {
     vm.container = angular.element(document.querySelector("#container"));

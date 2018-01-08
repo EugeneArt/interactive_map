@@ -33,7 +33,7 @@ function selectCoordinateComponentController() {
   }
 
   function getCoordinate(event) {
-    vm.ctx.clearRect(vm.coordinate.x, vm.coordinate.y, vm.rectSize, vm.rectSize);
+    vm.ctx.clearRect(vm.coordinate.x - vm.rectSize/2, vm.coordinate.y - vm.rectSize/2, vm.rectSize, vm.rectSize);
 
     var rect = vm.canvas.getBoundingClientRect();
     var x = event.clientX - rect.left;
@@ -72,7 +72,7 @@ function selectCoordinateComponentController() {
 
   function draw(color) {
     vm.ctx.fillStyle = color;
-    vm.ctx.fillRect(vm.coordinate.x, vm.coordinate.y, vm.rectSize, vm.rectSize);
+    vm.ctx.fillRect(vm.coordinate.x - vm.rectSize/2, vm.coordinate.y- vm.rectSize/2, vm.rectSize, vm.rectSize);
   }
 
 }

@@ -20,6 +20,8 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
   vm.removeScheme = removeScheme;
   vm.onDestroy = onDestroy;
   vm.removeBuilding = removeBuilding;
+  vm.closePopup = closePopup;
+  vm.validateBuildings = validateBuildings;
 
   vm.uploader = new FileUploader({
     url: API_ENDPOINT + 'map/',
@@ -64,9 +66,37 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
   }
 
   function saveScheme() {
-    vm.model.$save().then(function () {
-      $state.reload();
+    if (validateBuildings()) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Проверьте правильность заполнения информации по комнатам';
+      return false;
+    }
+
+    vm.model.$save().then(success, error);
+
+    function success() {
+      $state.go('admin.sсhemeList', {}, {reload: true});
+    }
+
+    function error(response) {
+      console.log(response.data);
+    }
+  }
+
+  function validateBuildings() {
+    var flag = false;
+    vm.model.buildings.forEach(function (building) {
+      if (!Object.keys(building.coordinate) || !building.name) {
+        building.noValid = true;
+        flag = !flag;
+      }
     });
+    return flag;
+  }
+
+  function closePopup() {
+    vm.formError = !vm.formError;
+    vm.popupMsg = '';
   }
 
   function cancel() {
@@ -77,7 +107,7 @@ function schemeComponentController(schemeEntity, FileUploader, API_ENDPOINT, $st
     var s = new schemeEntity();
     var obj = angular.merge(s, scheme);
     obj.$destroy();
-    $state.go('admin.sсhemeList', {}, {reload: true});
+    vm.schemelist.splice(0,1);
   }
 
   function removeBuilding(event, building) {
