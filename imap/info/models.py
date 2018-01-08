@@ -119,7 +119,7 @@ class SubTherapy(models.Model):
     therapy = models.ForeignKey(Therapy, related_name='therapy', blank=True, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, help_text='Название')
     description = models.TextField(help_text='Описание')
-    video = models.FileField(upload_to='therapy/', blank=True, null=True, default=True)
+    # video = models.FileField(upload_to='therapy/', blank=True, null=True, default=True)
     room = models.OneToOneField(Api_room, blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:

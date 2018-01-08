@@ -104,8 +104,8 @@ class FloorSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         rooms_data = validated_data.pop('rooms')
-        terminal_data = validated_data.pop('terminal')
-        passageway_data = validated_data.pop('passageway')
+        terminal_data = validated_data.get('terminal')
+        passageway_data = validated_data.get('passageway')
         entrance_data = validated_data.pop('entrance')
 
         rooms = list((instance.rooms).all())
