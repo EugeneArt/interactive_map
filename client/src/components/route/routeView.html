@@ -14,6 +14,7 @@
 </div>
 
 <div class="map" ng-show="$ctrl.currentFloor && !$ctrl.loading">
+    <a href ui-sref="app.route" ui-sref-opts="{reload: true}">Найти новый маршрут</a>
     <div class="map__navigation">
         <div class="map__navigation__tool map__navigation__tool_left" ng-click="$ctrl.slideToLeft()"><i class="glyphicon glyphicon-chevron-left"></i></div>
         <div class="map__navigation__tool map__navigation__tool_right" ng-click="$ctrl.slideToRight()"><i class="glyphicon glyphicon-chevron-right"></i></div>
