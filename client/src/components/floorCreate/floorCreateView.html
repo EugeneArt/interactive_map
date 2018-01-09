@@ -32,8 +32,9 @@
                 </div>
             </div>
             <div class="floor-form__item col-md-3">
-                <div class="terminal">
-                    <div class="terminal___coordinates" ng-if="$ctrl.model.terminal">
+                <div class="terminal" ng-if="$ctrl.model.terminal">
+                    <a href class="terminal__close" ng-click="$ctrl.removeTerminal()"><i class="glyphicon glyphicon-remove-circle"></i></a>
+                    <div class="terminal___coordinates" >
                         <h5>Терминал</h5>
                         <select-coordinate-component
                                 coordinate="$ctrl.model.terminal.coordinate"
@@ -44,6 +45,7 @@
             </div>
             <div class="floor-form__item col-md-3">
                 <div class="passageway" ng-if="$ctrl.model.passageway">
+                    <a href class="terminal__close" ng-click="$ctrl.removePassageway()"><i class="glyphicon glyphicon-remove-circle"></i></a>
                     <h5>Проход</h5>
                     <select-coordinate-component
                             coordinate="$ctrl.model.passageway.coordinate"

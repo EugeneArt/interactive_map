@@ -26,6 +26,8 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
   vm.validateRooms = validateRooms;
   vm.cancel = cancel;
   vm.$onDestroy = onDestroy;
+  vm.removeTerminal = removeTerminal;
+  vm.removePassageway = removePassageway;
 
   function onInit() {
     vm.container = angular.element(document.querySelector("#container"));
@@ -144,6 +146,14 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
 
     });
     return flag;
+  }
+
+  function removeTerminal() {
+    if(vm.model.terminal) delete vm.model.terminal;
+  }
+
+  function removePassageway() {
+     if(vm.model.passageway) delete vm.model.passageway;
   }
   
   function cancel() {
