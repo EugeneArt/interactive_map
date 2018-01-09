@@ -152,7 +152,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
           container: container,
           url: response.image,
           canvas: {
-            width: 1076,
+            width: 1080,
             height: 608,
             initialWidth: 1080,
             scale: true
