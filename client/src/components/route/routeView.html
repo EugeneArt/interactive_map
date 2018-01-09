@@ -10,16 +10,24 @@
 <div class="route__btn"
      ng-if="$ctrl.selectedRoom | isEmpty:false"
      ng-click="$ctrl.getPath()">
-    <a href >Построить маршрут <i class="glyphicon glyphicon-search"></i></a>
+    <a href>Построить маршрут <i class="glyphicon glyphicon-search"></i></a>
 </div>
 
 <div class="map" ng-show="$ctrl.currentFloor && !$ctrl.loading">
-    <a href ui-sref="app.route" ui-sref-opts="{reload: true}">Найти новый маршрут</a>
-    <div class="map__navigation">
-        <div class="map__navigation__tool map__navigation__tool_left" ng-click="$ctrl.slideToLeft()"><i class="glyphicon glyphicon-chevron-left"></i></div>
-        <div class="map__navigation__tool map__navigation__tool_right" ng-click="$ctrl.slideToRight()"><i class="glyphicon glyphicon-chevron-right"></i></div>
-    </div>
+    <a href ui-sref="app.route" ui-sref-opts="{reload: true}" class="map__cancel">Найти новый маршрут</a>
     <div id="mapContainer"></div>
+    <div class="map__navigation_wrapper">
+        <div class="map__navigation">
+            <a class="map__navigation__tool" ng-click="$ctrl.slideToLeft()"><i
+                    class="glyphicon glyphicon-arrow-left"></i></a>
+            <div class="map__navigation__step">
+                <a href ng-click="$ctrl.selectSlide($index)" ng-repeat="step in $ctrl.mapSlides"
+                   class="map__navigation__step_item">Шаг {{$index + 1}}</a>
+            </div>
+            <a class="map__navigation__tool" ng-click="$ctrl.slideToRight()">
+                <i class="glyphicon glyphicon-arrow-right"></i></a>
+        </div>
+    </div>
 </div>
 
 

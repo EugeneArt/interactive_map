@@ -1,35 +1,87 @@
 .map {
-  .map__navigation {
-    display: flex;
-    justify-content: space-between;
-    .map__navigation__tool{
+  position: relative;
+  overflow: hidden;
+  .map__cancel {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    color: green;
+    border: 2px solid green;
+    padding: 10px 20px;
+    font-size: 2.5rem;
+    border-radius: 30px;
+    font-style: italic;
+  }
+  .map__navigation_wrapper {
+    .map__navigation {
+      margin-top: 60px;
+      text-align: center;
       font-size: 3rem;
-      padding: 20px;
-      cursor: pointer;
+      .map__navigation__tool {
+        margin: 0 -15px;
+        padding: 30px 40px;
+        border-radius: 80px 0 80px 0px;
+        cursor: pointer;
+        background: green;
+        color: white;
+      }
+      .map__navigation__step {
+        display: inline-block;
+        padding: 25px;
+        border: 2px solid green;
+        border-radius: 90px 10px;
+        font-style: italic;
+        font-weight: bold;
+        .map__navigation__step_item {
+          text-decoration: none;
+          padding: 5px 10px;
+          color: green;
+          border-right: 2px solid;
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
     }
   }
   #mapContainer {
+    position: relative;
     h1 {
-      text-align: center;
+      width: 100%;
+      top: -110px;
+      left: 50px;
+      font-size: 4.5rem;
+      text-align: left;
+      position: absolute;
+      font-style: italic;
+      color: green;
     }
     .map__item {
       display: none;
+      margin-top: 200px;
+      border: 2px solid green;
     }
     .map__item.map__item_active {
       display: block;
     }
   }
 }
+
 .route__btn {
   text-align: center;
-  font-size: 16px;
+  font-size: 2.5rem;
   a {
+    display: inline-block;
+    text-align: center;
+    padding: 10px 15px;
+    border: 2px solid green;
     text-decoration: none;
     font-weight: bold;
     font-style: italic;
     color: green;
+    border-radius: 50px;
   }
-  
+
 }
 
 .preloader {

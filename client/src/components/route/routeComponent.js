@@ -15,6 +15,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
   vm.createSlide = createSlide;
   vm.slideToLeft = slideToLeft;
   vm.slideToRight = slideToRight;
+  vm.selectSlide = selectSlide;
   vm.$onDestroy = onDestroy;
 
   function onInit() {
@@ -151,7 +152,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
           container: container,
           url: response.image,
           canvas: {
-            width: 1080,
+            width: 1076,
             height: 608,
             initialWidth: 1080,
             scale: true
@@ -210,6 +211,12 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
       vm.activeSide += 1;
       vm.mapSlides[vm.activeSide].classList.add('map__item_active');
     }
+  }
+  
+  function selectSlide(index) {
+     vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
+     vm.activeSide = index;
+     vm.mapSlides[vm.activeSide].classList.add('map__item_active');
   }
 
   function onDestroy() {
