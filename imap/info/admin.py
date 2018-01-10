@@ -58,6 +58,7 @@ class AdminImageTherapy(admin.TabularInline):
 class AdminTherapy(admin.ModelAdmin):
     inlines = [AdminImageTherapy]
     list_display = ('name','therapy',)
+    search_fields = ['name']
     extra = 0
     ordering = ['name']
 
@@ -65,6 +66,7 @@ class AdminTherapy(admin.ModelAdmin):
 @admin.register(Therapy)
 class AdminPackageTherapy(admin.ModelAdmin):
     ordering = ['name']
+
 
 @admin.register(Advertisement)
 class AdminAdvertisement(admin.ModelAdmin):
