@@ -9,12 +9,12 @@ angular
   })
 ;
 
-function searchComponentController() {
+function searchComponentController(API_ENDPOINT) {
 
   var vm = this;
   vm.$onInit = onInit;
 
   function onInit() {
-
+    vm.api = API_ENDPOINT;
   }
 }

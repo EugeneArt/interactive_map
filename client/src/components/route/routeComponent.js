@@ -78,7 +78,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
           break;
         //room is located on the same floor as a terminal in another building(by passageway)
         case 2:
-          createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate)
+          createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.passageway.coordinate)
             .then(function () {
               return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
                 .then(function () {
@@ -101,9 +101,9 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
           break;
         //room is located on the different floor as a terminal in another building(by passageway) and terminal is located in different floor as passageway
         case 4:
-          createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
+          createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.passageway.coordinate)
             .then(function () {
-              return createSlide(vm.instructions.passageway, vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate)
+              return createSlide(vm.instructions.elevator, vm.otherPassagewayFloor, vm.otherPassagewayFloor.passageway.coordinate, vm.otherPassagewayFloor.entrance)
                 .then(function () {
                   return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
                     .then(function () {

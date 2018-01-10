@@ -87,7 +87,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
       vm.formError = !vm.formError;
       vm.popupMsg = 'Проверьте правильность заполнения информации по комнатам';
       return false;
-    } else if(vm.model.passageway && !vm.model.passageway.toBuildingId) {
+    } else if(Object.keys(vm.model.passageway.coordinate).length && !vm.model.passageway.toBuildingId) {
       vm.formError = !vm.formError;
       vm.popupMsg = 'Укажите к какому зданию ведет проход';
       return false;

@@ -146,7 +146,7 @@ class FloorSerializer(serializers.ModelSerializer):
 
         instance.save()
 
-        #Perform creations and updates buildings.
+        #Perform creations and updates rooms.
         for room_data in rooms_data:
             if room_data.get('id'):
                 for room in rooms:
@@ -169,11 +169,11 @@ class FloorSerializer(serializers.ModelSerializer):
             else:
                 data_coordinate = room_data.pop('coordinate')
                 room_coordinate = Coordinate.objects.create(**data_coordinate)
-                Room.objects.create(scheme=instance, coordinate=room_coordinate, **room_data)
+                Room.objects.create(floor=instance, coordinate=room_coordinate, **room_data)
 
-        # # Perform deletions tracks.
-        # for building_to_delete in buildings:
-        #     building_to_delete.delete()
+        # Perform deletions tracks.
+        for room_to_delete in rooms:
+            room_to_delete.delete()
 
 
         return instance
@@ -254,7 +254,7 @@ class SchemeSerializer(serializers.ModelSerializer):
                 building_coordinate = Coordinate.objects.create(**data_coordinate)
                 Building.objects.create(scheme=instance, coordinate=building_coordinate, **building_data)
 
-        # Perform deletions tracks.
+        # Perform delete buildings.
         for building_to_delete in buildings:
             building_to_delete.delete()
 

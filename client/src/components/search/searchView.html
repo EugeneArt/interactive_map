@@ -5,7 +5,7 @@
                 placeholder="Поиск комнаты"
                 pause="100"
                 selected-object="$ctrl.selectedRoom"
-                remote-url="http://0.0.0.0:8000/roomlist/?search="
+                remote-url="{{$ctrl.api}}roomlist/?search="
                 search-fields="service, subtherapy"
                 title-field="subtherapy"
                 description-field="service"

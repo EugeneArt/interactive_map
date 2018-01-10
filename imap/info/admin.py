@@ -57,6 +57,7 @@ class AdminImageTherapy(admin.TabularInline):
 @admin.register(SubTherapy)
 class AdminTherapy(admin.ModelAdmin):
     inlines = [AdminImageTherapy]
+    list_display = ('name','therapy',)
     extra = 0
     ordering = ['name']
 

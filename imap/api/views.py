@@ -138,8 +138,8 @@ class FindPathView(APIView):
                     return Response([{
                         'case': 4,
                         'currentFloor': current_floor_serializer.data,
-                        'otherFloor': other_floor_serializer.data,
                         'otherPassagewayFloor': other_passageway_floor_serializer.data,
+                        'otherFloor': other_floor_serializer.data,
                         'roomCoordinate': room_coordinate_serializer.data
                     }])
                 elif (current_floor.number != current_building.passagewayFloorNumber) and (other_floor.number != other_building.passagewayFloorNumber):
