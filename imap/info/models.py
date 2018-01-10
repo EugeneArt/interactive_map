@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 class Service(models.Model):
     name = models.CharField(max_length=200, help_text='Название')
     description = models.TextField(help_text='Описание')
-    room = models.OneToOneField(Api_room, blank=True, null=True, on_delete=models.CASCADE)
+    room = models.OneToOneField(Api_room, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Услуги'
@@ -120,7 +120,7 @@ class SubTherapy(models.Model):
     name = models.CharField(max_length=200, help_text='Название')
     description = models.TextField(help_text='Описание')
     movie = models.FileField(upload_to='therapy/', blank=True, null=True)
-    room = models.OneToOneField(Api_room, blank=True, null=True, on_delete=models.CASCADE)
+    room = models.OneToOneField(Api_room, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Каталог лечения'

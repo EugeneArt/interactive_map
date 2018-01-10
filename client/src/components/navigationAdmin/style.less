@@ -1,26 +1,33 @@
 .navigation-admin__wrapper {
-  .navigation {
+  .navigation-admin {
+    padding: 15px 0;
+    margin: 0 15px;
     background-color: inherit;
     border-bottom: 10px solid green;
-    margin: 25px 15px 15px 15px;
-    justify-content: flex-start;
     font-size: 20px;
-  .navigation__item {
+    list-style: none;
+  .navigation-admin__item {
+    margin-left: 10px;
+    display: inline;
     a {
       padding: 10px 25px;
       color: #5e6d68;
       text-decoration: none;
+      border-radius: 40px 5px;
+      border: 1px solid white;
       &:hover {
         color: green;
+        border: 1px solid green;
       }
     }
 
   }
 
-  .navigation__item.active {
+  .navigation-admin__item.active {
     a {
       border-radius: 40px 5px;
       background-color: green;
+       border: 1px solid green;
       color: #fff;
 
     };

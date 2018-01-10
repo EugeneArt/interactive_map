@@ -14,9 +14,9 @@
 </div>
 
 <div class="map" ng-show="$ctrl.currentFloor && !$ctrl.loading">
-    <a href ui-sref="app.route" ui-sref-opts="{reload: true}" class="map__cancel">Найти новый маршрут</a>
+    <a href ui-sref="app.route" ui-sref-opts="{reload: true, inherit:false}" class="map__cancel">Найти новый маршрут</a>
     <div id="mapContainer"></div>
-    <div class="map__navigation_wrapper">
+    <div class="map__navigation_wrapper" ng-if="$ctrl.mapSlides.length > 1">
         <div class="map__navigation">
             <a class="map__navigation__tool" ng-click="$ctrl.slideToLeft()"><i
                     class="glyphicon glyphicon-arrow-left"></i></a>

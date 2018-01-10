@@ -19,6 +19,8 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
   vm.addRoom = addRoom;
   vm.closePopup = closePopup;
   vm.deleteEmptyCoordinates = deleteEmptyCoordinates;
+  vm.removeTerminal = removeTerminal;
+  vm.removePassageway = removePassageway;
   vm.removeRoom = removeRoom;
   vm.validateRooms = validateRooms;
   vm.cancel = cancel;
@@ -85,6 +87,10 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
       vm.formError = !vm.formError;
       vm.popupMsg = 'Проверьте правильность заполнения информации по комнатам';
       return false;
+    } else if(vm.model.passageway && !vm.model.passageway.toBuildingId) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Укажите к какому зданию ведет проход';
+      return false;
     } else {
       vm.deleteEmptyCoordinates();
     }
@@ -132,10 +138,16 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
           room.noValid = true;
           flag = !flag;
       }
-
-
     });
     return flag;
+  }
+
+  function removeTerminal() {
+    if(vm.model.terminal) delete vm.model.terminal;
+  }
+
+  function removePassageway() {
+     if(vm.model.passageway) delete vm.model.passageway;
   }
 
   function cancel() {
