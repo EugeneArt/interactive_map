@@ -155,7 +155,8 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
             width: 1080,
             height: 608,
             initialWidth: 1080,
-            scale: true
+            scale: true,
+            zoom: 1
           },
           map: {
             startPoint: {
@@ -178,7 +179,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
             },
             route: {
               animateSpeed: 50,
-              step: 12,
+              step: 15,
               drawing: {
                 color: '#51ff05',
                 printWeight: 5

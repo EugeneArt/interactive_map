@@ -39,14 +39,14 @@
 
     // string constants
     var REQUIRED_CLASS = 'autocomplete-required';
-    var TEXT_SEARCHING = 'Searching...';
-    var TEXT_NORESULTS = 'No results found';
+    var TEXT_SEARCHING = 'Поиск...';
+    var TEXT_NORESULTS = 'По вашему запросу ничего не найдено';
     var TEMPLATE_URL = '/angucomplete-alt/index.html';
 
     // Set the default template for this directive
     $templateCache.put(TEMPLATE_URL,
         '<div class="angucomplete-holder" ng-class="{\'angucomplete-dropdown-visible\': showDropdown}">' +
-        '  <input id="{{id}}_value" name="{{inputName}}" tabindex="{{fieldTabindex}}" ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off"  ng-keyup="inputChangeHandler(searchStr)"/>' +
+        '  <input id="{{id}}_value" name="{{inputName}}" tabindex="{{fieldTabindex}}" ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off"  ng-keyup="inputChangeHandler(searchStr)" oncopy="return false;" onpaste="return false;" oncut="return false;"/>' +
         '  <div id="{{id}}_dropdown" class="angucomplete-dropdown" ng-show="showDropdown">' +
         '    <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>' +
         '    <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>' +
@@ -704,10 +704,8 @@
         clearResults();
       };
       scope.inputChangeHandler = function(str) {
-       if (!scope.searchStr) {
-            str = inputField.val();
-            scope.searchStr  = inputField.val();
-        }
+        str = inputField.val();
+        scope.searchStr = inputField.val();
         if (str.length < minlength) {
           cancelHttpRequest();
           clearResults();
