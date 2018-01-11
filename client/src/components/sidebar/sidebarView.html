@@ -1,12 +1,12 @@
 <div ng-if="$ctrl.name == 'services'">
-    <ul class="sidebar__list">
-        <li ng-repeat="item in ::$ctrl.list" ui-sref-active="active" class="sidebar__list__item"><a href ui-sref="app.main.services.service({id: item.id})">{{item.name}}</a></li>
+    <ul class="sidebar__list sidebar__list_press">
+        <li ng-repeat="item in ::$ctrl.list" ui-sref-active="active" class="sidebar__list__item sidebar__list__item_press"><a href ui-sref="app.main.services.service({id: item.id})">{{item.name}}</a></li>
     </ul>
 </div>
 
 <div ng-if="$ctrl.name == 'rooms'">
     <ul class="sidebar__list">
-        <li ng-repeat="item in ::$ctrl.list" ui-sref-active="active" class="sidebar__list__item"><a href ui-sref="app.main.rooms.room({id: item.id})">{{item.name}}</a></li>
+        <li ng-repeat="item in ::$ctrl.list" ui-sref-active="active" class="sidebar__list__item sidebar__list__item_press"><a href ui-sref="app.main.rooms.room({id: item.id})">{{item.name}}</a></li>
     </ul>
 </div>
 
