@@ -10,7 +10,7 @@ angular
   })
 ;
 
-function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
+function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap, FileUploader, API_ENDPOINT) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -28,11 +28,12 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
   vm.$onDestroy = onDestroy;
   vm.removeTerminal = removeTerminal;
   vm.removePassageway = removePassageway;
+  vm.isUpload = false;
 
   function onInit() {
     vm.container = angular.element(document.querySelector("#container"));
     vm.showForm = false;
-    vm.getMap();
+    if(!vm.isUpload) vm.getMap();
 
     vm.model.entrance = vm.model.entrance || {};
     vm.model.rooms = vm.model.rooms || [];
@@ -40,8 +41,22 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
     vm.model.terminal.coordinate = vm.model.terminal.coordinate || {};
     vm.model.passageway = vm.model.passageway || {};
     vm.model.passageway.coordinate = vm.model.passageway.coordinate || {};
-
   }
+
+  vm.uploader = new FileUploader({
+    url: API_ENDPOINT + 'map/',
+    alias: 'image',
+    autoUpload: true,
+    headers: {},
+    onSuccessItem: function (file, response) {
+      vm.container.empty();
+      vm.model.map = response.id;
+      console.log(response.id);
+      createMap(response.image);
+      vm.isUpload = true;
+      onInit();
+    }
+  });
 
   function getMap() {
     mapEntity.fetchOne(vm.model.map).then(function (response) {
@@ -87,17 +102,20 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
       vm.formError = !vm.formError;
       vm.popupMsg = 'Необходимо указать выход';
       return false;
-    } else if (!vm.model.number) {
+    }
+    if (!vm.model.number) {
       vm.formError = !vm.formError;
       vm.popupMsg = 'Необходимо указать номер этажа';
       return false;
-    } else if (validateRooms()) {
+    }
+    if (validateRooms()) {
       vm.formError = !vm.formError;
       vm.popupMsg = 'Проверьте правильность заполнения информации по комнатам';
       return false;
-    } else {
-      vm.deleteEmptyCoordinates();
     }
+    vm.deleteEmptyCoordinates();
+
+
     vm.model.$save().then(success, error);
 
     function success() {
@@ -115,17 +133,25 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
   }
 
   function deleteEmptyCoordinates() {
+    //clear empty terminal and passageway
     if (!Object.keys(vm.model.terminal.coordinate).length) {
       delete vm.model.terminal;
     }
     if (!Object.keys(vm.model.passageway.coordinate).length) {
       delete vm.model.passageway;
     }
+    //clear empty rooms
     if (vm.model.rooms.length) {
       vm.model.rooms.forEach(function (item) {
         if (!Object.keys(item).length) {
           delete vm.model.rooms[item];
         }
+      })
+    }
+    //clear subtherapies
+    if (vm.model.rooms.length) {
+      vm.model.rooms.forEach(function (item, index) {
+        if(item.subtherapies) delete vm.model.rooms[index].subtherapies;
       })
     }
   }
@@ -142,8 +168,6 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap) {
         room.noValid = true;
         flag = !flag;
       }
-
-
     });
     return flag;
   }
