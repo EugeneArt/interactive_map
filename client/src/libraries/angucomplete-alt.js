@@ -207,13 +207,20 @@
         if (key) {
           keys= key.split('.');
           result = obj;
-          for (var i = 0; i < keys.length; i++) {
-            result = result[keys[i]];
+          if(obj.subtherapies.length) {
+            for (var j = 0; j < obj.subtherapies.length; j++) {
+              result = obj.subtherapies[j].name;
+            }
+          } else {
+            for (var i = 0; i < keys.length; i++) {
+              result = result[keys[i]];
+            }
           }
         }
         else {
           result = obj;
         }
+        console.log();
         return result;
       }
 

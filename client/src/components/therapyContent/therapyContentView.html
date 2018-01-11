@@ -5,7 +5,7 @@
             <li ng-repeat="subtherapy in ::$ctrl.item.therapy"
                 ui-sref="app.main.therapy.treat.subtherapy({subTherapyId: subtherapy.id})"
                 class="therapy__list__item">
-                <img src="{{subtherapy.images[0].image}}" alt="" width="150">
+                <img ng-show="subtherapy.images[0].image" src="{{subtherapy.images[0].image}}" alt="" width="200" height="150">
                 <div class="therapy__list__item_title">{{subtherapy.name}}</div>
             </li>
         </ul>
@@ -17,11 +17,11 @@
                 <img ng-src="{{image.image}}">
             </li>
         </flex-slider>
-        <p class="therapy__subtherapy__content_description">{{::$ctrl.item.description}}</p>
         <div class="therapy__subtherapy__content_movie" ng-if="$ctrl.item.movie">
             <video width="600" autoplay>
                 <source src="{{::$ctrl.item.movie}}" type="video/mp4">
             </video>
         </div>
+        <p class="therapy__subtherapy__content_description">{{::$ctrl.item.description}}</p>
     </div>
 </div>

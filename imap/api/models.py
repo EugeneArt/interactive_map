@@ -1,5 +1,6 @@
 from django.db import models
 from django_resized import ResizedImageField
+# from info.models import SubTherapy
 
 class Coordinate(models.Model):
     x = models.IntegerField()
@@ -55,7 +56,7 @@ class Floor(models.Model):
         return "{}".format(self.number)
 
 class Room(models.Model):
-    number = models.IntegerField()
+    number = models.CharField(max_length=255)
     floor = models.ForeignKey(Floor,related_name='rooms', blank=True, null=True, on_delete=models.CASCADE)
     coordinate = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
 

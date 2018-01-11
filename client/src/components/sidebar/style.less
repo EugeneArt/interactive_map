@@ -6,6 +6,14 @@
   font-weight: bold;
 
   .sidebar__list__item {
+    border: 2px solid green;
+    padding: 5px 0;
+    margin: 7px 0;
+    border-radius: 10px;
+    box-shadow: 2px 2px green, 4px 4px green;
+    top: -4px;
+    left: -4px;
+    text-align: center;
     a {
       display: inline-block;
       width: 100%;
@@ -20,9 +28,13 @@
     a {
       color: #fff;
     }
+    .sidebar__sublist {
+      display: block;
+    }
   }
 
   .sidebar__sublist {
+    display: none;
     margin: 0;
     padding: 0 1px 1px 15px;
     text-align: center;
@@ -32,6 +44,10 @@
 
     .sidebar__sublist__item {
       background-color: #fff;
+      border: 1px solid #fff;
+      border-bottom: 1px solid green;
+      border-radius: 0 20px;
+      margin: 5px 0;
       a {
         padding: 10px;
         color: #008000;
@@ -42,6 +58,7 @@
         background-color: green;
         color: #fff;
         border: 1px solid #fff;
+        border-radius: 0 20px;
       }
     }
   }
