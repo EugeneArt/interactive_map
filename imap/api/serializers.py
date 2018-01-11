@@ -105,6 +105,7 @@ class FloorSerializer(serializers.ModelSerializer):
 
         # Perform scheme update.
         instance.number = validated_data.get('number', instance.number)
+        instance.map = validated_data.get('map', instance.map)
 
         #entrance
         entrance_coordinate_id = entrance_data.get('id')
