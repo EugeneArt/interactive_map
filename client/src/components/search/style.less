@@ -6,7 +6,7 @@
     width: 70%;
     .angucomplete-dropdown {
       background-color: green;
-     font-size: 2.7rem;
+      font-size: 2.7rem;
       color: #fff;
     }
     .form-control {
@@ -21,6 +21,16 @@
     }
   }
 }
+
+#search_value {
+  color: transparent;
+  text-shadow: 0 0 0 green;
+  text-align: center;
+  &:focus {
+    outline: none;
+  }
+}
+
 #search_value::-webkit-input-placeholder {
   color: green !important;
 }

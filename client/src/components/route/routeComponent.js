@@ -7,7 +7,7 @@ angular
   })
 ;
 
-function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canvasMap, $stateParams, $state) {
+function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canvasMap, $stateParams) {
 
   var vm = this;
   vm.$onInit = onInit;
@@ -154,9 +154,8 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
           canvas: {
             width: 1080,
             height: 608,
-            initialWidth: 1080,
-            scale: true,
-            zoom: 1
+            initialWidth: 1920,
+            scale: true
           },
           map: {
             startPoint: {

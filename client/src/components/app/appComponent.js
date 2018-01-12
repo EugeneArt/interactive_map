@@ -21,6 +21,7 @@ function appComponentController(ngDialog, $interval, $scope, TIMER) {
   function onInit() {
     vm.advertisementVideo = vm.video.length > 0 ? vm.video[0].video: {};
     vm.startTimer();
+
   }
 
   function startTimer() {

@@ -69,9 +69,9 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap, Fi
       container: vm.container,
       url: url,
       canvas: {
-        width: 1080,
-        height: 608,
-        initialWidth: 1080,
+        width: 1920,
+        height: 1080,
+        initialWidth: 1920,
         scale: false
       }
     };
