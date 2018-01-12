@@ -22,6 +22,8 @@ function appComponentController(ngDialog, $interval, $scope, TIMER) {
     vm.advertisementVideo = vm.video.length > 0 ? vm.video[0].video: {};
     vm.startTimer();
 
+    vm.bodyContainer = angular.element(document.querySelector("body"));
+    vm.bodyContainer.addClass('body-overflow');
   }
 
   function startTimer() {

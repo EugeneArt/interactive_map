@@ -28,8 +28,8 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
 
     vm.instructions = {
       room: "Пройдите в комнату",
-      elevator: "Пройдите к лифту",
-      passageway: "Пройдите в проход"
+      elevator: "Пройдите в лифт",
+      passageway: "Пройдите в переход между зданиями"
     };
 
     //when find route from service or therapy

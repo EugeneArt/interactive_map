@@ -1,11 +1,11 @@
 <h1 class="content__title">{{::$ctrl.content.name}}</h1>
-<p class="content__description">{{::$ctrl.content.description}}</p>
-
 <flex-slider slide="image in $ctrl.content.images track by image.id" animation="slide" touch="true">
 	<li>
 		<img ng-src="{{image.image}}">
 	</li>
 </flex-slider>
+
+<p class="content__description" ng-bind-html="$ctrl.content.description | toTrusted"></p>
 
 <div class="content__prices">
 	<h2>Стоимость отдыха</h2>
@@ -14,9 +14,11 @@
 		<uib-tabset type="pills">
 			<uib-tab ng-repeat="currency in ::voucher.currency" heading="{{currency.name}}">
 	  			<table style="width:90%" class="content__table">
-					<tr>
+					<tr ng-switch="$index">
 						<th>Дни</th>
-						<th colspan="3">Стоимость</th>
+						<th colspan="3" ng-switch-when="0">Стоимость, бел. руб.</th>
+						<th colspan="3" ng-switch-when="1">Стоимость, рос. руб.</th>
+						<th colspan="3" ng-switch-when="2">Стоимость, евро</th>
 					</tr>
 					<tr>
 						<td></td>
@@ -26,9 +28,13 @@
 					</tr>
 					<tr ng-repeat="item in ::currency.price_type">
 						<td>{{item.during}}</td>
-						<td>{{item.price_per_day}}</td>
-						<td>{{item.price_per_day * 12}}</td>
-						<td>{{item.price_per_day * 21}}</td>
+						<td ng-if="item.price_per_day">{{item.price_per_day}}</td>
+						<td ng-if="item.price_per_day">{{item.price_per_day * 12}}</td>
+						<td ng-if="item.price_per_day">{{item.price_per_day * 21}}</td>
+
+						<td ng-if="!item.price_per_day">*</td>
+						<td ng-if="!item.price_per_day">*</td>
+						<td ng-if="!item.price_per_day">*</td>
 					</tr>
 				</table>
 			</uib-tab>
@@ -36,3 +42,7 @@
 	</uib-tab>
 </uib-tabset>
 </div>
+
+
+
+

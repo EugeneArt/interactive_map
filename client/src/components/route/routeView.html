@@ -10,7 +10,9 @@
 <div class="route__btn"
      ng-if="$ctrl.selectedRoom | isEmpty:false"
      ng-click="$ctrl.getPath()">
-    <a href>Построить маршрут <i class="glyphicon glyphicon-search"></i></a>
+    <h3 ng-if="$ctrl.selectedRoom.originalObject.subtherapies.length">{{$ctrl.selectedRoom.originalObject.subtherapies[0].name}}, комната № {{$ctrl.selectedRoom.originalObject.number}}</h3>
+    <h3 ng-if="!$ctrl.selectedRoom.originalObject.subtherapies.length">Комната № {{$ctrl.selectedRoom.originalObject.number}}</h3>
+    <a href> Построить маршрут <i class="glyphicon glyphicon-search"></i></a>
 </div>
 
 <div class="map" ng-show="$ctrl.currentFloor && !$ctrl.loading">
@@ -22,7 +24,7 @@
                     class="glyphicon glyphicon-arrow-left"></i></a>
             <div class="map__navigation__step">
                 <a href ng-click="$ctrl.selectSlide($index)" ng-repeat="step in $ctrl.mapSlides"
-                   class="map__navigation__step_item">Шаг {{$index + 1}}</a>
+                   class="map__navigation__step_item" ng-class="{'map__navigation__step_item-active': $ctrl.activeSide == $index}">Шаг {{$index + 1}}</a>
             </div>
             <a class="map__navigation__tool" ng-click="$ctrl.slideToRight()">
                 <i class="glyphicon glyphicon-arrow-right"></i></a>
