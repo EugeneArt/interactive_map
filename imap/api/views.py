@@ -146,8 +146,8 @@ class FindPathView(APIView):
                             'roomCoordinate': room_coordinate_serializer.data
                         }])
                 elif (current_floor.number != other_floor.number):
-                    if(not current_floor.passageway) and (other_floor.passageway):
-                        current_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=other_floor.building.id, building=other_floor.building.id)[0]
+                    if (current_floor.passageway.toBuildingId != other_floor.building.id) and (other_floor.passageway == current_floor.building.id):
+                        current_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=other_floor.building.id, building=current_floor.building.id)[0]
                         current_building_floor_with_passageway_serializer = FloorSerializer(current_building_floor_with_passageway)
                         return Response([{
                                 'case': 3,
@@ -156,7 +156,7 @@ class FindPathView(APIView):
                                 'otherFloor': other_floor_serializer.data,
                                 'roomCoordinate': room_coordinate_serializer.data
                             }])
-                    elif (current_floor.passageway) and (not other_floor.passageway):
+                    elif (current_floor.passageway.toBuildingId == other_floor.building.id):
                         other_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=current_floor.building.id, building=other_floor.building.id)[0]
                         other_building_floor_with_passageway_serializer = FloorSerializer(other_building_floor_with_passageway)
                         return Response([{
@@ -166,7 +166,8 @@ class FindPathView(APIView):
                             'otherFloor': other_floor_serializer.data,
                             'roomCoordinate': room_coordinate_serializer.data
                         }])
-                    elif (not current_floor.passageway) and (not other_floor.passageway):
+
+                    if (current_floor.passageway.toBuildingId != other_floor.building.id) and (not other_floor.passageway):
                         current_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=other_floor.building.id, building=current_floor.building.id)[0]
                         current_building_floor_with_passageway_serializer = FloorSerializer(current_building_floor_with_passageway)
                         other_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=current_floor.building.id, building=other_floor.building.id)[0]
@@ -181,60 +182,60 @@ class FindPathView(APIView):
                         }])
 
             # building without passageway
-            else:
-                scheme = Scheme.objects.get(current_building.scheme)
-                map = Map.objects.get(scheme.map)
-                map_serizlizer = MapSerializer(map)
-
-                if (current_floor.number == 1) and (other_floor.number == 1):
-                    return Response([{
-                        'case': 6,
-                        'currentFloor': current_floor_serializer.data,
-                        'otherFloor': other_floor_serializer.data,
-                        'roomCoordinate': room_coordinate_serializer.data,
-                        'current_building': current_building_serializer.data,
-                        'other_building': other_building_serializer.data,
-                        'map': map_serizlizer.data
-                    }])
-                elif (current_floor.number > 1) and (other_floor.number == 1):
-                    current_floor_first = Floor.objects.get(building=current_building, number=1)
-                    current_floor_first_serializer = FloorSerializer(current_floor_first)
-                    return Response([{
-                        'case': 7,
-                        'currentFloor': current_floor_serializer.data,
-                        'currentFloorFirst': current_floor_first_serializer.data,
-                        'otherFloor': other_floor_serializer.data,
-                        'roomCoordinate': room_coordinate_serializer.data,
-                        'current_building': current_building_serializer.data,
-                        'other_building': other_building_serializer.data,
-                        'map': map_serizlizer.data
-                    }])
-                elif (current_floor.number == 1) and (other_floor.number > 1):
-                    other_floor_first = Floor.objects.get(building=other_building, number=1)
-                    other_floor_first_serializer = FloorSerializer(other_floor_first)
-                    return Response([{
-                        'case': 8,
-                        'currentFloor': current_floor_serializer.data,
-                        'otherFloor': other_floor_serializer.data,
-                        'otherFloorFirst': other_floor_first_serializer.data,
-                        'roomCoordinate': room_coordinate_serializer.data,
-                        'current_building': current_building_serializer.data,
-                        'other_building': other_building_serializer.data,
-                        'map': map_serizlizer.data
-                    }])
-                elif (current_floor.number > 1) and (other_floor.number > 1):
-                    current_floor_first = Floor.objects.get(building=current_building, number=1)
-                    current_floor_first_serializer = FloorSerializer(current_floor_first)
-                    other_floor_first = Floor.objects.get(building=other_building, number=1)
-                    other_floor_first_serializer = FloorSerializer(other_floor_first)
-                    return Response([{
-                        'case': 9,
-                        'currentFloor': current_floor_serializer.data,
-                        'currentFloorFirst': current_floor_first_serializer.data,
-                        'otherFloor': other_floor_serializer.data,
-                        'otherFloorFirst': other_floor_first_serializer.data,
-                        'roomCoordinate': room_coordinate_serializer.data,
-                        'current_building': current_building_serializer.data,
-                        'other_building': other_building_serializer.data,
-                        'map': map_serizlizer.data
-                    }])
+            # else:
+            #     scheme = Scheme.objects.get(current_building.scheme)
+            #     map = Map.objects.get(scheme.map)
+            #     map_serizlizer = MapSerializer(map)
+            #
+            #     if (current_floor.number == 1) and (other_floor.number == 1):
+            #         return Response([{
+            #             'case': 6,
+            #             'currentFloor': current_floor_serializer.data,
+            #             'otherFloor': other_floor_serializer.data,
+            #             'roomCoordinate': room_coordinate_serializer.data,
+            #             'current_building': current_building_serializer.data,
+            #             'other_building': other_building_serializer.data,
+            #             'map': map_serizlizer.data
+            #         }])
+            #     elif (current_floor.number > 1) and (other_floor.number == 1):
+            #         current_floor_first = Floor.objects.get(building=current_building, number=1)
+            #         current_floor_first_serializer = FloorSerializer(current_floor_first)
+            #         return Response([{
+            #             'case': 7,
+            #             'currentFloor': current_floor_serializer.data,
+            #             'currentFloorFirst': current_floor_first_serializer.data,
+            #             'otherFloor': other_floor_serializer.data,
+            #             'roomCoordinate': room_coordinate_serializer.data,
+            #             'current_building': current_building_serializer.data,
+            #             'other_building': other_building_serializer.data,
+            #             'map': map_serizlizer.data
+            #         }])
+            #     elif (current_floor.number == 1) and (other_floor.number > 1):
+            #         other_floor_first = Floor.objects.get(building=other_building, number=1)
+            #         other_floor_first_serializer = FloorSerializer(other_floor_first)
+            #         return Response([{
+            #             'case': 8,
+            #             'currentFloor': current_floor_serializer.data,
+            #             'otherFloor': other_floor_serializer.data,
+            #             'otherFloorFirst': other_floor_first_serializer.data,
+            #             'roomCoordinate': room_coordinate_serializer.data,
+            #             'current_building': current_building_serializer.data,
+            #             'other_building': other_building_serializer.data,
+            #             'map': map_serizlizer.data
+            #         }])
+            #     elif (current_floor.number > 1) and (other_floor.number > 1):
+            #         current_floor_first = Floor.objects.get(building=current_building, number=1)
+            #         current_floor_first_serializer = FloorSerializer(current_floor_first)
+            #         other_floor_first = Floor.objects.get(building=other_building, number=1)
+            #         other_floor_first_serializer = FloorSerializer(other_floor_first)
+            #         return Response([{
+            #             'case': 9,
+            #             'currentFloor': current_floor_serializer.data,
+            #             'currentFloorFirst': current_floor_first_serializer.data,
+            #             'otherFloor': other_floor_serializer.data,
+            #             'otherFloorFirst': other_floor_first_serializer.data,
+            #             'roomCoordinate': room_coordinate_serializer.data,
+            #             'current_building': current_building_serializer.data,
+            #             'other_building': other_building_serializer.data,
+            #             'map': map_serizlizer.data
+            #         }])
