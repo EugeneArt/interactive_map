@@ -10,7 +10,7 @@ class Coordinate(models.Model):
         return "{}".format(self.id)
 
 class Map(models.Model):
-    image = ResizedImageField(size=[1080, 608], quality=75, upload_to='maps')
+    image = ResizedImageField(size=[1920, 1080], quality=100, upload_to='maps')
 
     def __str__(self):
         return "{}".format(self.id)
@@ -53,7 +53,7 @@ class Floor(models.Model):
     passageway = models.OneToOneField(Passageway, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return "{}".format(self.number)
+        return "Этаж: {0}, Здание: {1}".format(self.number, self.building.name)
 
 class Room(models.Model):
     number = models.CharField(max_length=255)

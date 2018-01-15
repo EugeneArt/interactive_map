@@ -16,6 +16,7 @@ class AdminImageServices(admin.TabularInline):
 class AdminServices(admin.ModelAdmin):
     inlines = [AdminImageServices]
     ordering = ['name']
+    search_fields = ['name']
 
 
 # room
@@ -24,6 +25,9 @@ class AdminImageRoom(admin.TabularInline):
     extra = 0
     readonly_fields = ('image_tag',)
 
+class AdminVoucherInline(admin.TabularInline):
+    model = Voucher
+    extra = 0
 
 @admin.register(Voucher)
 class AdminVoucher(admin.ModelAdmin):
@@ -38,6 +42,7 @@ class AdminPriceRoom(admin.TabularInline):
 @admin.register(Currency)
 class AdminCurrency(admin.ModelAdmin):
     inlines = [AdminPriceRoom]
+    list_display = ('name','voucher',)
     ordering = ['name']
 
 
@@ -58,6 +63,7 @@ class AdminImageTherapy(admin.TabularInline):
 class AdminTherapy(admin.ModelAdmin):
     inlines = [AdminImageTherapy]
     list_display = ('name','therapy',)
+    list_filter = ('room__floor',)
     search_fields = ['name']
     extra = 0
     ordering = ['name']

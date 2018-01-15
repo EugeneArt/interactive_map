@@ -78,7 +78,7 @@ class Voucher(models.Model):
         verbose_name_plural = 'Путевка'
 
     def __str__(self):
-        return "{}".format(self.name)
+        return "Путевка: {0}, Комната: {1}".format(self.name, self.room)
 
 
 class Currency(models.Model):

@@ -125,6 +125,8 @@ class FloorSerializer(serializers.ModelSerializer):
                 passageway_coordinate_new = Coordinate.objects.create(**coordinate_passageway)
                 passageway_obj = Passageway.objects.create(coordinate=passageway_coordinate_new, toBuildingId=passageway_data.get('toBuildingId'))
                 instance.passageway = passageway_obj
+        else:
+            instance.passageway = None
 
         if(terminal_data):
             coordinate_terminal = terminal_data.get('coordinate')
@@ -137,6 +139,8 @@ class FloorSerializer(serializers.ModelSerializer):
                 terminal_coordinate_new = Coordinate.objects.create(**coordinate_terminal)
                 terminal_obj = Terminal.objects.create(coordinate=terminal_coordinate_new)
                 instance.terminal = terminal_obj
+        else:
+            instance.terminal = None
 
         instance.save()
 
