@@ -114,47 +114,71 @@ class FindPathView(APIView):
             other_building = Building.objects.get(pk=other_floor.building.id)
             other_building_serializer = BuildingSerializer(other_building)
             # building with passageway
-            if current_building.passagewayFloorNumber:
-                if (current_floor.number == current_building.passagewayFloorNumber) and (other_floor.number == other_building.passagewayFloorNumber):
+            if current_building.isPassageway:
+                #from buildings
+                current_floor_is_contain_passageway_to_other_floor = Floor.objects.filter(passageway__toBuildingId=other_floor.building.id, building=current_floor.building.id)
+                if(not current_floor_is_contain_passageway_to_other_floor):
+                    #work for building woth one passageway, need to fix in the future
+
+                    current_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=current_floor.building.id)[0]
+                    current_building_floor_with_passageway_serializer = FloorSerializer(current_building_floor_with_passageway)
+
+
+                    other_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=other_floor.building.id, building=current_building_floor_with_passageway.building.id)[0]
+                    other_building_floor_with_passageway_serializer = FloorSerializer(other_building_floor_with_passageway)
+
                     return Response([{
-                        'case': 2,
-                        'currentFloor': current_floor_serializer.data,
-                        'otherFloor': other_floor_serializer.data,
-                        'roomCoordinate': room_coordinate_serializer.data
-                    }])
-                elif (current_floor.number != current_building.passagewayFloorNumber) and (other_floor.number == other_building.passagewayFloorNumber):
-                    current_passageway_floor = Floor.objects.get(building=current_building, number=current_building.passagewayFloorNumber)
-                    current_passageway_floor_serializer = FloorSerializer(current_passageway_floor)
+                            'case': 10,
+                            'currentFloor': current_floor_serializer.data,
+                            'currentPassagewayFloor': current_building_floor_with_passageway_serializer.data,
+                            'otherPassagewayFloor': other_building_floor_with_passageway_serializer.data,
+                            'otherFloor': other_floor_serializer.data,
+                            'roomCoordinate': room_coordinate_serializer.data
+                        }])
+                    #case 11 - current floor without passageaway
+                    #case 12 - other floor without passageaway
+                #buildings near
+                if (current_floor.number == other_floor.number) and current_floor.passageway and (current_floor.passageway.toBuildingId == other_floor.building.id) and (other_floor.passageway.toBuildingId == current_floor.building.id):
                     return Response([{
-                        'case': 3,
-                        'currentFloor': current_floor_serializer.data,
-                        'currentPassagewayFloor': current_passageway_floor_serializer.data,
-                        'otherFloor': other_floor_serializer.data,
-                        'roomCoordinate': room_coordinate_serializer.data
-                    }])
-                elif (current_floor.number == current_building.passagewayFloorNumber) and (other_floor.number != other_building.passagewayFloorNumber):
-                    other_passageway_floor = Floor.objects.get(building=other_building, number=other_building.passagewayFloorNumber)
-                    other_passageway_floor_serializer = FloorSerializer(other_passageway_floor)
-                    return Response([{
-                        'case': 4,
-                        'currentFloor': current_floor_serializer.data,
-                        'otherPassagewayFloor': other_passageway_floor_serializer.data,
-                        'otherFloor': other_floor_serializer.data,
-                        'roomCoordinate': room_coordinate_serializer.data
-                    }])
-                elif (current_floor.number != current_building.passagewayFloorNumber) and (other_floor.number != other_building.passagewayFloorNumber):
-                    current_passageway_floor = Floor.objects.get(building=current_building, number=current_building.passagewayFloorNumber)
-                    current_passageway_floor_serializer = FloorSerializer(current_passageway_floor)
-                    other_passageway_floor = Floor.objects.get(building=other_building, number=other_building.passagewayFloorNumber)
-                    other_passageway_floor_serializer = FloorSerializer(other_passageway_floor)
-                    return Response([{
-                        'case': 5,
-                        'currentFloor': current_floor_serializer.data,
-                        'currentPassagewayFloor': current_passageway_floor_serializer.data,
-                        'otherFloor': other_floor_serializer.data,
-                        'otherPassagewayFloor': other_passageway_floor_serializer.data,
-                        'roomCoordinate': room_coordinate_serializer.data
-                    }])
+                            'case': 2,
+                            'currentFloor': current_floor_serializer.data,
+                            'otherFloor': other_floor_serializer.data,
+                            'roomCoordinate': room_coordinate_serializer.data
+                        }])
+                elif (current_floor.number != other_floor.number):
+                    if(not current_floor.passageway) and (other_floor.passageway):
+                        current_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=other_floor.building.id, building=other_floor.building.id)[0]
+                        current_building_floor_with_passageway_serializer = FloorSerializer(current_building_floor_with_passageway)
+                        return Response([{
+                                'case': 3,
+                                'currentFloor': current_floor_serializer.data,
+                                'currentPassagewayFloor': current_building_floor_with_passageway_serializer.data,
+                                'otherFloor': other_floor_serializer.data,
+                                'roomCoordinate': room_coordinate_serializer.data
+                            }])
+                    elif (current_floor.passageway) and (not other_floor.passageway):
+                        other_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=current_floor.building.id, building=other_floor.building.id)[0]
+                        other_building_floor_with_passageway_serializer = FloorSerializer(other_building_floor_with_passageway)
+                        return Response([{
+                            'case': 4,
+                            'currentFloor': current_floor_serializer.data,
+                            'otherPassagewayFloor': other_building_floor_with_passageway_serializer.data,
+                            'otherFloor': other_floor_serializer.data,
+                            'roomCoordinate': room_coordinate_serializer.data
+                        }])
+                    elif (not current_floor.passageway) and (not other_floor.passageway):
+                        current_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=other_floor.building.id, building=current_floor.building.id)[0]
+                        current_building_floor_with_passageway_serializer = FloorSerializer(current_building_floor_with_passageway)
+                        other_building_floor_with_passageway = Floor.objects.filter(passageway__toBuildingId=current_floor.building.id, building=other_floor.building.id)[0]
+                        other_building_floor_with_passageway_serializer = FloorSerializer(other_building_floor_with_passageway)
+                        return Response([{
+                            'case': 5,
+                            'currentFloor': current_floor_serializer.data,
+                            'currentPassagewayFloor': current_building_floor_with_passageway_serializer.data,
+                            'otherFloor': other_floor_serializer.data,
+                            'otherPassagewayFloor': other_building_floor_with_passageway_serializer.data,
+                            'roomCoordinate': room_coordinate_serializer.data
+                        }])
 
             # building without passageway
             else:

@@ -116,17 +116,23 @@ class FloorSerializer(serializers.ModelSerializer):
 
         if(passageway_data):
             coordinate_passageway = passageway_data.get('coordinate')
-            if(coordinate_passageway.get('id')):
-                coordinate_passageway_obj = Coordinate.objects.get(pk=coordinate_passageway.get('id'))
-                coordinate_passageway_obj.x = coordinate_passageway.get('x', coordinate_passageway_obj.x)
-                coordinate_passageway_obj.y = coordinate_passageway.get('y', coordinate_passageway_obj.y)
-                coordinate_passageway_obj.save()
-            else:
+            if not passageway_data.get('id'):
                 passageway_coordinate_new = Coordinate.objects.create(**coordinate_passageway)
                 passageway_obj = Passageway.objects.create(coordinate=passageway_coordinate_new, toBuildingId=passageway_data.get('toBuildingId'))
                 instance.passageway = passageway_obj
-        else:
-            instance.passageway = None
+            else:
+                instance_passageway = Passageway.objects.get(pk=passageway_data.get('id'))
+                instance_passageway.toBuildingId = passageway_data.get('toBuildingId', instance_passageway.toBuildingId)
+                instance_passageway.save()
+                if(coordinate_passageway.get('id')):
+                    coordinate_passageway_obj = Coordinate.objects.get(pk=coordinate_passageway.get('id'))
+                    coordinate_passageway_obj.x = coordinate_passageway.get('x', coordinate_passageway_obj.x)
+                    coordinate_passageway_obj.y = coordinate_passageway.get('y', coordinate_passageway_obj.y)
+                    coordinate_passageway_obj.save()
+                else:
+                    passageway_coordinate_new = Coordinate.objects.create(**coordinate_passageway)
+                    passageway_obj = Passageway.objects.create(coordinate=passageway_coordinate_new, toBuildingId=passageway_data.get('toBuildingId'))
+                    instance.passageway = passageway_obj
 
         if(terminal_data):
             coordinate_terminal = terminal_data.get('coordinate')
@@ -231,7 +237,7 @@ class SchemeSerializer(serializers.ModelSerializer):
                 for building in buildings:
                     if building.id == building_data.get('id'):
                         building.name = building_data.get('name', building.name)
-                        building.passagewayFloorNumber = building_data.get('passagewayFloorNumber', building.passagewayFloorNumber)
+                        building.isPassageway = building_data.get('isPassageway', building.isPassageway)
 
                         data_coordinate = building_data.pop('coordinate')
                         coordinate_id = data_coordinate.get('id')

@@ -37,7 +37,7 @@ class Scheme(models.Model):
 
 class Building(models.Model):
     name = models.CharField(max_length=255)
-    passagewayFloorNumber = models.IntegerField(blank=True, null=True)
+    isPassageway = models.BooleanField(default=False)
     scheme = models.ForeignKey(Scheme, related_name='buildings', blank=True, null=True, on_delete=models.CASCADE)
     coordinate = models.OneToOneField(Coordinate, on_delete=models.CASCADE)
 
