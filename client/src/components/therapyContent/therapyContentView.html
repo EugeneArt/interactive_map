@@ -11,7 +11,7 @@
         </ul>
     </div>
     <div class="therapy__subtherapy__content" ng-if="$ctrl.subtherapy">
-        <span class="content__btn_route" ui-sref="app.route({room: $ctrl.item.room})">Показать маршрут <i class="glyphicon glyphicon-road"></i></span>
+        <span class="content__btn_route" ui-sref="app.route({room: $ctrl.item.room})" ng-if="$ctrl.item.room">Показать маршрут <i class="glyphicon glyphicon-road"></i></span>
         <flex-slider slide="image in $ctrl.item.images track by image.id" animation="slide" touch="true">
             <li>
                 <img ng-src="{{image.image}}">

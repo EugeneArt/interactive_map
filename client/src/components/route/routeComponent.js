@@ -28,12 +28,12 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
 
     vm.instructions = {
       room: "Пройдите в комнату",
-      elevator: "Пройдите в лифт",
-      passageway: "Пройдите в переход между зданиями"
+      elevator: "Пройдите к лифту",
+      passageway: "Пройдите в проход"
     };
 
     //when find route from service or therapy
-    if ($stateParams.room) vm.getPath();
+    if($stateParams.room) vm.getPath();
   }
 
   function getPath() {
@@ -86,7 +86,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
                 })
             });
           break;
-        //room is located on the different floor as a terminal in another building(by passageway)
+        //room is located on the different floor as a passageway in another building(by passageway)
         case 3:
           createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
             .then(function () {
@@ -118,7 +118,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
             .then(function () {
               return createSlide(vm.instructions.passageway, vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate)
                 .then(function () {
-                  return createSlide(vm.instructions.elevator, vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate)
+                  return createSlide(vm.instructions.elevator, vm.otherPassagewayFloor, vm.otherPassagewayFloor.passageway.coordinate,  vm.otherPassagewayFloor.entrance)
                     .then(function () {
                       return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
                         .then(function () {
@@ -128,7 +128,6 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
                 })
             });
           break;
-         //buildings with passageway, terminal and room are located on the different floors and buildings and from building
         case 10:
           createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.passageway.coordinate)
             .then(function () {
@@ -193,11 +192,11 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
               }
             },
             route: {
-              animateSpeed: 50,
-              step: 15,
+              animateSpeed: 25,
+              step: 10,
               drawing: {
                 color: '#51ff05',
-                printWeight: 5
+                printWeight: 4
               }
             }
           }
@@ -230,9 +229,9 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
   }
 
   function selectSlide(index) {
-    vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
-    vm.activeSide = index;
-    vm.mapSlides[vm.activeSide].classList.add('map__item_active');
+     vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
+     vm.activeSide = index;
+     vm.mapSlides[vm.activeSide].classList.add('map__item_active');
   }
 
   function onDestroy() {
