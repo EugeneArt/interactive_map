@@ -1,6 +1,6 @@
 <div class="service__wrapper">
     <h1 class="content__title">{{::$ctrl.content.name}}</h1>
-    <span class="content__btn_route" ui-sref="app.route({room: $ctrl.content.room})">Показать маршрут <i
+    <span ng-if="$ctrl.content.number" class="content__btn_route" ui-sref="app.route({room: $ctrl.content.room})">Показать маршрут <i
             class="glyphicon glyphicon-road"></i></span>
     <flex-slider slide="image in $ctrl.content.images track by image.id" animation="slide" touch="true">
         <li>

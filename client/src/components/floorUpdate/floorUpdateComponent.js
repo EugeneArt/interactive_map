@@ -137,7 +137,7 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap, Fi
     if (!Object.keys(vm.model.terminal.coordinate).length) {
       delete vm.model.terminal;
     }
-    if (!Object.keys(vm.model.passageway.coordinate).length) {
+    if (vm.model.passageway && !Object.keys(vm.model.passageway.coordinate).length) {
       delete vm.model.passageway;
     }
     //clear empty rooms
