@@ -33,7 +33,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
     };
 
     //when find route from service or therapy
-    if($stateParams.room) vm.getPath();
+    if ($stateParams.room) vm.getPath();
   }
 
   function getPath() {
@@ -80,7 +80,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
         case 2:
           createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.passageway.coordinate)
             .then(function () {
-              return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+              return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.passageway.coordinate, vm.roomCoordinate)
                 .then(function () {
                   vm.loading = false;
                 })
@@ -119,6 +119,22 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
               return createSlide(vm.instructions.passageway, vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate)
                 .then(function () {
                   return createSlide(vm.instructions.elevator, vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate)
+                    .then(function () {
+                      return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                        .then(function () {
+                          vm.loading = false;
+                        });
+                    })
+                })
+            });
+          break;
+         //buildings with passageway, terminal and room are located on the different floors and buildings and from building
+        case 10:
+          createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.passageway.coordinate)
+            .then(function () {
+              return createSlide(vm.instructions.elevator, vm.currentPassagewayFloor, vm.currentPassagewayFloor.passageway.coordinate, vm.currentPassagewayFloor.entrance)
+                .then(function () {
+                  return createSlide(vm.instructions.passageway, vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate)
                     .then(function () {
                       return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
                         .then(function () {
@@ -212,11 +228,11 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
       vm.mapSlides[vm.activeSide].classList.add('map__item_active');
     }
   }
-  
+
   function selectSlide(index) {
-     vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
-     vm.activeSide = index;
-     vm.mapSlides[vm.activeSide].classList.add('map__item_active');
+    vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
+    vm.activeSide = index;
+    vm.mapSlides[vm.activeSide].classList.add('map__item_active');
   }
 
   function onDestroy() {
