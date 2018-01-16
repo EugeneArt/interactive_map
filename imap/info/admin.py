@@ -29,10 +29,6 @@ class AdminVoucherInline(admin.TabularInline):
     model = Voucher
     extra = 0
 
-@admin.register(Voucher)
-class AdminVoucher(admin.ModelAdmin):
-    pass
-
 
 class AdminPriceRoom(admin.TabularInline):
     model = PriceRoom
@@ -48,7 +44,7 @@ class AdminCurrency(admin.ModelAdmin):
 
 @admin.register(Room)
 class AdminRoom(admin.ModelAdmin):
-    inlines = [AdminImageRoom]
+    inlines = [AdminImageRoom, AdminVoucherInline]
     ordering = ['name']
 
 
