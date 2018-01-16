@@ -17,4 +17,5 @@ function searchComponentController(API_ENDPOINT) {
   function onInit() {
     vm.api = API_ENDPOINT;
   }
+
 }
