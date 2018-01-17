@@ -72,6 +72,8 @@ function schemeUpdateComponentController(mapEntity, $state, $scope, canvasMap) {
     }
 
     function error(response) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Возникла ошибка!Пожалуйста нажмите кнопку "Отмета" или перезагрузите страницу!';
       console.log(response.data);
     }
   }

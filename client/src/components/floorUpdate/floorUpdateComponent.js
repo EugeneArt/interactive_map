@@ -33,6 +33,7 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap, Fi
   function onInit() {
     vm.container = angular.element(document.querySelector("#container"));
     vm.showForm = false;
+    vm.isLoading = false;
     if(!vm.isUpload) vm.getMap();
 
     vm.model.entrance = vm.model.entrance || {};
@@ -98,6 +99,7 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap, Fi
   }
 
   function saveFloor() {
+    vm.isLoading = true;
     if (!Object.keys(vm.model.entrance).length) {
       vm.formError = !vm.formError;
       vm.popupMsg = 'Необходимо указать выход';
@@ -119,10 +121,13 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap, Fi
     vm.model.$save().then(success, error);
 
     function success() {
+      vm.isLoading = false;
       $state.go('admin.buildingList', {}, {reload: true});
     }
 
     function error(response) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Возникла ошибка!Пожалуйста нажмите кнопку "Отмета" или перезагрузите страницу!';
       console.log(response.data);
     }
   }
@@ -134,7 +139,7 @@ function floorUpdateComponentController(mapEntity, $scope, $state, canvasMap, Fi
 
   function deleteEmptyCoordinates() {
     //clear empty terminal and passageway
-    if (!Object.keys(vm.model.terminal.coordinate).length) {
+    if (vm.model.terminal && !Object.keys(vm.model.terminal.coordinate).length) {
       delete vm.model.terminal;
     }
     if (vm.model.passageway && !Object.keys(vm.model.passageway.coordinate).length) {

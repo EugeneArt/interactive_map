@@ -49,6 +49,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
     vm.container = angular.element(document.querySelector("#container"));
     vm.showForm = false;
     vm.formError = false;
+    vm.isLoading = false;
   }
 
   function createMap(url) {
@@ -75,6 +76,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
   }
 
   function saveFloor() {
+    vm.isLoading = true;
     if(!Object.keys(vm.model.entrance).length) {
       vm.formError = !vm.formError;
       vm.popupMsg = 'Необходимо указать выход';
@@ -87,7 +89,7 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
       vm.formError = !vm.formError;
       vm.popupMsg = 'Проверьте правильность заполнения информации по комнатам';
       return false;
-    } else if(Object.keys(vm.model.passageway.coordinate).length && !vm.model.passageway.toBuildingId) {
+    } else if(vm.model.passageway && Object.keys(vm.model.passageway.coordinate).length && !vm.model.passageway.toBuildingId) {
       vm.formError = !vm.formError;
       vm.popupMsg = 'Укажите к какому зданию ведет проход';
       return false;
@@ -97,10 +99,13 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
     vm.model.$save().then(success, error);
     
     function success() {
+      vm.isLoading = false;
       $state.go('admin.buildingList', {}, {reload: true});
     }
     
     function error(response) {
+      vm.formError = !vm.formError;
+      vm.popupMsg = 'Возникла ошибка!Пожалуйста нажмите кнопку "Отмета" или перезагрузите страницу!';
       console.log(response.data);
     }
   }
@@ -111,10 +116,10 @@ function floorCreateComponentController(floorEntity, FileUploader, API_ENDPOINT,
   }
 
   function deleteEmptyCoordinates() {
-    if(!Object.keys(vm.model.terminal.coordinate).length) {
+    if(vm.model.terminal && !Object.keys(vm.model.terminal.coordinate).length) {
       delete vm.model.terminal;
     }
-    if(!Object.keys(vm.model.passageway.coordinate).length) {
+    if(vm.model.passageway && !Object.keys(vm.model.passageway.coordinate).length) {
       delete vm.model.passageway;
     }
     if(vm.model.rooms.length) {
