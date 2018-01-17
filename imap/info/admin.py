@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
+from django.forms import TextInput, Textarea
+from django.db import models
+
 from .models import *
 
 
@@ -64,6 +67,9 @@ class AdminTherapy(admin.ModelAdmin):
     search_fields = ['name']
     extra = 0
     ordering = ['name']
+    # formfield_overrides = {
+    #     models.TextField: {'widget': Textarea(attrs={'rows': 30, 'cols': 200})},
+    # }
 
 
 @admin.register(Therapy)

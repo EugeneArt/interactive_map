@@ -13,14 +13,14 @@ def index(request):
 
 
 class ServiceView(generics.ListCreateAPIView):
-    queryset = Service.objects.all()
+    queryset = Service.objects.order_by('name')
     serializer_class = ServiceNameSerializer
 
     def perform_create(self, serializer):
         serializer.save()
 
 class ServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Service.objects.all()
+    queryset = Service.objects.order_by('name')
     serializer_class = ServiceSerializer
 
 
@@ -37,14 +37,14 @@ class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class TherapyView(generics.ListCreateAPIView):
-    queryset = Therapy.objects.all()
+    queryset = Therapy.objects.order_by('name')
     serializer_class = TherapyNameSerializer
 
     def perform_create(self, serializer):
         serializer.save()
 
 class TherapyDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Therapy.objects.all()
+    queryset = Therapy.objects.order_by('name')
     serializer_class = TherapySerializer
 
     def perform_create(self, serializer):
@@ -52,14 +52,14 @@ class TherapyDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class SubTherapyView(generics.ListCreateAPIView):
-    queryset = SubTherapy.objects.all()
+    queryset = SubTherapy.objects.order_by('name')
     serializer_class = SubTherapySerializer
 
     def perform_create(self, serializer):
         serializer.save()
 
 class SubTherapyDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = SubTherapy.objects.all()
+    queryset = SubTherapy.objects.order_by('name')
     serializer_class = SubTherapySerializer
 
     def perform_create(self, serializer):
