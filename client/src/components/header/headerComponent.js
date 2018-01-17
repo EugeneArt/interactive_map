@@ -7,13 +7,21 @@ angular
   })
 ;
 
-function headerComponentController() {
+function headerComponentController($timeout,dateFilter) {
 
   var vm = this;
   vm.$onInit = onInit;
+  vm.updateTime = updateTime;
 
   function onInit() {
-
+    vm.updateTime()
+  }
+  
+  function updateTime() {
+    $timeout(function(){
+        vm.clock = (dateFilter(new Date(), 'hh:mm:ss'));
+        vm.updateTime();
+    },1000);
   }
 
 }

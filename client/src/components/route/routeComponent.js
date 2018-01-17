@@ -27,13 +27,13 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
 
 
     vm.instructions = {
-      room: "Пройдите в комнату",
-      elevator: "Пройдите к лифту",
-      passageway: "Пройдите в проход"
+      room: "Пройдите в комнату № ",
+      elevator: "Воспользуйтесь лифтом либо лестницей и пройдите на этаж № ",
+      passageway: "Пройдите в другой корпус через проход"
     };
 
     //when find route from service or therapy
-    if($stateParams.room) vm.getPath();
+    if ($stateParams.room) vm.getPath();
   }
 
   function getPath() {
@@ -44,7 +44,6 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
         room: $stateParams.room || vm.selectedRoom.originalObject.id
       }
     };
-
 
     findPathEntity.fetchAll(params).then(success, fail);
 
@@ -58,19 +57,32 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
       vm.currentPassagewayFloor = data.currentPassagewayFloor;
       vm.otherPassagewayFloor = data.otherPassagewayFloor;
 
+      //find room number
+      if (vm.otherFloor) {
+        vm.otherFloor.rooms.forEach(function (room) {
+          if (room.coordinate.id === vm.roomCoordinate.id) vm.roomNumber = room.number;
+        });
+      } else {
+        vm.currentFloor.rooms.forEach(function (room) {
+          if (room.coordinate.id === vm.roomCoordinate.id) vm.roomNumber = room.number;
+        });
+      }
+
+      console.log(vm.roomNumber);
+
       switch (data.case) {
         //room is located on the same floor as a terminal
         case 0:
-          createSlide(vm.instructions.room, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate)
+          createSlide(vm.instructions.room + vm.roomNumber, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.roomCoordinate)
             .then(function () {
               vm.loading = false;
             });
           break;
         //room is located on different floor as a terminal
         case 1:
-          createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
+          createSlide(vm.instructions.elevator + vm.otherFloor.number, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
             .then(function () {
-              return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+              return createSlide(vm.instructions.room + vm.roomNumber, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
                 .then(function () {
                   vm.loading = false;
                 });
@@ -80,7 +92,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
         case 2:
           createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.passageway.coordinate)
             .then(function () {
-              return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.passageway.coordinate, vm.roomCoordinate)
+              return createSlide(vm.instructions.room + vm.roomNumber, vm.otherFloor, vm.otherFloor.passageway.coordinate, vm.roomCoordinate)
                 .then(function () {
                   vm.loading = false;
                 })
@@ -88,11 +100,11 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
           break;
         //room is located on the different floor as a passageway in another building(by passageway)
         case 3:
-          createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
+          createSlide(vm.instructions.elevator + vm.currentPassagewayFloor.number, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
             .then(function () {
               return createSlide(vm.instructions.passageway, vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate)
                 .then(function () {
-                  return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                  return createSlide(vm.instructions.room + vm.roomNumber, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
                     .then(function () {
                       vm.loading = false;
                     })
@@ -103,9 +115,9 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
         case 4:
           createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.passageway.coordinate)
             .then(function () {
-              return createSlide(vm.instructions.elevator, vm.otherPassagewayFloor, vm.otherPassagewayFloor.passageway.coordinate, vm.otherPassagewayFloor.entrance)
+              return createSlide(vm.instructions.elevator + vm.otherFloor.number, vm.otherPassagewayFloor, vm.otherPassagewayFloor.passageway.coordinate, vm.otherPassagewayFloor.entrance)
                 .then(function () {
-                  return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                  return createSlide(vm.instructions.room + vm.roomNumber, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
                     .then(function () {
                       vm.loading = false;
                     })
@@ -114,13 +126,13 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
           break;
         //buildings with passageway, terminal and room are located on the different floors and buildings
         case 5:
-          createSlide(vm.instructions.elevator, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
+          createSlide(vm.instructions.elevator + vm.currentPassagewayFloor.number, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.entrance)
             .then(function () {
               return createSlide(vm.instructions.passageway, vm.currentPassagewayFloor, vm.currentPassagewayFloor.entrance, vm.currentPassagewayFloor.passageway.coordinate)
                 .then(function () {
-                  return createSlide(vm.instructions.elevator, vm.otherPassagewayFloor, vm.otherPassagewayFloor.passageway.coordinate,  vm.otherPassagewayFloor.entrance)
+                  return createSlide(vm.instructions.elevator + vm.otherFloor.number, vm.otherPassagewayFloor, vm.otherPassagewayFloor.passageway.coordinate, vm.otherPassagewayFloor.entrance)
                     .then(function () {
-                      return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                      return createSlide(vm.instructions.room + vm.roomNumber, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
                         .then(function () {
                           vm.loading = false;
                         });
@@ -131,11 +143,11 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
         case 10:
           createSlide(vm.instructions.passageway, vm.currentFloor, vm.currentFloor.terminal.coordinate, vm.currentFloor.passageway.coordinate)
             .then(function () {
-              return createSlide(vm.instructions.elevator, vm.currentPassagewayFloor, vm.currentPassagewayFloor.passageway.coordinate, vm.currentPassagewayFloor.entrance)
+              return createSlide(vm.instructions.elevator + vm.otherPassagewayFloor.number, vm.currentPassagewayFloor, vm.currentPassagewayFloor.passageway.coordinate, vm.currentPassagewayFloor.entrance)
                 .then(function () {
                   return createSlide(vm.instructions.passageway, vm.otherPassagewayFloor, vm.otherPassagewayFloor.entrance, vm.otherPassagewayFloor.passageway.coordinate)
                     .then(function () {
-                      return createSlide(vm.instructions.room, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
+                      return createSlide(vm.instructions.room + vm.roomNumber, vm.otherFloor, vm.otherFloor.entrance, vm.roomCoordinate)
                         .then(function () {
                           vm.loading = false;
                         });
@@ -229,9 +241,9 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
   }
 
   function selectSlide(index) {
-     vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
-     vm.activeSide = index;
-     vm.mapSlides[vm.activeSide].classList.add('map__item_active');
+    vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
+    vm.activeSide = index;
+    vm.mapSlides[vm.activeSide].classList.add('map__item_active');
   }
 
   function onDestroy() {
