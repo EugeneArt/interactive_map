@@ -20,13 +20,13 @@
     <div id="mapContainer"></div>
     <div class="map__navigation_wrapper" ng-if="$ctrl.mapSlides.length > 1">
         <div class="map__navigation">
-            <a class="map__navigation__tool" ng-click="$ctrl.slideToLeft()"><i
+            <a class="map__navigation__tool" ng-click="$ctrl.slideToLeft()" ng-class="{'map__navigation__tool_disabled': $ctrl.activeSlide == 0 }" ><i
                     class="glyphicon glyphicon-arrow-left"></i></a>
             <div class="map__navigation__step">
                 <a href ng-click="$ctrl.selectSlide($index)" ng-repeat="step in $ctrl.mapSlides"
-                   class="map__navigation__step_item" ng-class="{'map__navigation__step_item-active': $ctrl.activeSide == $index}">Шаг {{$index + 1}}</a>
+                   class="map__navigation__step_item" ng-class="{'map__navigation__step_item-active': $ctrl.activeSlide == $index}">Шаг {{$index + 1}}</a>
             </div>
-            <a class="map__navigation__tool" ng-click="$ctrl.slideToRight()">
+            <a class="map__navigation__tool" ng-click="$ctrl.slideToRight()" ng-class="{'map__navigation__tool_disabled': $ctrl.activeSlide == $ctrl.mapSlides.length - 1 }">
                 <i class="glyphicon glyphicon-arrow-right"></i></a>
         </div>
     </div>

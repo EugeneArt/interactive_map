@@ -22,7 +22,7 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
     vm.selectedRoom = {};
     vm.mapContainer = angular.element(document.querySelector("#mapContainer"));
     vm.mapSlides = [];
-    vm.activeSide = 0;
+    vm.activeSlide = 0;
     vm.loading = true;
 
 
@@ -225,25 +225,25 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
   }
 
   function slideToLeft() {
-    if (vm.activeSide !== 0) {
-      vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
-      vm.activeSide -= 1;
-      vm.mapSlides[vm.activeSide].classList.add('map__item_active');
+    if (vm.activeSlide !== 0) {
+      vm.mapSlides[vm.activeSlide].classList.remove('map__item_active');
+      vm.activeSlide -= 1;
+      vm.mapSlides[vm.activeSlide].classList.add('map__item_active');
     }
   }
 
   function slideToRight() {
-    if ((vm.mapSlides.length - 1) !== vm.activeSide) {
-      vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
-      vm.activeSide += 1;
-      vm.mapSlides[vm.activeSide].classList.add('map__item_active');
+    if ((vm.mapSlides.length - 1) !== vm.activeSlide) {
+      vm.mapSlides[vm.activeSlide].classList.remove('map__item_active');
+      vm.activeSlide += 1;
+      vm.mapSlides[vm.activeSlide].classList.add('map__item_active');
     }
   }
 
   function selectSlide(index) {
-    vm.mapSlides[vm.activeSide].classList.remove('map__item_active');
-    vm.activeSide = index;
-    vm.mapSlides[vm.activeSide].classList.add('map__item_active');
+    vm.mapSlides[vm.activeSlide].classList.remove('map__item_active');
+    vm.activeSlide = index;
+    vm.mapSlides[vm.activeSlide].classList.add('map__item_active');
   }
 
   function onDestroy() {
