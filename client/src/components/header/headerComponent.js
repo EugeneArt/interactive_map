@@ -19,7 +19,8 @@ function headerComponentController($timeout,dateFilter) {
   
   function updateTime() {
     $timeout(function(){
-        vm.clock = (dateFilter(new Date(), 'hh:mm:ss'));
+        vm.clock = (dateFilter(new Date(), 'HH:mm:ss'));
+        vm.day = (dateFilter(new Date(), 'EEEE, d LLLL'));
         vm.updateTime();
     },1000);
   }
