@@ -40,6 +40,7 @@ class AdminCurrency(admin.ModelAdmin):
     inlines = [AdminPriceRoom]
     list_display = ('name','voucher',)
     ordering = ['name']
+    list_filter = ('voucher__room',)
 
 
 @admin.register(Room)
