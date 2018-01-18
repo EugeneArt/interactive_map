@@ -7,8 +7,7 @@
 
   .sidebar__list__item {
     border: 2px solid green;
-    padding: 5px 0;
-    margin: 7px 0;
+    margin: 8px 0;
     border-radius: 10px;
     box-shadow: 2px 2px green, 4px 4px green;
     top: -4px;
@@ -17,12 +16,12 @@
     a {
       display: inline-block;
       width: 100%;
-      padding: 0 15px;
+      padding: 10px 15px;
       text-decoration: none;
       color: #008000;
     }
   }
-  .sidebar__list__item.active{
+  .sidebar__list__item.active {
     background-color: #008000;
     border-radius: 0 60px 0 40px;
     a {
@@ -32,12 +31,12 @@
       display: block;
     }
   }
-  .sidebar__list__item_press.active{
+  .sidebar__list__item_press.active {
     border-radius: 10px;
-      a {
-        background: green;
-        color: #fff;
-      }
+    a {
+      background: green;
+      color: #fff;
+    }
   }
 
   .sidebar__sublist {
@@ -69,4 +68,34 @@
       }
     }
   }
+}
+.animation {
+  -webkit-transition: 0.5s;
+}
+
+.animation.ng-enter {
+  opacity: 0;
+}
+
+.animation.ng-leave {
+  opacity: 1;
+}
+
+.animation.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.animation.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+//animate btns
+.animation__press-btn {
+  -webkit-transition: 0.5s;
+}
+.animation.ng-enter {
+  opacity: 0;
+}
+.animation.ng-leave {
+  opacity: 1;
 }

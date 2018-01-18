@@ -7,5 +7,6 @@ window.app = angular.module('app', [
   'ui.bootstrap',
   'angucomplete-alt',
   'canvasMap',
-  'satellizer'
+  'satellizer',
+  'ngAnimate'
 ]);
