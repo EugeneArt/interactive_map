@@ -2,7 +2,7 @@
 
 ## About
 
-* Interactive map for sanatorium "Sputnik";
+Interactive map for sanatorium "Sputnik"
 
 ## Installing
 ### Client
@@ -15,7 +15,7 @@ __Open folder client and make instructions:__
 ```javascript
   gulp serve
 ```
-* build for  production;
+* build for  production(use only for production);
 ```javascript
   gulp default
 ```
