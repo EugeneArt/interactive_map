@@ -29,8 +29,8 @@
 					<tr ng-repeat="item in ::currency.price_type">
 						<td>{{item.during}}</td>
 						<td ng-if="item.price_per_day">{{item.price_per_day}}</td>
-						<td ng-if="item.price_per_day">{{item.price_per_day * 12}}</td>
-						<td ng-if="item.price_per_day">{{item.price_per_day * 21}}</td>
+						<td ng-if="item.price_per_day">{{item.price_per_day | fixedPrice: 12}}</td>
+						<td ng-if="item.price_per_day">{{item.price_per_day | fixedPrice: 21}}</td>
 
 						<td ng-if="!item.price_per_day">*</td>
 						<td ng-if="!item.price_per_day">*</td>
