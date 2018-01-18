@@ -68,7 +68,6 @@ function routeComponentController(findPathEntity, mapEntity, FLOOR_ID, $q, canva
         });
       }
 
-      console.log(vm.roomNumber);
 
       switch (data.case) {
         //room is located on the same floor as a terminal
